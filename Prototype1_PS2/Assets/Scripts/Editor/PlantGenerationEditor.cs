@@ -21,7 +21,6 @@ public class PlantGenerationEditor : Editor {
 			myObject.Initialize ();
 
 
-
 		if (GUILayout.Button("Force Initialization"))
 			myObject.Initialize ();
 

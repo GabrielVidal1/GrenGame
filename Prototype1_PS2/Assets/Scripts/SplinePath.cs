@@ -25,7 +25,7 @@ public class SplinePath {
 	}
 
 
-	public static Vector3[] GenerateTrajectory(Vector3 initialPosition, Vector3 initialDirection, int arrayLength)
+	public static Vector3[][] GenerateTrajectory(Vector3 initialPosition, Vector3 initialDirection, int arrayLength)
 	{
 		//PARAMETERS
 
@@ -34,18 +34,21 @@ public class SplinePath {
 		float frequency = 10f;
 
 
-		List<Vector3> vectors = new List<Vector3> ();
+		Vector3[][] positionsNormals = new Vector3[2][];
 
-		vectors.Add (initialDirection);
+		positionsNormals [0] = new Vector3[arrayLength + 1]; //POSITIONS
+		positionsNormals [1] = new Vector3[arrayLength]; //NORMALS
 
 		Vector3 position = initialPosition;
 
+		positionsNormals [0] [0] = initialDirection;
 
 		for (int i = 0; i < arrayLength; i++) {
 
-			Vector3 newDirection = (vectors [i] + Noise3D.PerlinNoise3D (frequency * position)).normalized;
+			Vector3 newDirection = (positionsNormals[0] [i] + Noise3D.PerlinNoise3D (frequency * position)).normalized;
 
-			vectors.Add (newDirection);
+			positionsNormals[0][i + 1] = newDirection;
+			positionsNormals [1] [i] = Vector3.up;
 			position += newDirection;
 
 			//Debug.Log (position);
@@ -54,7 +57,7 @@ public class SplinePath {
 
 
 
-		return vectors.ToArray ();
+		return positionsNormals;
 
 	}
 
