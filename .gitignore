@@ -5,7 +5,12 @@
 [Bb]uilds/
 Assets/AssetStoreTools*
 
+
+Prototype1_PS2_Backup_5.3/
+
 Prototype1_PS2/Assets/UFPS/
+Prototype1_PS2/Assets/Procore/
+Prototype1_PS2/Assets/PostProcessing/
 
 # Visual Studio 2015 cache directory
 /.vs/

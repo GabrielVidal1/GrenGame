@@ -2,92 +2,93 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
 public class Plant : MonoBehaviour {
 
-	[Header("Global Characteristics")]
+	public float time;
 
 	public bool smooth;
-
-	[Range(0f, 1f)]
 	public float smoothCoef;
 
 	public bool noise;
-	[Range(0f, 1f)]
 	public float noiseCoef;
-
-	public float initialRadius;
-
-
-
-	public Vector3 initalDirection;
 
 	public int nbOfSides;
 	public int nbOfSegments;
 
-	[Header("Trajectory")]
+	public float initialRadius;
+	public Vector3 initalDirection;
 
-	public PositionsAndNormals positionsAndNormals;
-
-
-
-	[Header("Variation Over Lentgh")] 
-
+	public int sectionsPerUvUnit;
 
 	public AnimationCurve initialShapeOverLength;
 	public AnimationCurve finalShapeOverLength;
-
 	public AnimationCurve shapeOverTime;
 
-	public AnimationCurve radiusOverTime;
-
-	[Header("Variation Over Time")]
-
-
-	[Range(0f, 1f)]
-	public float time;
-
-	public AnimationCurve lengthOverTime;
-	//public AnimationCurve radiusOverTime;
-
-
-	//COLLISION CURVE START
-
-	public float gravityForce;
-
-	public AnimationCurve gravityOverLength;
 
 	public float initialSegmentLength;
 	public float finalSegmentLength;
-
-
+	public AnimationCurve lengthOverTime;
 	public AnimationCurve segmentLengthOverLength;
 
 
+	public bool hasGravity;
+	public float gravityForce;
+	public AnimationCurve gravityOverLength;
+
+
+	public bool hasNoise;
 	public float noiseForce;
-
-	[Range(0.01f, 100f)]
 	public float noiseSize;
-
 	public AnimationCurve noiseOverLength;
-	//COLLISION CURVE END
+
+
+	public bool hasLeaves;
+	public Leaf leafPrefab;
+	public float leafWidth;
+	public float leafLength;
+
+	public bool leavesOnlyOnSections;
+
+	public int leavesPerSegment;
+	public AnimationCurve leavesDistribution;
+	public float leafGrowthDurationRatio;
+	public float sunOrientationIntensity;
+	public AnimationCurve sunOrientationIntensityOverTime;
+	public AnimationCurve leafGrowthOverTime;
+	
+
+
+	public bool hasRecursions;
 
 
 
+	#region PrivateVariables
 
-
+	private PositionsAndNormals positionsAndNormals;
+	private LeafRatioLength[] leaves;
+	private int actualLeavesNumber;
+	private Transform leavesParent;
 
 
 	private List<Vector3> points;
 	private List<int> triangles;
+	private List<Vector2> uvs;
 	private MeshFilter mf;
 
+	private AnimationCurve trunkTimeOverTime;
 
-
+	#endregion
 
 
 
 	public void Initialize()
 	{
+		trunkTimeOverTime = AnimationCurve.Linear (0f, 0f, 1f - leafGrowthDurationRatio, 1f);
+
+
 		positionsAndNormals = GenerateTrajectory (transform.position, initalDirection, nbOfSegments + 1);
 
 		mf = GetComponent<MeshFilter> ();
@@ -95,21 +96,26 @@ public class Plant : MonoBehaviour {
 		points = GeneratePoints ();
 
 		triangles = GenerateTriangles (points);
-
+		uvs = GenerateUVs ();
 		Mesh m = new Mesh ();
 
 		m.vertices = points.ToArray ();
 
 		m.triangles = triangles.ToArray ();
+		m.uv = uvs.ToArray ();
 
 		m.RecalculateNormals ();
 
 		mf.mesh = m;
 
+		actualLeavesNumber = 0;
+
+		if (hasLeaves)
+			GenerateLeaves ();
+		
+		UpdateMesh ();
 
 	}
-
-
 
 	public void UpdateMesh()
 	{
@@ -118,15 +124,182 @@ public class Plant : MonoBehaviour {
 		points = GeneratePoints ();
 
 		//MODIFY MESH
-		Mesh m = mf.mesh;
+		Mesh m = mf.sharedMesh;
 		m.vertices = points.ToArray ();
 		m.triangles = triangles.ToArray ();
 
 		m.RecalculateNormals ();
 
+		if (hasLeaves)
+			UpdateLeaves ();
+	}
+
+	public void GenerateRecursions()
+	{
+
+
+
 	}
 
 
+
+	//USED TO FIRST GENERATE THE LEAVES ON THE PLANT
+	public void GenerateLeaves()
+	{ 
+		Vector3 randomVector = new Vector3 (0.132354f, 1.98654f, -1.5646f).normalized;
+
+		//CREATE THE PARENT OF ALL LEAVES
+		if (leavesParent != null)
+			DestroyImmediate (leavesParent.gameObject);
+
+		leavesParent = new GameObject ("LeaveParent").transform;
+		leavesParent.parent = transform;
+		leavesParent.transform.position = transform.position;
+
+
+		//DESTROY PRE-EXISTING CHILDREN OF THE LEAVES PARENT
+		for (int k = 0; k < leavesParent.childCount; k++) {
+			if (Application.isEditor)
+				DestroyImmediate(leavesParent.GetChild(k).gameObject);
+			else
+				Destroy(leavesParent.GetChild(k).gameObject);
+		}
+
+
+		leaves = new LeafRatioLength[leavesPerSegment * nbOfSegments];
+
+
+		actualLeavesNumber = 0;
+		int iteration = 0;
+
+		//SUR SAMPLE OF MAX 10 * NB OF LEAVES ITERATIONS
+		while ( iteration < leavesPerSegment * nbOfSegments) {
+
+
+			float lengthRatio = Random.value;
+			float proba = leavesDistribution.Evaluate (lengthRatio);
+
+			if (Random.value < proba) {
+
+
+				//POSITION
+				int segment = (int)(lengthRatio * nbOfSegments);
+
+				float lerpValue = (lengthRatio - ( segment / (float)nbOfSegments)) * nbOfSegments;
+
+
+
+				float value = Random.value;
+				//POINT AND OPPOSED POINT
+				int pointIndex1 = nbOfSides * segment + (int)(value * nbOfSides);
+				int pointIndex2 = nbOfSides * segment + (int)((value + 0.5f > 1f ? value - 0.5f : value + 0.5f) * nbOfSides);
+
+
+				// INTERPOLATION BETWEEN SEGMENTS
+
+
+				Vector3 position = Vector3.zero;
+
+				if (leavesOnlyOnSections)
+					position = mf.sharedMesh.vertices [pointIndex1];
+				else
+					position = (1f-lerpValue) * mf.sharedMesh.vertices [pointIndex1] + lerpValue * mf.sharedMesh.vertices [pointIndex1 + nbOfSides];
+
+				//INITIAL DIRECTION
+				Vector3 direction = mf.sharedMesh.normals[pointIndex1] - mf.sharedMesh.normals[pointIndex2];
+
+				//TANGEANT DIRECTION
+				Vector3 tangentDirection = mf.sharedMesh.vertices [pointIndex1] - mf.sharedMesh.vertices [pointIndex1 + nbOfSides];
+
+
+				//ORIENTATION TOWARD THE SUN
+				Vector3 up = (1f - sunOrientationIntensity) * tangentDirection.normalized + sunOrientationIntensity * Vector3.up * sunOrientationIntensityOverTime.Evaluate(time);
+				direction.y *= sunOrientationIntensity * sunOrientationIntensityOverTime.Evaluate(time);
+
+
+				direction.Normalize ();
+
+
+				//LEAF CREATION
+				Leaf leaf = Instantiate (leafPrefab, position, Quaternion.identity).GetComponent<Leaf> ();
+				leaf.transform.parent = leavesParent;
+				leaf.name = "Leaf_" + actualLeavesNumber.ToString ();
+				leaf.initialDirection = direction;
+				leaf.upDirection = up;
+
+				leaf.width = leafPrefab.width * leafWidth;
+				leaf.length = leafPrefab.length * leafLength;
+
+				leaf.time = 0f;
+
+
+				float rndValue = Random.value;
+
+				float birthDate = lengthRatio * (1f - rndValue) + rndValue *(1f - leafGrowthDurationRatio);
+
+
+
+				LeafRatioLength l = new LeafRatioLength (leaf, lengthRatio, direction, pointIndex1, pointIndex2, lerpValue, birthDate, leafGrowthDurationRatio);
+					
+				leaves [actualLeavesNumber] = l;
+
+
+				//INCREMENTS
+				actualLeavesNumber++;
+			}
+
+			iteration++;
+
+		}
+	}
+
+	//USED TO UPDATE THE LEAVES EVERY FRAME
+	public void UpdateLeaves()
+	{
+		for (int i = 0; i < actualLeavesNumber; i++) {
+
+			//DISTANCE FROM ROOT / LENGTH
+			LeafRatioLength leaf = leaves [i];
+
+			//NOT GROWN
+			if (leaf.birthDate > time) {
+				leaf.leaf.time = 0f;
+
+			} else {
+
+				if (time - leaf.birthDate < leafGrowthDurationRatio) {
+					//float ratio = 1f - (lengthOverTime.Evaluate (time) - leaf.lengthRatio);
+					//leaf.leaf.time = leafGrowthOverTime.Evaluate(1f - ratio);
+
+					float localTime = leafGrowthOverTime.Evaluate ((time - leaf.birthDate) / leafGrowthDurationRatio);
+					leaf.leaf.time = leafGrowthOverTime.Evaluate (localTime);
+
+					//INTIAL DIRECTION
+					Vector3 initialDirection = (mf.sharedMesh.vertices [leaf.pointIndex1] -
+					                           mf.sharedMesh.vertices [leaf.pointIndex2]).normalized;
+					initialDirection.y = initialDirection.y * (1f - sunOrientationIntensityOverTime.Evaluate (localTime)) + (1f - sunOrientationIntensity) * sunOrientationIntensityOverTime.Evaluate (localTime);
+
+					//TANGENT DIRECTION
+					Vector3 tangentDirection = mf.sharedMesh.vertices [leaf.pointIndex1] - mf.sharedMesh.vertices [leaf.pointIndex1 + nbOfSides];
+
+					//UP DIRECTION
+					Vector3 up = (1f - sunOrientationIntensity) * tangentDirection.normalized + sunOrientationIntensity * Vector3.up * sunOrientationIntensityOverTime.Evaluate(localTime);
+
+					Vector3 position = transform.position +
+						mf.sharedMesh.vertices [leaf.pointIndex1] * (1f - leaf.lerpValue) +
+						mf.sharedMesh.vertices [leaf.pointIndex1 + nbOfSides] * leaf.lerpValue;
+
+
+					leaf.leaf.initialDirection = initialDirection.normalized;
+					leaf.leaf.transform.position = position;
+					leaf.leaf.upDirection = up.normalized;
+
+
+					leaf.leaf.UpdateMesh ();
+				}
+			}
+		}
+	}
 
 	//CALLED ONCE AT THE BEGINNING
 	public List<int> GenerateTriangles(List<Vector3> points)
@@ -160,6 +333,10 @@ public class Plant : MonoBehaviour {
 	public List<Vector3> GeneratePoints()
 	{
 		//CONSTANTS
+
+
+		float trunkTime = trunkTimeOverTime.Evaluate (time);
+
 
 		Vector3 randomVector = new Vector3 (0.132354f, 1.98654f, -1.5646f).normalized;
 		float angleCoefficient = Mathf.PI * 2f / nbOfSides;
@@ -197,22 +374,22 @@ public class Plant : MonoBehaviour {
 			float lengthMultiplier = 1f;
 			float radius;
 
-			if (lengthOverTime.Evaluate (time) < length) {
+			if (lengthOverTime.Evaluate (trunkTime) < length) {
 				radius = 0f;
 				lengthMultiplier = 0f;
 			} else {
 
-				float ratio = 1f -(lengthOverTime.Evaluate (time) - length);
+				float ratio = 1f -(lengthOverTime.Evaluate (trunkTime) - length);
 
 				//SHAPE DETERMINATION
 				float shapeInit = initialShapeOverLength.Evaluate (ratio);
 				float shapeFinal = finalShapeOverLength.Evaluate (ratio);
-				float shape = Mathf.Lerp (shapeInit, shapeFinal, shapeOverTime.Evaluate (time));
+				float shape = Mathf.Lerp (shapeInit, shapeFinal, shapeOverTime.Evaluate (trunkTime));
 
 
 
 
-				radius = radiusOverTime.Evaluate(time) * initialRadius * shape;
+				radius = initialRadius * shape;
 			}
 
 			//CENTER OFFSET ALONG NORMALS
@@ -275,7 +452,10 @@ public class Plant : MonoBehaviour {
 		for (int i = 0; i < tempPoints.Count; i++) {
 
 			float ratio = i / (float)tempPoints.Count;
-			float radius = radiusOverTime.Evaluate ( 1f - ratio) * initialRadius;
+
+			float v = shapeOverTime.Evaluate (0.5f);
+
+			float radius = (initialShapeOverLength.Evaluate(ratio) * v + (1f - v) * finalShapeOverLength.Evaluate(ratio)) * initialRadius;
 
 			if (lengthOverTime.Evaluate (time) > ratio) 
 			{
@@ -284,6 +464,28 @@ public class Plant : MonoBehaviour {
 			}
 		}
 		return tempPoints;
+	}
+
+	//GENERATE THE UV MAP FOR THE MESH
+	private List<Vector2> GenerateUVs()
+	{
+		List<Vector2> uv = new List<Vector2> ();
+
+		for (int i = 0; i < nbOfSegments + 1; i++) {
+
+			int iMod = i % (sectionsPerUvUnit + 1);
+
+			float ratioY = iMod / (float)nbOfSegments;
+
+			for (int j = 0; j < nbOfSides; j++) 
+			{
+				float ratioX = j / (float)nbOfSides;
+
+				Vector2 p = new Vector2 (ratioX, ratioY);
+				uv.Add (p);
+			}
+		}
+		return uv;
 	}
 
 	//USED TO GENERATE THE TRAJECTORY AT THE CREATION OF THE PLANT
@@ -310,9 +512,17 @@ public class Plant : MonoBehaviour {
 			float lengthRatio = i / (float)arrayLength;
 
 
+
 			//DIRECTION FORCES CALCULATION
-			Vector3 gravity = Vector3.down * gravityForce * gravityOverLength.Evaluate (lengthRatio);
-			Vector3 noise = noiseForce * noiseOverLength.Evaluate (lengthRatio) * Noise3D.PerlinNoise3D (currentPosition / noiseSize);
+			Vector3 gravity = Vector3.zero;
+			if (hasGravity)
+				gravity = Vector3.down * gravityForce * gravityOverLength.Evaluate (lengthRatio);
+
+			Vector3 noise = Vector3.zero;
+			if (hasNoise)
+				noise = noiseForce * noiseOverLength.Evaluate (lengthRatio) * Noise3D.PerlinNoise3D (currentPosition / noiseSize);
+
+
 			float distance = Mathf.Lerp (initialSegmentLength, finalSegmentLength, segmentLengthOverLength.Evaluate (lengthRatio));
 
 			currentDirection = distance * (currentDirection + gravity + noise).normalized;
@@ -368,7 +578,43 @@ public class Plant : MonoBehaviour {
 
 }
 
-/*
+//STRUCTURE FOR LEAVES AND THEIR RESPECTIVE RATIO
+struct LeafRatioLength
+{
+	public Leaf leaf;
+	public float lengthRatio;
+
+	public Vector3 normalDirection;
+
+	public int pointIndex1;
+	public int pointIndex2;
+
+	public float lerpValue;
+
+	public float birthDate;
+	public float growthDuration;
+
+	public LeafRatioLength(Leaf leaf, float lengthRatio, Vector3 normalDirection, int pointIndex1, int pointIndex2, float lerpValue, float birthDate, float growthDuration )
+	{
+		this.leaf = leaf;
+		this.lengthRatio = lengthRatio;
+		this.pointIndex1 = pointIndex1;
+		this.pointIndex2 = pointIndex2;
+		this.lerpValue = lerpValue;
+
+		this.birthDate = birthDate;
+		this.growthDuration = growthDuration;
+
+		this.normalDirection = normalDirection;
+
+		leaf.Initialize ();
+	}
+
+
+
+
+}
+
 //STRUCUTRE FOR (DIRECTION, POSITION, NORMAL)
 struct PosDir
 {
@@ -396,4 +642,3 @@ public struct PositionsAndNormals
 		nor = new Vector3[arrayLength];
 	}
 }
-*/

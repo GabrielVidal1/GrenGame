@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -11,16 +12,32 @@ public class LeafEditor : Editor {
 		Leaf myObject = (Leaf)target;
 
 
-		EditorGUI.BeginChangeCheck ();
+		//EditorGUI.BeginChangeCheck ();
 
 		base.OnInspectorGUI ();
 
+
+
+
+
+
+
+
+
+
+
+
+
+		/*
 		if (EditorGUI.EndChangeCheck ())
 			myObject.Initialize ();
 		
-		if (GUILayout.Button("Update", GUILayout.Height(32f)))
+		if (GUILayout.Button("Initialize", GUILayout.Height(32f)))
 			myObject.Initialize ();
 
-
+		if (GUILayout.Button("Update", GUILayout.Height(32f)))
+			myObject.UpdateMesh ();
+		*/
 	}
 }
+#endif

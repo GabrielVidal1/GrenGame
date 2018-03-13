@@ -125,6 +125,8 @@ public class CollisionCurve : MonoBehaviour {
 
 
 }
+
+/*
 struct PosDir
 {
 	public Vector3 pos;
@@ -152,3 +154,4 @@ public struct PositionsAndNormals
 		nor = new Vector3[arrayLength];
 	}
 }
+*/
