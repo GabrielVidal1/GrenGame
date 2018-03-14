@@ -8553,7 +8553,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  hasGravity: 0
+  hasGravity: 1
   gravityForce: 0.11
   gravityOverLength:
     serializedVersion: 2
@@ -8573,7 +8573,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  hasNoise: 0
+  hasNoise: 1
   noiseForce: 0.24
   noiseSize: 3.2
   noiseOverLength:

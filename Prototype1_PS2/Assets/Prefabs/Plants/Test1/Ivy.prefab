@@ -1839,7 +1839,7 @@ GameObject:
   - component: {fileID: 114473160277983610}
   - component: {fileID: 114954193790715594}
   m_Layer: 0
-  m_Name: PlantLeaves1
+  m_Name: Ivy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44847,7 +44847,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomSeed: 0
   time: 0.699
   smooth: 1
   smoothCoef: 0.498

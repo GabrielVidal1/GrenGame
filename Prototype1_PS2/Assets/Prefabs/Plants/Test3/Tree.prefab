@@ -1461,7 +1461,7 @@ GameObject:
   - component: {fileID: 114520595969320814}
   - component: {fileID: 114566089830773896}
   m_Layer: 0
-  m_Name: PlantLeaves3
+  m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16829,7 +16829,7 @@ MonoBehaviour:
   leafWidth: 1
   leafLength: 1
   leavesOnlyOnSections: 0
-  leavesPerSegment: 3
+  leavesPerSegment: 2
   leavesDistribution:
     serializedVersion: 2
     m_Curve:

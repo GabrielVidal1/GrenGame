@@ -10,11 +10,6 @@ public class Plant : MonoBehaviour {
 	public static int plantNumber = 0;
 
 
-
-
-
-	public int randomSeed;
-
 	public float time;
 
 	public bool smooth;

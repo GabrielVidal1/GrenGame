@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
 
 public class InGameMenu : MonoBehaviour {
 
@@ -8,10 +10,13 @@ public class InGameMenu : MonoBehaviour {
 
 	public GameObject inGameOverlay;
 
+	public TextMeshProUGUI selectedPlant;
+
 	public bool isPaused = false;
 
 
-	void Start () {
+	void Start () 
+	{
 		
 	}
 	

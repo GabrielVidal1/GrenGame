@@ -332,7 +332,6 @@ MonoBehaviour:
   plants:
   - {fileID: 1398639985529696, guid: 76d0550e3ef41a44a9325b2e75911a26, type: 2}
   - {fileID: 1852589836267668, guid: 61184e7b1966b1e499d1aead012bc80e, type: 2}
-  - {fileID: 1710650096895630, guid: 5261e8d246bed2146962dde6f926e89f, type: 2}
 --- !u!114 &114833581927181336
 MonoBehaviour:
   m_ObjectHideFlags: 1

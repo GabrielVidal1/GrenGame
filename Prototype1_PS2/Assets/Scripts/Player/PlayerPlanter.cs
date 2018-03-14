@@ -12,7 +12,8 @@ public class PlayerPlanter : NetworkBehaviour {
 
 	void Start () 
 	{
-		
+		CanvasManager.cm.inGameMenu.selectedPlant.text = "Selected Plant : " + plants [selectedIndex].name;
+
 	}
 
 
@@ -59,6 +60,7 @@ public class PlayerPlanter : NetworkBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.E)) {
 			selectedIndex = (selectedIndex + 1) % plants.Length;
+			CanvasManager.cm.inGameMenu.selectedPlant.text = "Selected Plant : " + plants [selectedIndex].name;
 		}
 
 		
