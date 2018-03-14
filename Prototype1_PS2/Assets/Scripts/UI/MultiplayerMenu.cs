@@ -22,7 +22,7 @@ public class MultiplayerMenu : MonoBehaviour {
 				multiplayerClientWaitingScreen.SetActive (false);
 				multiplayerTab.SetActive (true);
 
-				Debug.Log ("CONNECTED");
+				Cursor.lockState = CursorLockMode.Locked;
 
 				gameObject.SetActive (false);
 			}

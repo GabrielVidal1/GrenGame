@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 114452331963143920}
   - component: {fileID: 114571973457969810}
   - component: {fileID: 114833581927181336}
+  - component: {fileID: 114629320625391470}
   m_Layer: 0
   m_Name: PlayerKamoun
   m_TagString: Untagged
@@ -75,6 +76,7 @@ GameObject:
   - component: {fileID: 124250022054620664}
   - component: {fileID: 81788743351472154}
   - component: {fileID: 114290018595508320}
+  - component: {fileID: 114170416782038590}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -221,6 +223,18 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1858469207150750}
   m_Enabled: 1
+--- !u!114 &114170416782038590
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858469207150750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 8921ee5c8258a424d9f13b6e00f2ea9a, type: 2}
 --- !u!114 &114290018595508320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -303,6 +317,22 @@ MonoBehaviour:
   jumpSpeed: 8
   gravity: 20
   camera01: {fileID: 1858469207150750}
+--- !u!114 &114629320625391470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652012922637364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20838ffb5264746489ce9c0f47228039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 1858469207150750}
+  plants:
+  - {fileID: 1398639985529696, guid: 76d0550e3ef41a44a9325b2e75911a26, type: 2}
+  - {fileID: 1852589836267668, guid: 61184e7b1966b1e499d1aead012bc80e, type: 2}
+  - {fileID: 1710650096895630, guid: 5261e8d246bed2146962dde6f926e89f, type: 2}
 --- !u!114 &114833581927181336
 MonoBehaviour:
   m_ObjectHideFlags: 1

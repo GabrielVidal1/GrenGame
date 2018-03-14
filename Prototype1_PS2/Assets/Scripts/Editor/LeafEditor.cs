@@ -12,7 +12,7 @@ public class LeafEditor : Editor {
 		Leaf myObject = (Leaf)target;
 
 
-		//EditorGUI.BeginChangeCheck ();
+		EditorGUI.BeginChangeCheck ();
 
 		base.OnInspectorGUI ();
 
@@ -28,7 +28,7 @@ public class LeafEditor : Editor {
 
 
 
-		/*
+
 		if (EditorGUI.EndChangeCheck ())
 			myObject.Initialize ();
 		
@@ -37,7 +37,7 @@ public class LeafEditor : Editor {
 
 		if (GUILayout.Button("Update", GUILayout.Height(32f)))
 			myObject.UpdateMesh ();
-		*/
+		
 	}
 }
 #endif

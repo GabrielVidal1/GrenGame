@@ -20,6 +20,10 @@ public class InGameMenu : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			TogglePause (!isPaused);
 		}
+
+		if (!isPaused)
+			Cursor.lockState = CursorLockMode.Locked;
+
 	}
 
 	public void TogglePause(bool toggle)

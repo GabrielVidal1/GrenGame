@@ -44847,13 +44847,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomSeed: 0
   time: 0.699
   smooth: 1
   smoothCoef: 0.498
   noise: 0
   noiseCoef: 0
   nbOfSides: 6
-  nbOfSegments: 107
+  nbOfSegments: 50
   initialRadius: 0.05
   initalDirection: {x: -0.9807378, y: 0.19532965, z: 0}
   sectionsPerUvUnit: 3
@@ -44911,8 +44912,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  initialSegmentLength: 1.19
-  finalSegmentLength: 2.22
+  initialSegmentLength: 1
+  finalSegmentLength: 1
   lengthOverTime:
     serializedVersion: 2
     m_Curve:
@@ -44937,13 +44938,13 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
-      inSlope: 1
+      inSlope: 0
       outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
@@ -44978,14 +44979,14 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 1
+      inSlope: 4.112903
+      outSlope: 4.112903
       tangentMode: 0
     - serializedVersion: 2
       time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
+      value: 0
+      inSlope: -3.7894742
+      outSlope: -3.7894742
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -44996,15 +44997,21 @@ MonoBehaviour:
   leafWidth: 1.37
   leafLength: 0.45
   leavesOnlyOnSections: 0
-  leavesPerSegment: 4
+  leavesPerSegment: 2
   leavesDistribution:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
-      inSlope: 4.0714283
-      outSlope: 4.0714283
+      value: 0.4624939
+      inSlope: 0.6086956
+      outSlope: 0.6086956
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.8714306
+      value: 0.82366824
+      inSlope: 0.2795812
+      outSlope: 0.2795812
       tangentMode: 0
     - serializedVersion: 2
       time: 0.9916687
@@ -45016,7 +45023,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   leafGrowthDurationRatio: 0.177
-  sunOrientationIntensity: 0.891
+  sunOrientationIntensity: 1
   sunOrientationIntensityOverTime:
     serializedVersion: 2
     m_Curve:
@@ -71387,7 +71394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1fdb76b9d39ae418a84f2b3a22800f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growthSpeed: 0.1
+  growthSpeed: 0.05
+  updateRate: 2
 --- !u!114 &114955037694675078
 MonoBehaviour:
   m_ObjectHideFlags: 1

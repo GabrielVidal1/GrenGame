@@ -48,13 +48,17 @@ public class PlayerPlanter : NetworkBehaviour {
 
 			if (Physics.Raycast (ray, out hit, 1000f)) 
 			{
+
+				Vector3 dir = 1.1f * hit.normal;
+
 				CmdPlant (selectedIndex, hit.point + 0.05f * hit.normal, hit.normal);
-				Debug.DrawRay (hit.point, hit.normal, Color.red, 10f);
+				//Debug.DrawRay (hit.point, hit.normal, Color.red, 10f);
 			}
+		}
 
 
-
-
+		if (Input.GetKeyDown (KeyCode.E)) {
+			selectedIndex = (selectedIndex + 1) % plants.Length;
 		}
 
 		

@@ -4,22 +4,35 @@ using UnityEngine;
 
 public class TreeGrowth : MonoBehaviour {
 
+	[Range(0f, 1f)]
 	public float growthSpeed;
 
+	[Range(1, 24)]
+	public int updateRate;
+
 	Plant pg;
+	private float lastUpdate;
 
 	void Start()
 	{
 		pg = GetComponent<Plant> ();
 		pg.time = 0f;
 		pg.Initialize ();
+		lastUpdate = Time.time;
 	}
 
 	void Update () 
 	{
-		if (pg.time < 1f) {
+		if (pg.time <= 1f) {
+
+
+
 			pg.time += Time.deltaTime * growthSpeed;
-			pg.UpdateMesh ();
+
+			if (updateRate * Time.deltaTime + lastUpdate <= Time.time) {	
+				pg.UpdateMesh ();
+				lastUpdate = Time.time;
+			}
 		}
 
 	}

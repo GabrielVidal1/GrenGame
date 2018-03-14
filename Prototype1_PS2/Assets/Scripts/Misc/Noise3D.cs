@@ -6,8 +6,6 @@ public class Noise3D : MonoBehaviour {
 
 	public static Vector3 PerlinNoise3D(Vector3 position)
 	{
-		if (!Application.isEditor)
-			position *= ((Time.time % 10f) + 1f);
 
 		return new Vector3 (
 			2*Mathf.PerlinNoise (position.x, position.y)-1,

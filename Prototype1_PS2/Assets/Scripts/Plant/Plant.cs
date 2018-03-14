@@ -7,6 +7,14 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class Plant : MonoBehaviour {
 
+	public static int plantNumber = 0;
+
+
+
+
+
+	public int randomSeed;
+
 	public float time;
 
 	public bool smooth;
@@ -86,6 +94,13 @@ public class Plant : MonoBehaviour {
 
 	public void Initialize()
 	{
+		//RANDOM INITIALISATION
+		plantNumber++;
+		Random.InitState (123456 * plantNumber);
+
+		Debug.Log ("My seed is " + plantNumber);
+
+
 		trunkTimeOverTime = AnimationCurve.Linear (0f, 0f, 1f - leafGrowthDurationRatio, 1f);
 
 
