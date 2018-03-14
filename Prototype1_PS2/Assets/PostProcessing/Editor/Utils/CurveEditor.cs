@@ -376,7 +376,7 @@ namespace UnityEditor.PostProcessing
                 // Draw
                 if (state.showNonEditableHandles)
                 {
-                    if (e.type == EventType.Repaint)
+					if (e.type == EventType.Repaint)
                     {
                         var selectedColor = (isCurrentlySelectedCurve && isCurrentlySelectedKeyframe)
                             ? settings.selectionColor
