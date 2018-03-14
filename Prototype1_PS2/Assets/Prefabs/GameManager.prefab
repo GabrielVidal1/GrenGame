@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4304017779016852}
-  - component: {fileID: 114526504902877872}
   - component: {fileID: 114814454291608722}
   - component: {fileID: 114747525681041472}
+  - component: {fileID: 114700385992021808}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -42,7 +42,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114526504902877872
+--- !u!114 &114700385992021808
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1889220587018338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -822479833, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 7249b232f1224ce4cabe5e13eb71f848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_NetworkPort: 7777
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c16cf848544f8c469fe45fa3c01317e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cManager: {fileID: 0}
+  localPlayer: {fileID: 0}
 --- !u!114 &114814454291608722
 MonoBehaviour:
   m_ObjectHideFlags: 1
