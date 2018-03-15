@@ -20,7 +20,7 @@ public class MultiplayerMenu : MonoBehaviour {
 			if (GameManager.gm.IsClientConnected ()) {
 				
 				multiplayerClientWaitingScreen.SetActive (false);
-				multiplayerTab.SetActive (true);
+				CanvasManager.cm.inGameMenu.gameObject.SetActive (true);
 
 				Cursor.lockState = CursorLockMode.Locked;
 

@@ -117,7 +117,7 @@ public class PlantEditor : Editor {
 
 			myObject.gravityForce = EditorGUILayout.FloatField ("Gravity Intensity", myObject.gravityForce);
 
-			myObject.gravityOverLength = EditorGUILayout.CurveField("Gravity Intensity Over Length", myObject.gravityOverLength, Color.green, new Rect(0, 0, 1, 1));
+			myObject.gravityOverLength = EditorGUILayout.CurveField("Gravity Intensity Over Length", myObject.gravityOverLength, Color.green, new Rect(0, 1, -1, 1));
 			if (myObject.gravityOverLength == null)
 				myObject.gravityOverLength = AnimationCurve.Linear (0f, 0f, 1f, 1f);
 
@@ -146,7 +146,7 @@ public class PlantEditor : Editor {
 		myObject.hasLeaves = EditorGUILayout.Toggle ("Leaves", myObject.hasLeaves);
 		if (myObject.hasLeaves) {
 
-			myObject.leavesPerSegment = EditorGUILayout.IntSlider ("Number of Leaves Per Segment", myObject.leavesPerSegment, 0, 30);
+			myObject.leavesIteration = EditorGUILayout.IntSlider ("Number of Leaves", myObject.leavesIteration, 0, 200);
 
 			myObject.leavesOnlyOnSections = EditorGUILayout.Toggle ("Leaves Only On Sections", myObject.leavesOnlyOnSections);
 
@@ -155,9 +155,11 @@ public class PlantEditor : Editor {
 				myObject.leavesDistribution = AnimationCurve.Linear (0f, 0f, 1f, 1f);
 
 
+			EditorGUILayout.BeginHorizontal ();
+			myObject.leafMinSize = EditorGUILayout.Slider ("Leaf Min Size", myObject.leafMinSize, 0f, 1f); 
+			myObject.leafMaxSize = EditorGUILayout.Slider ("Leaf Max Size", myObject.leafMaxSize, 0f, 1f); 
+			EditorGUILayout.EndHorizontal ();
 
-			myObject.leafLength = EditorGUILayout.Slider ("Leaf Length", myObject.leafLength, 0.01f, 10f); 
-			myObject.leafWidth = EditorGUILayout.Slider ("Leaf Width", myObject.leafWidth, 0.01f, 10f); 
 
 			myObject.leafGrowthOverTime = EditorGUILayout.CurveField ("Leaves Growth Over Time", myObject.leafGrowthOverTime, Color.green, new Rect (0, 0, 1, 1));
 			if (myObject.leafGrowthOverTime == null)

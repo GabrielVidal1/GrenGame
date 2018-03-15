@@ -50,19 +50,19 @@ public class Plant : MonoBehaviour {
 
 	public bool hasLeaves;
 	public Leaf leafPrefab;
-	public float leafWidth;
-	public float leafLength;
+
+	public float leafMinSize;
+	public float leafMaxSize;
 
 	public bool leavesOnlyOnSections;
 
-	public int leavesPerSegment;
+	public int leavesIteration;
 	public AnimationCurve leavesDistribution;
 	public float leafGrowthDurationRatio;
 	public float sunOrientationIntensity;
 	public AnimationCurve sunOrientationIntensityOverTime;
 	public AnimationCurve leafGrowthOverTime;
 	
-
 
 	public bool hasRecursions;
 
@@ -176,14 +176,14 @@ public class Plant : MonoBehaviour {
 		}
 
 
-		leaves = new LeafRatioLength[leavesPerSegment * nbOfSegments];
+		leaves = new LeafRatioLength[leavesIteration];
 
 
 		actualLeavesNumber = 0;
 		int iteration = 0;
 
 		//SUR SAMPLE OF MAX 10 * NB OF LEAVES ITERATIONS
-		while ( iteration < leavesPerSegment * nbOfSegments) {
+		while ( iteration < leavesIteration) {
 
 
 			float lengthRatio = Random.value;
@@ -237,8 +237,10 @@ public class Plant : MonoBehaviour {
 				leaf.initialDirection = direction;
 				leaf.upDirection = up;
 
-				leaf.width = leafPrefab.width * leafWidth;
-				leaf.length = leafPrefab.length * leafLength;
+
+				float coefSize = Mathf.Lerp (leafMinSize, leafMaxSize, Random.value);
+
+				leaf.transform.localScale *= coefSize;
 
 				leaf.time = 0f;
 
