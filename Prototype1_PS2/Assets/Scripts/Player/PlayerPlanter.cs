@@ -18,20 +18,22 @@ public class PlayerPlanter : NetworkBehaviour {
 
 
 	[Command]
-	public void CmdPlant(int index, Vector3 position, Vector3 direction)
+	public void CmdPlant(int index, Vector3 position, Vector3 direction, NetworkInstanceId id)
 	{
-		RpcPlant (index, position, direction);
+		RpcPlant (index, position, direction, id);
 	}
 
 
 	[ClientRpc]
-	public void RpcPlant(int index, Vector3 position, Vector3 direction)
+	public void RpcPlant(int index, Vector3 position, Vector3 direction, NetworkInstanceId id)
 	{
 
 		Plant plant = Instantiate (plants [index], position, Quaternion.identity).GetComponent<Plant>();
 		plant.initalDirection = direction;
 		plant.time = 0f;
 
+		if (id != NetworkInstanceId.Invalid)
+			plant.transform.SetParent (NetworkServer.FindLocalObject (id).transform);
 	}
 
 	
@@ -52,7 +54,18 @@ public class PlayerPlanter : NetworkBehaviour {
 
 				Vector3 dir = 1.1f * hit.normal;
 
-				CmdPlant (selectedIndex, hit.point + 0.05f * hit.normal, hit.normal);
+
+				NetworkInstanceId objectId;
+				if (hit.collider.tag == "Player") {
+					//objectId = hit.collider.GetComponent<NetworkIdentity> ().netId;
+
+					objectId = NetworkInstanceId.Invalid;
+
+
+				} else
+					objectId = NetworkInstanceId.Invalid;
+
+				CmdPlant (selectedIndex, hit.point + 0.05f * hit.normal, hit.normal, objectId);
 				//Debug.DrawRay (hit.point, hit.normal, Color.red, 10f);
 			}
 		}
