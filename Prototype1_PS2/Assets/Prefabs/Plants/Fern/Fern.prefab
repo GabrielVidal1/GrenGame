@@ -13473,7 +13473,7 @@ MonoBehaviour:
   noise: 0
   noiseCoef: 0
   nbOfSides: 16
-  nbOfSegments: 1
+  nbOfSegments: 3
   initialRadius: 0.14
   initalDirection: {x: 0, y: 1, z: 0}
   sectionsPerUvUnit: 2

@@ -11855,8 +11855,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 0.857
   smooth: 1
-  smoothCoef: 0.498
-  noise: 0
+  smoothCoef: 0.014
+  noise: 1
   noiseCoef: 0
   nbOfSides: 6
   nbOfSegments: 7
