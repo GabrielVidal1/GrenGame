@@ -7,6 +7,7 @@ using TMPro;
 public class MultiplayerMenu : MonoBehaviour {
 
 	public GameObject multiplayerClientWaitingScreen;
+	public GameObject multiplayerClientLoadingPlants;
 
 	public GameObject multiplayerTab;
 

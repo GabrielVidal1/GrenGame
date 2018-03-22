@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
+//[RequireComponent(typeof(MeshRenderer))]
 public class Plant : MonoBehaviour {
 
 	#region STATIC VARIABLES
@@ -131,9 +131,9 @@ public class Plant : MonoBehaviour {
 	private Transform branchesParent;
 
 
-	private List<Vector3> points;
-	private List<int> triangles;
-	private List<Vector2> uvs;
+	private Vector3[] points;
+	private int[] triangles;
+	private Vector2[] uvs;
 	private MeshFilter mf;
 
 	private float totalLength;
@@ -143,16 +143,19 @@ public class Plant : MonoBehaviour {
 	[SerializeField]
 	private AnimationCurve trunkTimeOverTime;
 
+	private float lastUpdateTime;
 
 
 	private bool hasSetSeed = false;
 
 	public void SetSeed(int seed)
 	{
-		plantSeed = seed;
+		plantSeed = 3*seed;
+		Random.InitState (1234 * plantSeed);
 		plantNumber++;
-		Random.InitState (1234 * seed);
 		hasSetSeed = true;
+
+		Debug.Log ("seed : " + plantSeed);
 	}
 
 	public void InitializePlant()
@@ -162,6 +165,8 @@ public class Plant : MonoBehaviour {
 		if (!hasSetSeed) {
 			SetSeed (plantNumber);
 		}
+
+		lastUpdateTime = 0f;
 
 		actualTrunkGrowthDuration = trunkGrowthDuration.RandomValue();
 			
@@ -192,13 +197,18 @@ public class Plant : MonoBehaviour {
 
 	public void UpdatePlant()
 	{
-		UpdateMesh ();
+		if (lastUpdateTime < 1f) {
+
+			UpdateMesh ();
 		
-		if (hasLeaves)
-			UpdateLeaves ();
+			if (hasLeaves)
+				UpdateLeaves ();
 		
-		if (hasRecursions)
-			UpdateRecursions ();
+			if (hasRecursions)
+				UpdateRecursions ();
+
+			lastUpdateTime = time;
+		}
 	}
 
 	public void InitializeMesh()
@@ -212,17 +222,21 @@ public class Plant : MonoBehaviour {
 
 		mf = GetComponent<MeshFilter> ();
 
+		triangles = new int[6 * nbOfSides * nbOfSegments];
+		GenerateTriangles (points, triangles);
 
-		triangles = GenerateTriangles (points);
-		uvs = GenerateUVs ();
-		points = GeneratePoints (0f);
+		points = new Vector3[nbOfSides * (nbOfSegments + 1)];
+		//GeneratePoints (0f, points);
+
+		uvs = new Vector2[points.Length];
+		GenerateUVs (uvs);
 
 		Mesh m = new Mesh ();
 
 
-		m.vertices = points.ToArray ();
-		m.triangles = triangles.ToArray ();
-		m.uv = uvs.ToArray ();
+		m.vertices = points;
+		m.triangles = triangles;
+		m.uv = uvs;
 
 		m.RecalculateNormals ();
 
@@ -233,17 +247,21 @@ public class Plant : MonoBehaviour {
 	public void UpdateMesh()
 	{
 		//UPDATE POINTS
-		points.Clear ();
-		points = GeneratePoints (time);
+		GeneratePoints (time, points);
 
 		//MODIFY MESH
-		Mesh m = new Mesh();
-		m.vertices = points.ToArray ();
-		m.triangles = triangles.ToArray ();
-		m.uv = uvs.ToArray ();
+		Mesh m = mf.mesh;
+
+		m.Clear ();
+
+		m.vertices = points;
+		m.triangles = triangles;
+		m.uv = uvs;
 
 
 		m.RecalculateNormals ();
+
+		//Destroy (mf.mesh);
 
 		mf.mesh = m;
 
@@ -268,7 +286,7 @@ public class Plant : MonoBehaviour {
 		branches = new BranchesInfo[nbOfBranches];
 
 		//FINISHED POINTS OF THE MODEL
-		Vector3[] points = GeneratePoints (1f).ToArray ();
+		GeneratePoints (1f, points);
 
 		float angle = Random.value * 2 * Mathf.PI;
 
@@ -359,8 +377,8 @@ public class Plant : MonoBehaviour {
 				branche.initialRadius = initialBrancheRadiusBranch * branchInitialRadiusMultiplier.RandomValue();
 				branche.initialNormal = tangentDirection;
 
-				branche.initialSegmentLength = initialSegmentLength;
-				branche.finalSegmentLength = finalSegmentLength;
+				//branche.initialSegmentLength = initialSegmentLength;
+				//branche.finalSegmentLength = finalSegmentLength;
 
 				//branche.nbOfSides = Mathf.Max (3, nbOfSides - 1);
 
@@ -594,35 +612,36 @@ public class Plant : MonoBehaviour {
 	}
 
 	//CALLED ONCE AT THE BEGINNING
-	public List<int> GenerateTriangles(List<Vector3> points)
+	public void GenerateTriangles(Vector3[] points, int[] triangleArrayRef)
 	{
-		List<int> tempTriangles = new List<int> ();
+
 
 		for (int i = 0; i < nbOfSegments; i++) {
 
 			for (int j = 0; j < nbOfSides; j++) 
 			{
 
-				int p0 = i * nbOfSides + j;
+				int index = i * nbOfSides + j;
+
+				int p0 = index;
 				int p1 = j + 1 == nbOfSides ? i * nbOfSides : p0 + 1;
 
 				int p2 = p0 + nbOfSides;
 				int p3 = p1 + nbOfSides;
 
-				tempTriangles.Add (p0);
-				tempTriangles.Add (p1);
-				tempTriangles.Add (p2);
+				triangleArrayRef [6 * index + 0] = p0;
+				triangleArrayRef [6 * index + 1] = p1;
+				triangleArrayRef [6 * index + 2] = p2;
 
-				tempTriangles.Add (p1);
-				tempTriangles.Add (p3);
-				tempTriangles.Add (p2);
+				triangleArrayRef [6 * index + 3] = p1;
+				triangleArrayRef [6 * index + 4] = p3;
+				triangleArrayRef [6 * index + 5] = p2;
 			}
 		}
-		return tempTriangles;
 	}
 
 	//CALLED EVERY TIME THE VARIABLE time IS CHANGED
-	public List<Vector3> GeneratePoints(float time)
+	public void GeneratePoints(float time, Vector3[] points)
 	{
 		//CONSTANTS
 
@@ -633,7 +652,6 @@ public class Plant : MonoBehaviour {
 
 		//INITIALIZATIONS
 
-		List<Vector3> tempPoints = new List<Vector3> ();
 		Vector3 v = randomVector;
 
 
@@ -700,54 +718,52 @@ public class Plant : MonoBehaviour {
 			//SECTION CONSTRUCTION
 			for (int j = 0; j < nbOfSides; j++) {
 
+
 				float angle = j * angleCoefficient;
 
 				Vector3 point = (positionOffset + currentPosition)
 					+ (u * Mathf.Cos (angle) + v * Mathf.Sin (angle)) * radius;
 
-				tempPoints.Add (point);
+				int index = i * nbOfSides + j;
+				points[index] = point;
 			}
 		}
 
 		//SMOOTHING
 		if (smooth) {
-			tempPoints = Smooth (tempPoints, smoothCoef);
-			tempPoints = Smooth (tempPoints, smoothCoef);
+			Smooth (points, smoothCoef);
+			Smooth (points, smoothCoef);
 		}
 
 		//NOISING
 		if (noise) {
-			tempPoints = Noise (tempPoints, noiseCoef);
+			Noise (points, noiseCoef);
 		}
-
-
-		return tempPoints;
 	}
 
 	//USED TO SMOOTH THE POINTS OF THE 3D MESH
-	private List<Vector3> Smooth(List<Vector3> tempPoints, float coef)
+	private void Smooth(Vector3[] pointsArrayRef, float coef)
 	{
-		int np = tempPoints.Count;
-		List<Vector3> nTempPoints = new List<Vector3>();
+		int np = pointsArrayRef.Length;
+		//List<Vector3> nTempPoints = new List<Vector3>();
 
 		for (int i = 0; i < np; i++) {
 
 			if (i < nbOfSides || i > np - nbOfSides - 1) {
-				//NO SMOOTH FOR FIRST AND LAST POINTS
-				nTempPoints.Add(tempPoints [i]);
+
 			} else {
-				nTempPoints.Add (((tempPoints [i - nbOfSides] + tempPoints [i + nbOfSides]) * 0.5f * coef) + (1f - coef) * tempPoints [i]);
+				pointsArrayRef[i] = ((pointsArrayRef [i - nbOfSides] + pointsArrayRef [i + nbOfSides]) * 0.5f * coef) + (1f - coef) * pointsArrayRef [i];
 			}
 		}
-		return nTempPoints;
 	}
 
 	//USED TO NOISE THE POINTS OF THE 3D MESH
-	private List<Vector3> Noise(List<Vector3> tempPoints, float coef)
+	//USES REF OF POINTS ARRAY
+	private void Noise(Vector3[] refPoints, float coef)
 	{
-		for (int i = 0; i < tempPoints.Count; i++) {
+		for (int i = 0; i < refPoints.Length; i++) {
 
-			float ratio = i / (float)tempPoints.Count;
+			float ratio = i / (float)refPoints.Length;
 
 			float v = shapeOverTime.Evaluate (0.5f);
 
@@ -755,18 +771,15 @@ public class Plant : MonoBehaviour {
 
 			if (lengthOverTime.Evaluate (time) > ratio) 
 			{
-				Vector3 noise = Noise3D.PerlinNoise3D (5f * tempPoints [i] / radius);
-				tempPoints [i] += noise.normalized * coef * radius;
+				Vector3 noise = Noise3D.PerlinNoise3D (5f * refPoints [i] / radius);
+				refPoints [i] += noise.normalized * coef * radius;
 			}
 		}
-		return tempPoints;
 	}
 
 	//GENERATE THE UV MAP FOR THE MESH
-	private List<Vector2> GenerateUVs()
+	private void GenerateUVs(Vector2[] uvsArrayRef)
 	{
-		List<Vector2> uv = new List<Vector2> ();
-
 		for (int i = 0; i < nbOfSegments + 1; i++) {
 
 			int iMod = i % (sectionsPerUvUnit + 1);
@@ -781,11 +794,10 @@ public class Plant : MonoBehaviour {
 
 				//Debug.DrawRay (transform.position + 3f * new Vector3 (p.x, 0f, p.y), Vector3.up, Color.red, 10f);
 
-
-				uv.Add (p);
+				int index = i * nbOfSides + j;
+				uvsArrayRef[index] = p;
 			}
 		}
-		return uv;
 	}
 
 	//USED TO GENERATE THE TRAJECTORY AT THE CREATION OF THE PLANT
@@ -832,7 +844,7 @@ public class Plant : MonoBehaviour {
 					noiseOffset.y += 3 * actualNoiseSize;
 					noiseMultiplier = 5f;
 				}
-				noise = noiseForce * noiseOverLength.Evaluate (lengthRatio) * Noise3D.PerlinNoise3D ((currentPosition + noiseOffset)/ actualNoiseSize);
+				noise = noiseForce * noiseOverLength.Evaluate (lengthRatio) * Noise3D.PerlinNoise3D ((currentPosition + noiseOffset + plantSeed*Vector3.left)/ actualNoiseSize);
 			
 			
 			}

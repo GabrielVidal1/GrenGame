@@ -214,4 +214,5 @@ MonoBehaviour:
   - {fileID: 114938343243396726, guid: f6d341fbcf8451840b4f70743a76f267, type: 2}
   - {fileID: 114189666501486812, guid: 5261e8d246bed2146962dde6f926e89f, type: 2}
   - {fileID: 114406117644882906, guid: 97c7dae98d59c324083c6b02cd5e534c, type: 2}
+  - {fileID: 114626937825601152, guid: eec4ad4a7533ae14a8607c00f41983ff, type: 2}
   plants: []

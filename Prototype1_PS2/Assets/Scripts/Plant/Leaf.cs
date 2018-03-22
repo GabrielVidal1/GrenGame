@@ -47,21 +47,32 @@ public class Leaf : MonoBehaviour {
 	public AnimationCurve sagittalCurvatureIntensityOverTime;
 
 	private MeshFilter mf;
-	private List<Vector3> points;
+	private Vector3[] points;
 	private int[] triangles;
 	private Vector2[] uvs;
+
+	private float lastUpdateTime;
 
 
 	//INITIALIZE THE TAB OF TRIANGLES AND POINTS
 	public void Initialize()
 	{
+		lastUpdateTime = 0f;
 		mf = GetComponent<MeshFilter> ();
 
 		//TRIANGLES
-		triangles = GenerateTriangles ().ToArray();
+		triangles = new int[12 * nbOfTangentSegments * nbOfNormalSegments];
+
+		GenerateTriangles (triangles);
+
+		//POINTS
+		points = new  Vector3[2 * (nbOfNormalSegments + 1) * (nbOfTangentSegments + 1)];
+		//GeneratePoints (points);
 
 		//UVs
-		uvs = GenerateUVMap().ToArray();
+		uvs = new Vector2[points.Length];
+		GenerateUVMap(uvs);
+
 
 		UpdateMesh ();
 	}
@@ -69,30 +80,28 @@ public class Leaf : MonoBehaviour {
 	//UPDATE THE TAB OF POINTS OF THE MESH TO MATCH THE TIME
 	public void UpdateMesh()
 	{
-		//UPDATE POINTS
-		points = new List<Vector3>();
-		points.Clear ();
-		points = GeneratePoints ();
+		if (lastUpdateTime < 1f) {
+			
+			//UPDATE POINTS
+			GeneratePoints (points);
 
-		//MODIFY MESH
+			//MODIFY MESH
+			Mesh m = mf.mesh;
+			m.Clear ();
 
-		Mesh m = new Mesh ();
+			m.vertices = points;
+			m.triangles = triangles;
+			m.uv = uvs;
+			m.RecalculateNormals ();
 
-		m.vertices = points.ToArray ();
-		m.triangles = triangles;
-		m.uv = uvs;
 
-		m.RecalculateNormals ();
-
-		mf.mesh = m;
-
+			lastUpdateTime = time;
+		}
 	}
 
 	//GENERATE THE LIST OF TRIANGLES FOR THE MESH CREATION
-	public List<int> GenerateTriangles()
+	public void GenerateTriangles(int[] triangleArrayRef)
 	{
-		List<int> triangles = new List<int> ();
-
 		int nbOfNormals = nbOfNormalSegments + 1;
 
 		for (int i = 0; i < nbOfTangentSegments; i++) 
@@ -101,6 +110,8 @@ public class Leaf : MonoBehaviour {
 
 			for (int j = 0; j < nbOfNormalSegments; j++) 
 			{
+				int index = i * nbOfNormalSegments + j;
+
 
 				int p1 = nbOfNormals * i + j;
 				int p2 = nbOfNormals * i + (j + 1);
@@ -108,32 +119,28 @@ public class Leaf : MonoBehaviour {
 				int p3 = nbOfNormals * (i + 1) + j;
 				int p4 = nbOfNormals * (i + 1) + (j + 1);
 
-				triangles.Add (2 * p1);
-				triangles.Add (2 * p2);
-				triangles.Add (2 * p3);
+				triangleArrayRef[12 * index + 0] = 2 * p1;
+				triangleArrayRef[12 * index + 1] = 2 * p2;
+				triangleArrayRef[12 * index + 2] = 2 * p3;
 
-				triangles.Add (2 * p2);
-				triangles.Add (2 * p4);
-				triangles.Add (2 * p3);
+				triangleArrayRef[12 * index + 3] = 2 * p2;
+				triangleArrayRef[12 * index + 4] = 2 * p4;
+				triangleArrayRef[12 * index + 5] = 2 * p3;
 
-				triangles.Add (2 * p1 + 1);
-				triangles.Add (2 * p3 + 1);
-				triangles.Add (2 * p2 + 1);
+				triangleArrayRef[12 * index + 6] = 2 * p1 + 1;
+				triangleArrayRef[12 * index + 7] = 2 * p3 + 1;
+				triangleArrayRef[12 * index + 8] = 2 * p2 + 1;
 
-				triangles.Add (2 * p2 + 1);
-				triangles.Add (2 * p3 + 1);
-				triangles.Add (2 * p4 + 1);
+				triangleArrayRef[12 * index + 9] = 2 * p2 + 1;
+				triangleArrayRef[12 * index + 10] = 2 * p3 + 1;
+				triangleArrayRef[12 * index + 11] = 2 * p4 + 1;
 			}
 		}
-
-		return triangles;
 	}
 	
 	//GENERATE THE POINTS FOR THE CREATION OF THE MESH
-	public List<Vector3> GeneratePoints()
+	public void GeneratePoints(Vector3[] pointsArrayRef)
 	{
-		List<Vector3> points = new List<Vector3> ();
-
 		Vector3 u = initialDirection.normalized;	
 		Vector3 v = Vector3.Cross (u, upDirection).normalized;
 		Vector3 up = upDirection;
@@ -146,13 +153,10 @@ public class Leaf : MonoBehaviour {
 
 			float lengthRatio = i / (float)nbOfTangentSegments;
 
-			//if (lengthOverTime.Evaluate(time) < lengthRatio )
-
-
-
 			for (int j = 0; j < nbOfNormalSegments + 1; j++) 
 			{
-				
+
+
 				float ratio = j / (float)nbOfNormalSegments ;
 
 				float pointPos = 
@@ -195,33 +199,33 @@ public class Leaf : MonoBehaviour {
 
 				//Debug.DrawRay (transform.position + point, Vector3.up * 0.1f, Color.red, 10f);
 
+				int index = i * (nbOfNormalSegments + 1) + j;
 
-				points.Add (point);
-				points.Add (point);
+				pointsArrayRef [2 * index] = point;
+				pointsArrayRef [2 * index + 1] = point;
+
+				//Debug.Log ("p_" + index + " : " + point);
 			}
 		}
-
-		return points;
-
 	}
 
 	//GENERATE THE MAP OF UV
-	public List<Vector2> GenerateUVMap()
+	public void GenerateUVMap(Vector2[] uvsArrayRef)
 	{
-		List<Vector2> uv = new List<Vector2> ();
-
 		for (int i = 0; i < nbOfTangentSegments + 1; i++) 
 		{
 			float lengthRatio = i / (float)nbOfTangentSegments;
 			for (int j = 0; j < nbOfNormalSegments + 1; j++) 
 			{
+
+
 				float ratio = j / (float)nbOfNormalSegments ;
 
-				uv.Add (new Vector2 (lengthRatio, ratio));
-				uv.Add (new Vector2 (lengthRatio, 1f - ratio));
+				int index = i * (nbOfNormalSegments + 1) + j;
+
+				uvsArrayRef [2 * index] = new Vector2 (lengthRatio, ratio);
+				uvsArrayRef [2 * index + 1] = new Vector2 (lengthRatio, 1f - ratio);
 			}
 		}
-		return uv;
-
 	}
 }

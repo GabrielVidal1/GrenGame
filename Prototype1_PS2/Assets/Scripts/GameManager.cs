@@ -102,9 +102,13 @@ public class GameManager : MonoBehaviour {
 
 	public void LoadPlants(PlantSave[] plantsSave)
 	{
+		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (true);
+
 		foreach (PlantSave plantSave in plantsSave) {
 			LoadPlant(plantSave);
 		}
+
+		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (false);
 	}
 
 

@@ -15,7 +15,6 @@ public class TreeGrowth : MonoBehaviour {
 	void Start()
 	{
 		pg = GetComponent<Plant> ();
-		//pg.time = 0f;
 		growthSpeed = 1f / pg.maxDuration;
 		lastUpdate = Time.time;
 	}

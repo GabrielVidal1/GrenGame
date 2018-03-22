@@ -131,11 +131,10 @@ public class PlantEditor : Editor {
 
 		myObject.lengthOverTime = EditorGUILayout.CurveField("Length Over Time", myObject.lengthOverTime, Color.green, new Rect(0, 0, 1, 1));
 
-		//EditorGUILayout.LabelField ("Segment Length", EditorStyles.toolbarButton);
-		EditorGUI.BeginDisabledGroup (myObject.isBranch || myObject.branchForceParameters);
+		//EditorGUI.BeginDisabledGroup (myObject.isBranch || myObject.branchForceParameters);
 		myObject.initialSegmentLength = EditorGUILayout.Slider("Initial Segment Length", myObject.initialSegmentLength, 0.01f, 10f);
 		myObject.finalSegmentLength = EditorGUILayout.Slider("Final Segment Length", myObject.finalSegmentLength, 0.01f, 10f);
-		EditorGUI.EndDisabledGroup ();
+		//EditorGUI.EndDisabledGroup ();
 
 		myObject.segmentLengthOverLength = EditorGUILayout.CurveField("Segment Length Over Length", myObject.segmentLengthOverLength, Color.green, new Rect(0, 0, 1, 1));
 
@@ -267,8 +266,11 @@ public class PlantEditor : Editor {
 
 			if (myObject.branchPrefab != null) {
 				
-				if (myObject.branchPrefab == myObject)
+				if (myObject.branchPrefab == myObject) {
 					myObject.branchPrefab = null;
+					Debug.LogError ("The Branche can't be the trunk!");
+
+				}
 
 				myObject.branchPrefab.isBranch = true;
 				//displayBranchParameters = EditorGUILayout.Foldout (displayBranchParameters, "Branch Prefab Informations");

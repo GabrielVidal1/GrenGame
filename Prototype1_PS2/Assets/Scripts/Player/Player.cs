@@ -59,17 +59,15 @@ public class Player : NetworkBehaviour {
 
 		onToggleShared.Invoke (true);
 
-		if (isLocalPlayer)
+		if (isLocalPlayer) {
 			onToggleLocal.Invoke (true);
-		else
+
+			if (isClient && !GameManager.gm.isHost) {
+				//Debug.Log ("Plants are being uploaded...");
+				CmdSynchronisePlants ();
+			}
+		} else
 			onToggleRemote.Invoke (true);
-
-
-		//IF CLIENT AND NOT HOST
-		if (isClient && !GameManager.gm.isHost) {
-			//Debug.Log ("Plants are being uploaded...");
-			CmdSynchronisePlants ();
-		}
 	}
 
 	[Command]
@@ -93,7 +91,7 @@ public class Player : NetworkBehaviour {
 
 		//IF NEED TO SYNC PLANTS
 		if (msg.pma == PlayerMessageAction.SynchronisePlants) {
-			//Debug.Log ("local unity loads plants");
+
 			GameManager.gm.LoadPlants (msg.plantsToSync);
 		}
 	}
