@@ -402,11 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 1858469207150750}
   plants:
-  - {fileID: 1398639985529696, guid: 76d0550e3ef41a44a9325b2e75911a26, type: 2}
-  - {fileID: 1852589836267668, guid: 61184e7b1966b1e499d1aead012bc80e, type: 2}
-  - {fileID: 1710650096895630, guid: 5261e8d246bed2146962dde6f926e89f, type: 2}
-  - {fileID: 1674943593991568, guid: f6d341fbcf8451840b4f70743a76f267, type: 2}
-  - {fileID: 1412216465052466, guid: 97c7dae98d59c324083c6b02cd5e534c, type: 2}
+  - {fileID: 1023454448412380, guid: b15911916e5137f4bbf3db3720b259ce, type: 2}
 --- !u!114 &114833581927181336
 MonoBehaviour:
   m_ObjectHideFlags: 1

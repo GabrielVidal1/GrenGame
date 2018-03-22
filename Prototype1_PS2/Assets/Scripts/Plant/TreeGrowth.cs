@@ -12,27 +12,33 @@ public class TreeGrowth : MonoBehaviour {
 
 	Plant pg;
 	private float lastUpdate;
-
 	void Start()
 	{
 		pg = GetComponent<Plant> ();
-		pg.time = 0f;
-		pg.Initialize ();
+		//pg.time = 0f;
+		growthSpeed = 1f / pg.maxDuration;
 		lastUpdate = Time.time;
 	}
 
 	void Update () 
 	{
-		if (pg.time <= 1f) {
+		if (pg.time < 1f) {
 
 
 
 			pg.time += Time.deltaTime * growthSpeed;
 
-			if (updateRate * Time.deltaTime + lastUpdate <= Time.time) {	
-				pg.UpdateMesh ();
+			if (updateRate * Time.deltaTime + lastUpdate <= Time.time) {
+
+				GameManager.SavePlantTime (pg.indexInGameData, pg.time);
+
+				pg.UpdatePlant ();
 				lastUpdate = Time.time;
 			}
+		} else {
+			pg.time = 1f;
+			//GameManager.SavePlantTime (pg.indexInGameData, 1f);
+
 		}
 
 	}

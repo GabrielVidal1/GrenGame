@@ -7,10 +7,23 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class Plant : MonoBehaviour {
 
+	#region STATIC VARIABLES
+
 	public static int plantNumber = 0;
 
+	#endregion
 
+	#region PUBLIC VARIABLES
+
+	public int plantSeed;
+
+
+	[Range(0f, 1f)]
 	public float time;
+	public float maxDuration;
+
+	public Interval trunkGrowthDuration;
+
 
 	public bool smooth;
 	public float smoothCoef;
@@ -18,11 +31,15 @@ public class Plant : MonoBehaviour {
 	public bool noise;
 	public float noiseCoef;
 
+	public bool initialForce;
+	public float initialForceCoef;
+
 	public int nbOfSides;
 	public int nbOfSegments;
 
 	public float initialRadius;
-	public Vector3 initalDirection;
+	public Vector3 initialDirection;
+	public Vector3 initialNormal;
 
 	public int sectionsPerUvUnit;
 
@@ -51,29 +68,67 @@ public class Plant : MonoBehaviour {
 	public bool hasLeaves;
 	public Leaf leafPrefab;
 
-	public float leafMinSize;
-	public float leafMaxSize;
+	public Interval leafSize;
 
 	public bool leavesOnlyOnSections;
 
-	public int leavesIteration;
+	public float leavesDensity;
 	public AnimationCurve leavesDistribution;
-	public float leafGrowthDurationRatio;
+	public AnimationCurve leavesBirthdateDistribution;
+	public Interval leafGrowthDuration;
+
+
+
 	public float sunOrientationIntensity;
 	public AnimationCurve sunOrientationIntensityOverTime;
 	public AnimationCurve leafGrowthOverTime;
-	
+
+
+	//RECURSIONS
 
 	public bool hasRecursions;
+	public Plant branchPrefab;
+
+	public float brancheAngleDelta;
+
+	public int nbOfBranches;
+	public AnimationCurve branchesDistribution;
+	public AnimationCurve branchBirthDateDistribution;
+
+	public Interval branchGrowthDuration;
+	public Interval branchInitialRadiusMultiplier;
 
 
+
+	public AnimationCurve branchesTangencityOverLength;
+
+	public bool branchesOnlyOnSections;
+
+	public AnimationCurve branchLengthOverTrunkLength;
+
+	public Interval brancheLengthRatio;
+
+	public bool branchForceParameters;
+
+	[HideInInspector]
+	public bool isBranch;
+
+	[HideInInspector]
+	public int indexInGameData;
+
+	#endregion
 
 	#region PrivateVariables
 
 	private PositionsAndNormals positionsAndNormals;
-	private LeafRatioLength[] leaves;
+
+	private LeafInfo[] leaves;
 	private int actualLeavesNumber;
 	private Transform leavesParent;
+
+	private BranchesInfo[] branches;
+	private int actualBranchesNumber;
+	private Transform branchesParent;
 
 
 	private List<Vector3> points;
@@ -81,36 +136,91 @@ public class Plant : MonoBehaviour {
 	private List<Vector2> uvs;
 	private MeshFilter mf;
 
+	private float totalLength;
+
+	private float actualTrunkGrowthDuration;
+	#endregion
+	[SerializeField]
 	private AnimationCurve trunkTimeOverTime;
 
-	#endregion
 
 
+	private bool hasSetSeed = false;
 
-	public void Initialize()
+	public void SetSeed(int seed)
+	{
+		plantSeed = seed;
+		plantNumber++;
+		Random.InitState (1234 * seed);
+		hasSetSeed = true;
+	}
+
+	public void InitializePlant()
 	{
 		//RANDOM INITIALISATION
-		plantNumber++;
-		Random.InitState (123456 * plantNumber);
+		
+		if (!hasSetSeed) {
+			SetSeed (plantNumber);
+		}
 
-		Debug.Log ("My seed is " + plantNumber);
+		actualTrunkGrowthDuration = trunkGrowthDuration.RandomValue();
+			
+		maxDuration = actualTrunkGrowthDuration;
+		if (hasLeaves)
+			maxDuration += leafGrowthDuration.max;
+		if (hasRecursions) {
+			maxDuration += branchGrowthDuration.max;
+			if (branchPrefab.hasLeaves)
+				maxDuration += branchPrefab.leafGrowthDuration.max;
+			if (branchPrefab.hasRecursions)
+				maxDuration += branchPrefab.branchGrowthDuration.max;
+		}
 
 
-		trunkTimeOverTime = AnimationCurve.Linear (0f, 0f, 1f - leafGrowthDurationRatio, 1f);
+
+		InitializeMesh ();
+
+		if (hasLeaves)
+			GenerateLeaves ();
+
+		if (hasRecursions)
+			GenerateRecursions ();
 
 
-		positionsAndNormals = GenerateTrajectory (transform.position, initalDirection, nbOfSegments + 1);
+		UpdatePlant ();
+	}
+
+	public void UpdatePlant()
+	{
+		UpdateMesh ();
+		
+		if (hasLeaves)
+			UpdateLeaves ();
+		
+		if (hasRecursions)
+			UpdateRecursions ();
+	}
+
+	public void InitializeMesh()
+	{
+		trunkTimeOverTime = new AnimationCurve (new Keyframe[] {
+			new Keyframe (0, 0),
+			new Keyframe (actualTrunkGrowthDuration / maxDuration, 1f),
+			new Keyframe (1, 1)
+		});
+		positionsAndNormals = GenerateTrajectory (transform.position, initialDirection, nbOfSegments + 1);
 
 		mf = GetComponent<MeshFilter> ();
 
-		points = GeneratePoints ();
 
 		triangles = GenerateTriangles (points);
 		uvs = GenerateUVs ();
+		points = GeneratePoints (0f);
+
 		Mesh m = new Mesh ();
 
-		m.vertices = points.ToArray ();
 
+		m.vertices = points.ToArray ();
 		m.triangles = triangles.ToArray ();
 		m.uv = uvs.ToArray ();
 
@@ -118,44 +228,227 @@ public class Plant : MonoBehaviour {
 
 		mf.mesh = m;
 
-		actualLeavesNumber = 0;
-
-		if (hasLeaves)
-			GenerateLeaves ();
-		
-		UpdateMesh ();
-
 	}
 
 	public void UpdateMesh()
 	{
 		//UPDATE POINTS
 		points.Clear ();
-		points = GeneratePoints ();
+		points = GeneratePoints (time);
 
 		//MODIFY MESH
-		Mesh m = mf.sharedMesh;
+		Mesh m = new Mesh();
 		m.vertices = points.ToArray ();
 		m.triangles = triangles.ToArray ();
+		m.uv = uvs.ToArray ();
+
 
 		m.RecalculateNormals ();
 
-		if (hasLeaves)
-			UpdateLeaves ();
+		mf.mesh = m;
+
 	}
 
+
+	//USED TO FIRST GENERATE THE BRANCHES ON THE PLANT
 	public void GenerateRecursions()
 	{
+		actualBranchesNumber = 0;
+
+		Vector3 randomVector = new Vector3 (0.132354f, 1.98654f, -1.5646f).normalized;
+
+		//CREATE THE PARENT OF ALL LEAVES
+		if (branchesParent != null)
+			DestroyImmediate (branchesParent.gameObject);
+
+		branchesParent = new GameObject ("branchesParent").transform;
+		branchesParent.parent = transform;
+		branchesParent.transform.localPosition = Vector3.zero;
+
+		branches = new BranchesInfo[nbOfBranches];
+
+		//FINISHED POINTS OF THE MODEL
+		Vector3[] points = GeneratePoints (1f).ToArray ();
+
+		float angle = Random.value * 2 * Mathf.PI;
 
 
+		for(int i = 0 ; i < nbOfBranches ; i++){
+
+			float lengthRatio = (float)i / (float)nbOfBranches;
+			float proba = branchesDistribution.Evaluate (lengthRatio);
+
+
+			if (Random.value < proba) {
+
+
+				//POSITION
+				int segment = (int)(lengthRatio * nbOfSegments);
+
+				float lerpValue = (lengthRatio - ( segment / (float)nbOfSegments)) * nbOfSegments;
+
+
+				//float value = Random.value;
+				float value = 0f;
+				//POINT AND OPPOSED POINT
+				int pointIndex1 = nbOfSides * segment + (int)(value * nbOfSides);
+				int pointIndex2 = nbOfSides * segment + (int)((value + 0.5f > 1f ? value - 0.5f : value + 0.5f) * nbOfSides);
+
+
+
+				// INTERPOLATION BETWEEN SEGMENTS
+
+
+				Vector3 position = Vector3.zero;
+				if (branchesOnlyOnSections) {
+					position = positionsAndNormals.pos [segment];
+				} else {
+					position = Vector3.Lerp (positionsAndNormals.pos [segment], positionsAndNormals.pos [segment + 1], lerpValue);
+				}
+
+
+				float actualTrunkRadius = finalShapeOverLength.Evaluate(lengthRatio) * initialRadius;
+
+				//INITIAL RADIUS
+				float initialBrancheRadiusBranch = actualTrunkRadius * 0.8f;
+
+				
+				Vector3 normal = positionsAndNormals.nor [segment];
+
+				position += normal * actualTrunkRadius;
+
+				Vector3 tangentDirection = (points [pointIndex1+ nbOfSides] - points [pointIndex1 ]).normalized;
+				//INITIAL DIRECTION
+				Vector3 u = (points[pointIndex1] - points[pointIndex2]).normalized;
+				Vector3 v = Vector3.Cross (tangentDirection, u).normalized;
+
+				angle += brancheAngleDelta;
+				Vector3 direction = u * Mathf.Cos(angle) + v * Mathf.Sin(angle);
+
+				//????????????????
+				//TANGEANT DIRECTION
+				//Debug.DrawRay (position, tangentDirection, Color.red, 10f);
+
+
+				//ORIENTATION TOWARD THE SUN ?????????????????
+				direction = Vector3.Lerp(direction, tangentDirection, branchesTangencityOverLength.Evaluate(lengthRatio));
+
+				direction.Normalize ();
+
+				float growthDuration = branchGrowthDuration.RandomValue ();
+
+				float birthDate = Mathf.Lerp ( maxDuration - growthDuration, ValueAt(trunkTimeOverTime, lengthRatio) * maxDuration, branchBirthDateDistribution.Evaluate(Random.value));
+
+
+				//BRANCHE CREATION
+				Plant branche = Instantiate (branchPrefab, position, Quaternion.identity).GetComponent<Plant> ();
+
+
+				branche.transform.parent = branchesParent;
+				branche.transform.position = position;
+				branche.name = "Branche_" + actualBranchesNumber.ToString ();
+
+				//PARAMETERS SETTINGS
+
+				branche.trunkGrowthDuration = branchGrowthDuration;
+
+				branche.leafGrowthDuration = leafGrowthDuration;
+
+				branche.isBranch = true;
+				branche.initialDirection = direction;
+				branche.initialRadius = initialBrancheRadiusBranch * branchInitialRadiusMultiplier.RandomValue();
+				branche.initialNormal = tangentDirection;
+
+				branche.initialSegmentLength = initialSegmentLength;
+				branche.finalSegmentLength = finalSegmentLength;
+
+				//branche.nbOfSides = Mathf.Max (3, nbOfSides - 1);
+
+				float nbOfS = branchLengthOverTrunkLength.Evaluate (lengthRatio) * nbOfSegments * brancheLengthRatio.RandomValue() + 1;
+
+				branche.nbOfSegments = (int)nbOfS;
+
+
+				//BRANCH CREATION
+
+
+
+
+				branche.time = 0f;
+				branche.InitializePlant ();
+
+				BranchesInfo b = new BranchesInfo (branche, birthDate, segment, position, lengthRatio, growthDuration);
+
+				branches [actualBranchesNumber] = b;
+
+
+				//INCREMENTS
+				actualBranchesNumber++;
+			}
+		}
 
 	}
 
+	public float ValueAt( AnimationCurve f, float solution, float precision = 0.1f)
+	{
+		float a = 0f;
+		float b = 1f;
+		float c = 0.5f;
 
+		while (Mathf.Abs (b - a) > precision) {
+			c = (a + b) / 2f;
+			if (f.Evaluate (c) >= solution)
+				b = c;
+			else if (f.Evaluate (c) < solution)
+				a = c;
+				
+		}
+		return c;
+	}
+
+	//USED TO UPDATE THE BRANCHES EVERY FRAME
+	public void UpdateRecursions()
+	{
+		float absolutTime = time * maxDuration;
+
+		for (int i = 0; i < actualBranchesNumber; i++) {
+
+			//DISTANCE FROM ROOT / LENGTH
+			BranchesInfo branch = branches [i];
+
+
+			//NOT GROWN
+			if (branch.birthDate > absolutTime) {
+				branch.branch.time = 0f;
+
+			} else {
+
+				if (absolutTime - branch.birthDate < branch.growthDuration || !branch.grownOnce) {
+					
+					branch.branch.time = Mathf.Min ((absolutTime - branch.birthDate) / branch.growthDuration, 1f);
+
+					float radius = Mathf.Lerp (
+						               initialShapeOverLength.Evaluate (branch.lengthRatio),
+						               finalShapeOverLength.Evaluate (branch.lengthRatio),
+						               shapeOverTime.Evaluate (time));
+
+					//Debug.DrawRay (branch.finalPosition, -positionsAndNormals.nor [branch.normalIndex] * radius, Color.red, 10f);
+
+					branch.branch.transform.position = branch.finalPosition - positionsAndNormals.nor [branch.normalIndex] * radius;
+					branch.grownOnce = true;
+					branch.branch.UpdatePlant ();
+				}
+
+			}
+		}
+
+	}
 
 	//USED TO FIRST GENERATE THE LEAVES ON THE PLANT
 	public void GenerateLeaves()
 	{ 
+		actualLeavesNumber = 0;
+
 		Vector3 randomVector = new Vector3 (0.132354f, 1.98654f, -1.5646f).normalized;
 
 		//CREATE THE PARENT OF ALL LEAVES
@@ -164,25 +457,15 @@ public class Plant : MonoBehaviour {
 
 		leavesParent = new GameObject ("LeaveParent").transform;
 		leavesParent.parent = transform;
-		leavesParent.transform.position = transform.position;
+		leavesParent.transform.localPosition = Vector3.zero;
+
+		int leavesIteration = (int)(leavesDensity * totalLength);
+
+		leaves = new LeafInfo[leavesIteration];
 
 
-		//DESTROY PRE-EXISTING CHILDREN OF THE LEAVES PARENT
-		for (int k = 0; k < leavesParent.childCount; k++) {
-			if (Application.isEditor)
-				DestroyImmediate(leavesParent.GetChild(k).gameObject);
-			else
-				Destroy(leavesParent.GetChild(k).gameObject);
-		}
-
-
-		leaves = new LeafRatioLength[leavesIteration];
-
-
-		actualLeavesNumber = 0;
 		int iteration = 0;
 
-		//SUR SAMPLE OF MAX 10 * NB OF LEAVES ITERATIONS
 		while ( iteration < leavesIteration) {
 
 
@@ -210,7 +493,7 @@ public class Plant : MonoBehaviour {
 
 				Vector3 position = Vector3.zero;
 
-				if (leavesOnlyOnSections)
+				if (branchesOnlyOnSections)
 					position = mf.sharedMesh.vertices [pointIndex1];
 				else
 					position = (1f-lerpValue) * mf.sharedMesh.vertices [pointIndex1] + lerpValue * mf.sharedMesh.vertices [pointIndex1 + nbOfSides];
@@ -238,20 +521,17 @@ public class Plant : MonoBehaviour {
 				leaf.upDirection = up;
 
 
-				float coefSize = Mathf.Lerp (leafMinSize, leafMaxSize, Random.value);
-
-				leaf.transform.localScale *= coefSize;
+				leaf.transform.localScale *= leafSize.RandomValue();
 
 				leaf.time = 0f;
 
 
-				float rndValue = Random.value;
+				float growthDuration = leafGrowthDuration.RandomValue ();
 
-				float birthDate = lengthRatio * (1f - rndValue) + rndValue *(1f - leafGrowthDurationRatio);
+				float birthDate = Mathf.Lerp (ValueAt (trunkTimeOverTime, lengthRatio) * maxDuration, maxDuration - growthDuration, leavesBirthdateDistribution.Evaluate (Random.value));
 
 
-
-				LeafRatioLength l = new LeafRatioLength (leaf, lengthRatio, direction, pointIndex1, pointIndex2, lerpValue, birthDate, leafGrowthDurationRatio);
+				LeafInfo l = new LeafInfo (leaf, lengthRatio, direction, pointIndex1, pointIndex2, lerpValue, birthDate, growthDuration);
 					
 				leaves [actualLeavesNumber] = l;
 
@@ -268,47 +548,47 @@ public class Plant : MonoBehaviour {
 	//USED TO UPDATE THE LEAVES EVERY FRAME
 	public void UpdateLeaves()
 	{
+		float absolutTime = time * maxDuration;
+
 		for (int i = 0; i < actualLeavesNumber; i++) {
 
 			//DISTANCE FROM ROOT / LENGTH
-			LeafRatioLength leaf = leaves [i];
+			LeafInfo leaf = leaves [i];
 
-			//NOT GROWN
-			if (leaf.birthDate > time) {
+
+			if (leaf.birthDate > absolutTime) {
+				//NOT GROWN
 				leaf.leaf.time = 0f;
-
 			} else {
 
-				if (time - leaf.birthDate < leafGrowthDurationRatio) {
-					//float ratio = 1f - (lengthOverTime.Evaluate (time) - leaf.lengthRatio);
-					//leaf.leaf.time = leafGrowthOverTime.Evaluate(1f - ratio);
+				if (absolutTime - leaf.birthDate < leaf.growthDuration || !leaf.grownOnce) {
+					float localTime = Mathf.Min(1f, leafGrowthOverTime.Evaluate ((absolutTime - leaf.birthDate) / leaf.growthDuration));
 
-					float localTime = leafGrowthOverTime.Evaluate ((time - leaf.birthDate) / leafGrowthDurationRatio);
 					leaf.leaf.time = leafGrowthOverTime.Evaluate (localTime);
 
+
 					//INTIAL DIRECTION
-					Vector3 initialDirection = (mf.sharedMesh.vertices [leaf.pointIndex1] -
-					                           mf.sharedMesh.vertices [leaf.pointIndex2]).normalized;
-					initialDirection.y = initialDirection.y * (1f - sunOrientationIntensityOverTime.Evaluate (localTime)) + (1f - sunOrientationIntensity) * sunOrientationIntensityOverTime.Evaluate (localTime);
+					Vector3 initialDirection = (mf.sharedMesh.vertices [leaf.pointIndex1] - mf.sharedMesh.vertices [leaf.pointIndex2]).normalized;
+					initialDirection.y = Mathf.Lerp (initialDirection.y, 1f - sunOrientationIntensity, sunOrientationIntensityOverTime.Evaluate (localTime));
 
 					//TANGENT DIRECTION
 					Vector3 tangentDirection = mf.sharedMesh.vertices [leaf.pointIndex1] - mf.sharedMesh.vertices [leaf.pointIndex1 + nbOfSides];
 
 					//UP DIRECTION
-					Vector3 up = (1f - sunOrientationIntensity) * tangentDirection.normalized + sunOrientationIntensity * Vector3.up * sunOrientationIntensityOverTime.Evaluate(localTime);
+					Vector3 up = Vector3.Lerp(tangentDirection.normalized ,Vector3.up * sunOrientationIntensityOverTime.Evaluate (localTime), sunOrientationIntensity);
 
-					Vector3 position = transform.position +
-						mf.sharedMesh.vertices [leaf.pointIndex1] * (1f - leaf.lerpValue) +
-						mf.sharedMesh.vertices [leaf.pointIndex1 + nbOfSides] * leaf.lerpValue;
+					Vector3 localPosition = Vector3.Lerp(mf.sharedMesh.vertices [leaf.pointIndex1], mf.sharedMesh.vertices [leaf.pointIndex1 + nbOfSides] , leaf.lerpValue);
 
 
 					leaf.leaf.initialDirection = initialDirection.normalized;
-					leaf.leaf.transform.position = position;
+					leaf.leaf.transform.localPosition = localPosition;
 					leaf.leaf.upDirection = up.normalized;
 
-
+					leaf.grownOnce = true;
 					leaf.leaf.UpdateMesh ();
 				}
+				
+
 			}
 		}
 	}
@@ -342,13 +622,11 @@ public class Plant : MonoBehaviour {
 	}
 
 	//CALLED EVERY TIME THE VARIABLE time IS CHANGED
-	public List<Vector3> GeneratePoints()
+	public List<Vector3> GeneratePoints(float time)
 	{
 		//CONSTANTS
 
-
-		float trunkTime = trunkTimeOverTime.Evaluate (time);
-
+		float trunkTime = trunkTimeOverTime.Evaluate(time);
 
 		Vector3 randomVector = new Vector3 (0.132354f, 1.98654f, -1.5646f).normalized;
 		float angleCoefficient = Mathf.PI * 2f / nbOfSides;
@@ -369,7 +647,7 @@ public class Plant : MonoBehaviour {
 
 			//DIRECTION DETERMINATION
 			if (i == 0)
-				direction = initalDirection;
+				direction = initialDirection;
 			else if (i < nbOfSegments)
 				direction = (positionsAndNormals.pos [i + 1] - transform.position - currentPosition).normalized;
 			else
@@ -379,6 +657,7 @@ public class Plant : MonoBehaviour {
 			//RATIOS
 			float length = (float)i / (float)nbOfSegments;
 
+			float length1 = (float)(i+1) / (float)nbOfSegments;
 
 
 
@@ -389,9 +668,14 @@ public class Plant : MonoBehaviour {
 			if (lengthOverTime.Evaluate (trunkTime) < length) {
 				radius = 0f;
 				lengthMultiplier = 0f;
+			} else if (lengthOverTime.Evaluate (trunkTime) < length1) {
+
+				radius = 0f;
+				lengthMultiplier = 0f;
+
 			} else {
 
-				float ratio = 1f -(lengthOverTime.Evaluate (trunkTime) - length);
+				float ratio = 1f - (lengthOverTime.Evaluate (trunkTime) - length);
 
 				//SHAPE DETERMINATION
 				float shapeInit = initialShapeOverLength.Evaluate (ratio);
@@ -494,6 +778,10 @@ public class Plant : MonoBehaviour {
 				float ratioX = j / (float)nbOfSides;
 
 				Vector2 p = new Vector2 (ratioX, ratioY);
+
+				//Debug.DrawRay (transform.position + 3f * new Vector3 (p.x, 0f, p.y), Vector3.up, Color.red, 10f);
+
+
 				uv.Add (p);
 			}
 		}
@@ -512,13 +800,20 @@ public class Plant : MonoBehaviour {
 
 		Vector3 currentDirection = initialDirection;
 		Vector3 currentPosition = initialPosition;
-		Vector3 currentNormal = Vector3.Cross(initialDirection, new Vector3(0.21f, 0.656f, 0.254f));
+		Vector3 currentNormal = initialNormal;
 
 		positionsNormals.pos [0] = initialPosition;
 		positionsNormals.nor [0] = currentNormal;
 
+		float computedLength = nbOfSegments * (initialSegmentLength + finalSegmentLength) / 2f;
+		float actualNoiseSize = noiseSize * computedLength;
+
+		Vector3 noiseOffset = Vector3.zero;
+		float noiseMultiplier = 1f;
 
 		for (int i = 1; i < arrayLength; i++) {
+
+
 
 			//RATIO
 			float lengthRatio = i / (float)arrayLength;
@@ -531,13 +826,26 @@ public class Plant : MonoBehaviour {
 				gravity = Vector3.down * gravityForce * gravityOverLength.Evaluate (lengthRatio);
 
 			Vector3 noise = Vector3.zero;
-			if (hasNoise)
-				noise = noiseForce * noiseOverLength.Evaluate (lengthRatio) * Noise3D.PerlinNoise3D (currentPosition / noiseSize);
+			if (hasNoise) {
 
+				if (i % 25 == 0) {
+					noiseOffset.y += 3 * actualNoiseSize;
+					noiseMultiplier = 5f;
+				}
+				noise = noiseForce * noiseOverLength.Evaluate (lengthRatio) * Noise3D.PerlinNoise3D ((currentPosition + noiseOffset)/ actualNoiseSize);
+			
+			
+			}
+
+			Vector3 force = currentDirection;
+			if (initialForce)
+				force = initialForceCoef * initialDirection;
 
 			float distance = Mathf.Lerp (initialSegmentLength, finalSegmentLength, segmentLengthOverLength.Evaluate (lengthRatio));
+			totalLength += distance;
 
-			currentDirection = distance * (currentDirection + gravity + noise).normalized;
+			currentDirection = distance * (force + gravity + noiseMultiplier * noise).normalized;
+			//currentDirection = distance * (force + currentDirection + gravity + noiseMultiplier * noise).normalized;
 
 
 
@@ -550,6 +858,10 @@ public class Plant : MonoBehaviour {
 
 			currentPosition = pd.pos;
 			currentDirection = pd.dir;
+
+			noiseMultiplier = 1f;
+
+			//Debug.DrawRay (currentPosition, currentDirection, Color.green, 10f);
 
 			positionsNormals.pos [i] = currentPosition;
 			positionsNormals.nor [i] = pd.normal;
@@ -590,8 +902,36 @@ public class Plant : MonoBehaviour {
 
 }
 
-//STRUCTURE FOR LEAVES AND THEIR RESPECTIVE RATIO
-struct LeafRatioLength
+struct BranchesInfo
+{
+	public Plant branch;
+	public float birthDate;
+
+	public int normalIndex;
+	public Vector3 finalPosition;
+	public float lengthRatio;
+	public float growthDuration;
+
+	public bool grownOnce;
+
+
+	public BranchesInfo( Plant branch, float birthDate, int normalIndex, Vector3 finalPosition, float lengthRatio, float growthDuration)
+	{
+		this.branch = branch;
+		this.birthDate = birthDate;
+		this.normalIndex = normalIndex;
+		this.finalPosition = finalPosition;
+		this.lengthRatio = lengthRatio;
+		this.growthDuration = growthDuration;
+
+		grownOnce = false;
+
+	}
+}
+
+
+//STRUCTURE FOR LEAVES AND INFORMATION ABOUT IT
+struct LeafInfo
 {
 	public Leaf leaf;
 	public float lengthRatio;
@@ -606,7 +946,9 @@ struct LeafRatioLength
 	public float birthDate;
 	public float growthDuration;
 
-	public LeafRatioLength(Leaf leaf, float lengthRatio, Vector3 normalDirection, int pointIndex1, int pointIndex2, float lerpValue, float birthDate, float growthDuration )
+	public bool grownOnce;
+
+	public LeafInfo(Leaf leaf, float lengthRatio, Vector3 normalDirection, int pointIndex1, int pointIndex2, float lerpValue, float birthDate, float growthDuration )
 	{
 		this.leaf = leaf;
 		this.lengthRatio = lengthRatio;
@@ -618,6 +960,8 @@ struct LeafRatioLength
 		this.growthDuration = growthDuration;
 
 		this.normalDirection = normalDirection;
+
+		grownOnce = false;
 
 		leaf.Initialize ();
 	}
