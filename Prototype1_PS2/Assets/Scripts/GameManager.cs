@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
 	public static GameManager gm;
 	static GameData gameData;
 
+	public float globalTime;
 
 	public Player localPlayer;
 
@@ -31,6 +32,12 @@ public class GameManager : MonoBehaviour {
 
 		nm = GetComponent<NetworkManager> ();
 		pm = GetComponent<PlantManager> ();
+	}
+
+
+	public void SetGlobalTime(float time)
+	{
+
 	}
 
 
@@ -171,9 +178,12 @@ class GameData
 {
 	public List<PlantSave> plants;
 
+	public float globalTime;
+
 	public GameData()
 	{
 		plants = new List<PlantSave> ();
+		globalTime = 0f;
 	}
 
 }

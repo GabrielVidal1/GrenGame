@@ -76,6 +76,8 @@ public class PlantEditor : Editor {
 			//EditorGUILayout.Separator ();
 		}
 
+		myObject.offsetTangents = EditorGUILayout.Toggle ("Offset Tangent", myObject.offsetTangents);
+
 		//INITIALISATION AFTER CHANGING SEGMENTS OR TRIANGLES
 
 
@@ -90,21 +92,25 @@ public class PlantEditor : Editor {
 
 
 		EditorGUILayout.LabelField ("Initial Condition", EditorStyles.toolbarButton);
-		EditorGUI.BeginDisabledGroup (myObject.isBranch || myObject.branchForceParameters);
 
+		EditorGUI.BeginDisabledGroup (myObject.isBranch || myObject.branchForceParameters);
 		myObject.initialRadius = EditorGUILayout.FloatField ("Initial Radius", myObject.initialRadius);
 		if (myObject.initialRadius < 0f) {
 			Debug.LogError ("The Radius Can't Be Null Or Negative!");
 			myObject.initialRadius = 0.01f;
 		}
+		EditorGUI.EndDisabledGroup ();
 
+		if (myObject.isBranch)
+			myObject.branchForceInitialDirection = EditorGUILayout.Toggle ("Branch Forced Initial Direction", myObject.branchForceInitialDirection);
+
+		EditorGUI.BeginDisabledGroup (myObject.isBranch && !myObject.branchForceInitialDirection);
 		myObject.initialDirection = EditorGUILayout.Vector3Field ("Initial Direction", myObject.initialDirection);
 
 		if (myObject.initialDirection == Vector3.zero) {
 			Debug.LogError ("The Initial Direction Can't Be Vector3.zero!");
 			myObject.initialDirection = Vector3.up;
 		}
-
 		EditorGUI.EndDisabledGroup ();
 
 		EditorGUILayout.Space ();
@@ -231,7 +237,7 @@ public class PlantEditor : Editor {
 
 			myObject.branchPrefab = EditorGUILayout.ObjectField ("Branch Prefab", myObject.branchPrefab, typeof(Plant), false) as Plant;
 
-			myObject.nbOfBranches = EditorGUILayout.IntSlider ("Branches Number", myObject.nbOfBranches, 0, 300);
+			myObject.nbOfBranches = EditorGUILayout.IntSlider ("Branches Number", myObject.nbOfBranches, 0, 100);
 
 			myObject.branchesDistribution = EditorGUILayout.CurveField ("Branches Distribution Over Length", myObject.branchesDistribution, Color.green, new Rect (0, 0, 1, 1));
 
@@ -250,7 +256,6 @@ public class PlantEditor : Editor {
 			EditorGUILayout.PropertyField (brancheLengthRatio, new GUIContent ("Branch Length Ratio"));
 
 			myObject.branchLengthOverTrunkLength = EditorGUILayout.CurveField ("Branches Length Over Trunk Length", myObject.branchLengthOverTrunkLength, Color.green, new Rect (0, 0, 1, 1));
-
 
 
 
