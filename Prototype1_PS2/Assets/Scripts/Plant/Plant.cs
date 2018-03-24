@@ -31,8 +31,6 @@ public class Plant : MonoBehaviour {
 	public bool noise;
 	public float noiseCoef;
 
-	public bool offsetTangents = true;
-
 	public bool initialForce;
 	public float initialForceCoef;
 
@@ -92,8 +90,6 @@ public class Plant : MonoBehaviour {
 	public Plant branchPrefab;
 
 	public float brancheAngleDelta;
-
-	public bool branchForceInitialDirection;
 
 	public int nbOfBranches;
 	public AnimationCurve branchesDistribution;
@@ -159,7 +155,7 @@ public class Plant : MonoBehaviour {
 		plantNumber++;
 		hasSetSeed = true;
 
-		//Debug.Log ("seed : " + plantSeed);
+		Debug.Log ("seed : " + plantSeed);
 	}
 
 	public void InitializePlant()
@@ -339,22 +335,23 @@ public class Plant : MonoBehaviour {
 
 				position += normal * actualTrunkRadius;
 
-				//TANGENT DIRECTION
-				Vector3 tangentDirection = (points [pointIndex1 + nbOfSides] - points [pointIndex1]).normalized;
+				Vector3 tangentDirection = (points [pointIndex1+ nbOfSides] - points [pointIndex1 ]).normalized;
+				//INITIAL DIRECTION
+				Vector3 u = (points[pointIndex1] - points[pointIndex2]).normalized;
+				Vector3 v = Vector3.Cross (tangentDirection, u).normalized;
 
-				Vector3 direction = Vector3.zero;
-				if (branchForceInitialDirection) {
-					//INITIAL DIRECTION
-					Vector3 u = (points [pointIndex1] - points [pointIndex2]).normalized;
-					Vector3 v = Vector3.Cross (tangentDirection, u).normalized;
+				angle += brancheAngleDelta;
+				Vector3 direction = u * Mathf.Cos(angle) + v * Mathf.Sin(angle);
 
-					angle += brancheAngleDelta;
-					direction = u * Mathf.Cos (angle) + v * Mathf.Sin (angle);
+				//????????????????
+				//TANGEANT DIRECTION
+				//Debug.DrawRay (position, tangentDirection, Color.red, 10f);
 
-					//ORIENTATION TOWARD THE SUN
-					direction = Vector3.Lerp (direction, tangentDirection, branchesTangencityOverLength.Evaluate (lengthRatio));
-					direction.Normalize ();
-				}
+
+				//ORIENTATION TOWARD THE SUN ?????????????????
+				direction = Vector3.Lerp(direction, tangentDirection, branchesTangencityOverLength.Evaluate(lengthRatio));
+
+				direction.Normalize ();
 
 				float growthDuration = branchGrowthDuration.RandomValue ();
 
@@ -376,10 +373,7 @@ public class Plant : MonoBehaviour {
 				branche.leafGrowthDuration = leafGrowthDuration;
 
 				branche.isBranch = true;
-
-				if (branchForceInitialDirection) 
-					branche.initialDirection = direction;
-
+				branche.initialDirection = direction;
 				branche.initialRadius = initialBrancheRadiusBranch * branchInitialRadiusMultiplier.RandomValue();
 				branche.initialNormal = tangentDirection;
 
@@ -713,9 +707,7 @@ public class Plant : MonoBehaviour {
 			}
 
 			//CENTER OFFSET ALONG NORMALS
-			Vector3 positionOffset = Vector3.zero;
-			if (offsetTangents)
-				positionOffset = positionsAndNormals.nor [i] * radius;
+			Vector3 positionOffset = positionsAndNormals.nor [i] * radius;
 
 
 

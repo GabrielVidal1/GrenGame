@@ -93,9 +93,6 @@ public class Player : NetworkBehaviour {
 		if (msg.pma == PlayerMessageAction.SynchronisePlants) {
 
 			GameManager.gm.LoadPlants (msg.plantsToSync);
-
-
-
 		}
 	}
 }
