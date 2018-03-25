@@ -167,7 +167,7 @@ public class PlantEditor : Editor {
 
 		}
 
-
+		myObject.hasCollisions = EditorGUILayout.Toggle ("Has Collisions", myObject.hasCollisions);
 
 		EditorGUILayout.LabelField ("Leaves", EditorStyles.toolbarButton);
 		myObject.hasLeaves = EditorGUILayout.Toggle ("Has Leaves", myObject.hasLeaves);
@@ -322,6 +322,9 @@ public class PlantEditor : Editor {
 					DestroyImmediate (myObject.transform.GetChild (i).gameObject);
 				}
 			}
+
+			if (GUILayout.Button ("Save plant as a file"))
+				PlantSerializer.SavePlant (myObject);
 		}
 
 		serializedObject.ApplyModifiedProperties ();
@@ -329,6 +332,9 @@ public class PlantEditor : Editor {
 
 
 }
+
+
+
 
 
 enum BackgroundColor

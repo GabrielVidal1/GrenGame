@@ -4,8 +4,8 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(MeshFilter))]
-//[RequireComponent(typeof(MeshRenderer))]
-public class Plant : MonoBehaviour {
+[System.Serializable]
+public class Plant : MonoBehaviour{
 
 	#region STATIC VARIABLES
 
@@ -64,6 +64,7 @@ public class Plant : MonoBehaviour {
 	public float noiseSize;
 	public AnimationCurve noiseOverLength;
 
+	public bool hasCollisions;
 
 	public bool hasLeaves;
 	public Leaf leafPrefab;
@@ -110,15 +111,14 @@ public class Plant : MonoBehaviour {
 
 	public bool branchForceParameters;
 
-	[HideInInspector]
-	public bool isBranch;
-
-	[HideInInspector]
-	public int indexInGameData;
-
 	#endregion
 
 	#region PrivateVariables
+	[HideInInspector]
+	public bool isBranch;
+	
+	[HideInInspector]
+	public int indexInGameData;
 
 	private PositionsAndNormals positionsAndNormals;
 
@@ -139,11 +139,10 @@ public class Plant : MonoBehaviour {
 	private float totalLength;
 
 	private float actualTrunkGrowthDuration;
-	#endregion
-	[SerializeField]
-	private AnimationCurve trunkTimeOverTime;
-
 	private float lastUpdateTime;
+	private AnimationCurve trunkTimeOverTime;
+	#endregion
+
 
 
 	private bool hasSetSeed = false;
@@ -155,7 +154,7 @@ public class Plant : MonoBehaviour {
 		plantNumber++;
 		hasSetSeed = true;
 
-		Debug.Log ("seed : " + plantSeed);
+		//Debug.Log ("seed : " + plantSeed);
 	}
 
 	public void InitializePlant()
@@ -859,13 +858,15 @@ public class Plant : MonoBehaviour {
 			currentDirection = distance * (force + gravity + noiseMultiplier * noise).normalized;
 			//currentDirection = distance * (force + currentDirection + gravity + noiseMultiplier * noise).normalized;
 
+			PosDir pd = new PosDir (currentPosition, currentDirection, currentNormal);
 
 
-			//COLLISION CALCULATION WITH 10 ITERATIONS
-			PosDir pd = Collision(new PosDir(currentPosition, currentDirection, currentNormal), distance);
-			for (int k = 1; k < 10; k++) 
-				pd = Collision(new PosDir(currentPosition, pd.dir, pd.normal), distance);
-
+			//CALCULATE COLLISIONS
+			if (hasCollisions) {
+				//COLLISION CALCULATION WITH 10 ITERATIONS
+				for (int k = 0; k < 10; k++)
+					pd = Collision (new PosDir (currentPosition, pd.dir, pd.normal), distance);
+			}
 
 
 			currentPosition = pd.pos;
@@ -1010,3 +1011,8 @@ public struct PositionsAndNormals
 		nor = new Vector3[arrayLength];
 	}
 }
+
+
+
+
+
