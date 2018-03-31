@@ -6,36 +6,26 @@ using UnityEngine;
 public class PlayerPlanter : NetworkBehaviour {
 
 	public GameObject camera;
-	public GameObject[] plants;
 
 	int selectedIndex = 0;
 
 	void Start () 
 	{
-		CanvasManager.cm.inGameMenu.selectedPlant.text = "Selected Plant : " + plants [selectedIndex].name;
-
+		UpdateSelectedPlantText ();
 	}
 
 
 	[Command]
-	public void CmdPlant(int index, Vector3 position, Vector3 direction, NetworkInstanceId id)
+	public void CmdPlant(int index, Vector3 position, Vector3 direction)
 	{
-		RpcPlant (index, position, direction, id);
+		RpcPlant (index, position, direction);
 	}
-
 
 	[ClientRpc]
-	public void RpcPlant(int index, Vector3 position, Vector3 direction, NetworkInstanceId id)
+	public void RpcPlant(int index, Vector3 position, Vector3 direction)
 	{
-
-		Plant plant = Instantiate (plants [index], position, Quaternion.identity).GetComponent<Plant>();
-		plant.initalDirection = direction;
-		plant.time = 0f;
-
-		if (id != NetworkInstanceId.Invalid)
-			plant.transform.SetParent (NetworkServer.FindLocalObject (id).transform);
+		GameManager.gm.CreateNewPlant (index, 0f, position, direction, Plant.plantNumber);
 	}
-
 	
 	void Update () 
 	{
@@ -43,39 +33,33 @@ public class PlayerPlanter : NetworkBehaviour {
 			return;
 
 
+		if (!CanvasManager.cm.inGameMenu.isPaused) {
+			if (Input.GetMouseButtonDown (0)) {
 
-		if (Input.GetMouseButtonDown (0)) {
+				Ray ray = new Ray (camera.transform.position + camera.transform.forward, camera.transform.forward);
+				RaycastHit hit;
 
-			Ray ray = new Ray (camera.transform.position + camera.transform.forward, camera.transform.forward);
-			RaycastHit hit;
+				if (Physics.Raycast (ray, out hit, 1000f)) {
 
-			if (Physics.Raycast (ray, out hit, 1000f)) 
-			{
+					Vector3 dir = 1.1f * hit.normal;
 
-				Vector3 dir = 1.1f * hit.normal;
-
-
-				NetworkInstanceId objectId;
-				if (hit.collider.tag == "Player") {
-					//objectId = hit.collider.GetComponent<NetworkIdentity> ().netId;
-
-					objectId = NetworkInstanceId.Invalid;
+					CmdPlant (selectedIndex, hit.point + 0.05f * hit.normal, hit.normal);
+					//Debug.DrawRay (hit.point, hit.normal, Color.red, 10f);
+				}
+			}
 
 
-				} else
-					objectId = NetworkInstanceId.Invalid;
-
-				CmdPlant (selectedIndex, hit.point + 0.05f * hit.normal, hit.normal, objectId);
-				//Debug.DrawRay (hit.point, hit.normal, Color.red, 10f);
+			if (Input.GetKeyDown (KeyCode.E)) {
+				selectedIndex = (selectedIndex + 1) % GameManager.gm.pm.plantsPrefabs.Length;
+				UpdateSelectedPlantText ();
 			}
 		}
-
-
-		if (Input.GetKeyDown (KeyCode.E)) {
-			selectedIndex = (selectedIndex + 1) % plants.Length;
-			CanvasManager.cm.inGameMenu.selectedPlant.text = "Selected Plant : " + plants [selectedIndex].name;
-		}
-
 		
+	}
+
+
+	void UpdateSelectedPlantText()
+	{
+		CanvasManager.cm.inGameMenu.selectedPlant.text = "Selected Plant (" + selectedIndex.ToString ()+"): " + GameManager.gm.pm.plantsPrefabs [selectedIndex].gameObject.name;
 	}
 }

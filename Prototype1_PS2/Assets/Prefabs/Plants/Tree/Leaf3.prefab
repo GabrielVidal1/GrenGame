@@ -94,13 +94,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775b96919a5952245afdfb79fada1d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 1
-  nbOfTangentSegments: 4
-  nbOfNormalSegments: 3
+  time: 0.861
+  nbOfTangentSegments: 2
+  nbOfNormalSegments: 1
   initialDirection: {x: 1, y: 0, z: 0}
   upDirection: {x: 0, y: 1, z: 0}
-  width: 5
-  length: 3.24
+  width: 1.56
+  length: 1
   widthOverTime:
     serializedVersion: 2
     m_Curve:
@@ -179,8 +179,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  coronalVariations: 1
-  coronalCurvatureIntensity: -0.83
+  coronalVariations: 0
+  coronalCurvatureIntensity: 0.1
   coronalCurvature:
     serializedVersion: 2
     m_Curve:
@@ -241,8 +241,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  sagittalVariations: 1
-  sagittalCurvatureIntensity: -3.9
+  sagittalVariations: 0
+  sagittalCurvatureIntensity: 0
   sagittalCurvature:
     serializedVersion: 2
     m_Curve:
