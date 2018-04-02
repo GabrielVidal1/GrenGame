@@ -11,7 +11,7 @@ public class PlayerMessage : MessageBase
 {
 	//public NetworkInstanceId netId;
 
-	public PlantSave[] plantsToSync;
+	public WorldData wd;
 
 	public PlayerMessageAction pma;
 
@@ -24,7 +24,9 @@ public class Player : NetworkBehaviour {
 	[SerializeField] ToggleEvent onToggleShared;
 	[SerializeField] ToggleEvent onToggleRemote;
 
-	//private NetworkIdentity ni;
+	public GameObject camera;
+
+	public string playerName;
 
 	public override void OnStartClient ()
 	{
@@ -36,6 +38,7 @@ public class Player : NetworkBehaviour {
 	void Start()
 	{
 		EnablePlayer ();
+
 	}
 
 
@@ -63,23 +66,27 @@ public class Player : NetworkBehaviour {
 			onToggleLocal.Invoke (true);
 
 			if (isClient && !GameManager.gm.isHost) {
-				//Debug.Log ("Plants are being uploaded...");
-				CmdSynchronisePlants ();
+				Debug.Log ("Plants are being uploaded...");
+				CmdSynchroniseWorld ();
 			}
 		} else
 			onToggleRemote.Invoke (true);
 	}
 
 	[Command]
-	public void CmdSynchronisePlants()
+	public void CmdSynchroniseWorld()
 	{
 		PlayerMessage pm = new PlayerMessage ();
 
-		//GET THE COMPLETE VERSION OF PLANTS ON THE HOST PLAYER GAMEDATA
-		pm.plantsToSync = GameManager.gm.GetPlantArrayToTransmit ();
+		//GET THE COMPLETE VERSION OF WORLD ON THE HOST PLAYER WorldSerialization
+
+		Debug.Log ("je serialise le monde");
+
+		GameManager.gm.wd.SerializeWorld();
+		pm.wd = GameManager.gm.wd.worldData;
 
 		//SET THE MESSAGE TYPE TO SYNC THE PLANTS
-		pm.pma = PlayerMessageAction.SynchronisePlants;
+		pm.pma = PlayerMessageAction.LoadWorld;
 
 		//SEND THE MESSAGE
 		base.connectionToClient.Send (1000, pm);
@@ -89,16 +96,16 @@ public class Player : NetworkBehaviour {
 	{
 		var msg = netMsg.ReadMessage<PlayerMessage> ();
 
-		//IF NEED TO SYNC PLANTS
-		if (msg.pma == PlayerMessageAction.SynchronisePlants) {
-
-			GameManager.gm.LoadPlants (msg.plantsToSync);
+		//IF NEED TO SYNC World
+		if (msg.pma == PlayerMessageAction.LoadWorld) {
+			GameManager.gm.wd.DeserializeWorld (msg.wd);
+			Debug.Log ("je deserialize le monde");
 		}
 	}
 }
 
 public enum PlayerMessageAction
 {
-	SynchronisePlants,
+	LoadWorld,
 	None
 }

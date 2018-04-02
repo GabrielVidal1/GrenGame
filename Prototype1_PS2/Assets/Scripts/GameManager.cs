@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
 
 	public NetworkManager nm;
 	public PlantManager pm;
+	public WorldSerialization wd;
 
 	public bool isHost;
 
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour {
 
 		nm = GetComponent<NetworkManager> ();
 		pm = GetComponent<PlantManager> ();
+		wd = GetComponent<WorldSerialization> ();
+
 	}
 
 
@@ -79,46 +82,26 @@ public class GameManager : MonoBehaviour {
 	{
 		return nm.IsClientConnected ();
 	}
-
-	public static void SavePlantTime(int plantIndex, float time)
-	{
-		PlantSave ps = gameData.plants [plantIndex];
-		ps.plantTime = time;
-		gameData.plants [plantIndex] = ps;
-		//Debug.Log ("Updated Plant " + plantIndex.ToString ());
-	}
-
-	public static void Save()
-	{
-
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create( Application.persistentDataPath + "/GameData.dat");
-
-		bf.Serialize( file, gameData );
-		file.Close();
-
-		Debug.Log ("Game Succesfuly saved!");
-	}
-
-	public void LoadPlants(PlantSave[] plantsSave)
+	/*
+	public void LoadPlants(SerializedPlant[] serializedPlants)
 	{
 		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (true);
 
-		foreach (PlantSave plantSave in plantsSave) {
-			LoadPlant(plantSave);
+		foreach (SerializedPlant serializedPlant in serializedPlants) {
+			LoadPlant(serializedPlant);
 		}
 
 		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (false);
 	}
 
 
-	private void LoadPlant(PlantSave plantSave)
+	void LoadPlant(SerializedPlant serializedPlant)
 	{
-		Plant plant = Instantiate (pm.plantsPrefabs [plantSave.plantTypeIndex], plantSave.initialPosition, Quaternion.identity).GetComponent<Plant> ();
-		plant.initialDirection = plantSave.initialDirection;
-		plant.SetSeed (plantSave.seed);
-		plant.time = plantSave.plantTime;
-		plant.indexInGameData = plantSave.indexInGameData;
+		Plant plant = Instantiate (pm.plantsPrefabs [serializedPlant.plantTypeIndex], serializedPlant.initialPosition, Quaternion.identity).GetComponent<Plant> ();
+		plant.initialDirection = serializedPlant.initialDirection;
+		plant.SetSeed (serializedPlant.seed);
+		plant.time = serializedPlant.plantTime;
+		plant.indexInGameData = serializedPlant.indexInGameData;
 
 		pm.plants.Add (plant);
 
@@ -127,53 +110,28 @@ public class GameManager : MonoBehaviour {
 
 
 
-		gameData.plants.Add (plantSave);
+		WorldSerialization.worldData.plants.Add (serializedPlant);
 
 
 	}
 
 	public void CreateNewPlant(int plantTypeIndex, float plantTime, Vector3 initialPosition, Vector3 initialDirection, int seed)
 	{
-		PlantSave ps = new PlantSave (plantTypeIndex, 0f, initialPosition, initialDirection, seed, gameData.plants.Count);
 		LoadPlant (ps);
 	}
-
-	public PlantSave[] GetPlantArrayToTransmit()
-	{
-		return gameData.plants.ToArray ();
-	}
+	*/
 }
 
-public struct PlantSave
-{
-	public int plantTypeIndex;
-	public float plantTime;
-	public Vector3 initialPosition;
-	public Vector3 initialDirection;
 
-	public int seed;
-
-	public int indexInGameData;
-
-	public PlantSave(int plantTypeIndex, float plantTime, Vector3 initialPosition, Vector3 initialDirection, int seed, int indexInGameData)
-	{
-		this.plantTypeIndex = plantTypeIndex;
-		this.plantTime = plantTime;
-		this.initialPosition = initialPosition;
-		this.initialDirection = initialDirection;
-		this.seed = seed;
-		this.indexInGameData = indexInGameData;
-	}
-}
 
 [Serializable]
 class GameData
 {
-	public List<PlantSave> plants;
+	public List<SerializedPlant> plants;
 
 	public GameData()
 	{
-		plants = new List<PlantSave> ();
+		plants = new List<SerializedPlant> ();
 	}
 
 }

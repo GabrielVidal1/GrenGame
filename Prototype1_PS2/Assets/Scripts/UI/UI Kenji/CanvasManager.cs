@@ -16,6 +16,8 @@ public class CanvasManager : MonoBehaviour {
 	public InGameMenu inGameMenu;
 	public MultiplayerMenu multiplayerMenu;
 
+	public SeedSelectionWheel seedSelectionWheel;
+
 	void Awake() {
 
 		if (cm == null)

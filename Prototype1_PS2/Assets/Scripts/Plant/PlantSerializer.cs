@@ -10,7 +10,7 @@ public class PlantSerializer {
 	public static void SavePlant(Plant plant)
 	{
 		
-		SerializedPlant p = new SerializedPlant(plant);
+		SerializedPlantData p = new SerializedPlantData(plant);
 		
 		string path = Application.persistentDataPath + "/" + plant.name.ToUpper () + ".grenplant";
 
@@ -25,12 +25,11 @@ public class PlantSerializer {
 
 
 	}
-	
-	
+
 }
 
 [System.Serializable]
-class SerializedPlant
+class SerializedPlantData
 {
 
 	#region PUBLIC VARIABLES
@@ -106,7 +105,7 @@ class SerializedPlant
 	//RECURSIONS
 
 	public bool hasRecursions;
-	public SerializedPlant branchPrefab;
+	public SerializedPlantData branchPrefab;
 
 	public float brancheAngleDelta;
 
@@ -132,7 +131,7 @@ class SerializedPlant
 	#endregion
 
 
-	public SerializedPlant( Plant plant)
+	public SerializedPlantData( Plant plant)
 	{
 		if (plant == null)
 			return;
@@ -246,7 +245,7 @@ class SerializedPlant
 		
 		hasRecursions = plant.hasRecursions;
 		
-		branchPrefab = new SerializedPlant(plant.branchPrefab);
+		branchPrefab = new SerializedPlantData(plant.branchPrefab);
 
 		
 		brancheAngleDelta = plant.brancheAngleDelta;

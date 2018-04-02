@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4705217963910132}
   - component: {fileID: 33326962508724140}
   - component: {fileID: 23053234160231484}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Robot_finished_1.0_ (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4850324732664848}
   - component: {fileID: 33833559806813732}
   - component: {fileID: 23107575265601870}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4823216925404532}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,8 @@ GameObject:
   - component: {fileID: 114571973457969810}
   - component: {fileID: 114833581927181336}
   - component: {fileID: 114629320625391470}
-  m_Layer: 0
+  - component: {fileID: 114738843666635456}
+  m_Layer: 1
   m_Name: PlayerKamoun
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -94,7 +95,7 @@ GameObject:
   - component: {fileID: 81788743351472154}
   - component: {fileID: 114290018595508320}
   - component: {fileID: 114170416782038590}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,8 +320,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookSensitivity: 5
-  xRotation: 0
-  yRotation: 0
 --- !u!114 &114350925050524724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -385,10 +384,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93a594c4bb413f047b09cb9981ffb42b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 6
-  jumpSpeed: 8
-  gravity: 20
+  horizontalSpeed: 6
+  verticalSpeed: 2.14
+  hooverHeigth: 2
+  jumpHeigth: 5
   camera01: {fileID: 1858469207150750}
+  heigth: 0
+  groundHeigth: 0
 --- !u!114 &114629320625391470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -400,9 +402,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20838ffb5264746489ce9c0f47228039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1858469207150750}
-  plants:
-  - {fileID: 1023454448412380, guid: b15911916e5137f4bbf3db3720b259ce, type: 2}
+--- !u!114 &114738843666635456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652012922637364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1143542067a2b95448a0c06cc363c256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: []
+  reachDistance: 5
 --- !u!114 &114833581927181336
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -459,6 +471,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: ToggleEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  camera: {fileID: 1858469207150750}
 --- !u!124 &124250022054620664
 Behaviour:
   m_ObjectHideFlags: 1

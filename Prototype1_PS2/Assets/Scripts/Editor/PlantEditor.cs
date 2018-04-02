@@ -56,6 +56,9 @@ public class PlantEditor : Editor {
 
 		EditorGUILayout.LabelField ("Global Characteristics", EditorStyles.toolbarButton);
 
+		//COLLISION
+		myObject.hasCollisions = EditorGUILayout.Toggle ("Has Collisions", myObject.hasCollisions);
+
 		//SMOOTH
 		myObject.smooth = EditorGUILayout.Toggle ("Smoothing", myObject.smooth);
 		if (myObject.smooth) {

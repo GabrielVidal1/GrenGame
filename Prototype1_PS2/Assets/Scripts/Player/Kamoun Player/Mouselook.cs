@@ -7,8 +7,8 @@ public class Mouselook : MonoBehaviour
 {
 
 	public float lookSensitivity = 5f;
-	public float xRotation;
-	public float yRotation;
+	private float xRotation;
+	private float yRotation;
 
 	void Update ()
 	{
@@ -35,5 +35,9 @@ public class Mouselook : MonoBehaviour
 		} else {
 			Cursor.lockState = CursorLockMode.None;
 		}
+
+		transform.parent.rotation = Quaternion.Euler (0, yRotation, 0);
+
+
 	}
 }

@@ -29,7 +29,7 @@ public class TreeGrowth : MonoBehaviour {
 
 			if (updateRate * Time.deltaTime + lastUpdate <= Time.time) {
 
-				GameManager.SavePlantTime (pg.indexInGameData, pg.time);
+				//GameManager.SavePlantTime (pg.indexInGameData, pg.time);
 
 				pg.UpdatePlant ();
 				lastUpdate = Time.time;
