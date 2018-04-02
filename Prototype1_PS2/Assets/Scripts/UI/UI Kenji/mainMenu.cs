@@ -7,6 +7,7 @@ public class mainMenu : MonoBehaviour {
 
 	public string mainSceneName;
 
+	[SerializeField] private GameObject worldSelectionPanel;
 
     void Start () {
 
@@ -25,6 +26,7 @@ public class mainMenu : MonoBehaviour {
 
     public void PlayGame()
     {
-		SceneManager.LoadScene(mainSceneName);
+		worldSelectionPanel.SetActive (true);
+		gameObject.SetActive (false);
     }
 }

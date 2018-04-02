@@ -26,6 +26,7 @@ public class Player : NetworkBehaviour {
 
 	public GameObject camera;
 
+	[SyncVar]
 	public string playerName;
 
 	public override void OnStartClient ()
@@ -62,8 +63,15 @@ public class Player : NetworkBehaviour {
 
 		onToggleShared.Invoke (true);
 
+
+
+
 		if (isLocalPlayer) {
 			onToggleLocal.Invoke (true);
+
+			playerName = GameManager.gm.localPlayerName;
+			GameManager.gm.wd.LoadPlayerInformation (this);
+
 
 			if (isClient && !GameManager.gm.isHost) {
 				Debug.Log ("Plants are being uploaded...");

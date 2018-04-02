@@ -10,12 +10,28 @@ using System.IO;
 public class PlantManager : MonoBehaviour {
 
 	public Plant[] plantsPrefabs;
-	public PlantSeed seedsPrefab;
+	public PlantSeed[] seedsPrefab;
 
 	public List<Plant> plants;
 	public List<PlantSeed> plantSeeds;
 
 	private bool[] plantDiscovered;
+
+	public void DestroyPlants()
+	{
+		foreach (var item in plants) {
+			Destroy (item.gameObject);
+		}
+		plants.Clear ();
+		/*
+		foreach (var item in plantSeeds) {
+			Destroy (item.gameObject);
+		}
+		*/
+
+	}
+
+
 
 	void Start()
 	{

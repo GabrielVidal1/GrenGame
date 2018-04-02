@@ -39,9 +39,10 @@ GameObject:
   - component: {fileID: 114747525681041472}
   - component: {fileID: 114700385992021808}
   - component: {fileID: 114985015230095624}
+  - component: {fileID: 114998714151286392}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -177,11 +178,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c16cf848544f8c469fe45fa3c01317e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainSceneName: Main
   localPlayer: {fileID: 0}
+  localPlayerName: Player1
   nm: {fileID: 0}
   pm: {fileID: 0}
+  wd: {fileID: 0}
   isHost: 0
   ipAddressToJoin: 
+  worldName: 
 --- !u!114 &114814454291608722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,4 +220,29 @@ MonoBehaviour:
   - {fileID: 114189666501486812, guid: 5261e8d246bed2146962dde6f926e89f, type: 2}
   - {fileID: 114406117644882906, guid: 97c7dae98d59c324083c6b02cd5e534c, type: 2}
   - {fileID: 114626937825601152, guid: eec4ad4a7533ae14a8607c00f41983ff, type: 2}
+  seedsPrefab:
+  - {fileID: 114655151406520926, guid: 6a8509a3a81927e43a344ada5d44dbf3, type: 2}
+  - {fileID: 114808792705863548, guid: 83625e75a091882449a31fccdeee2e3f, type: 2}
+  - {fileID: 114090067058809932, guid: 34d8eae75d27fdf4b824afdabf901e9a, type: 2}
+  - {fileID: 114100204185448604, guid: 5e7f2d37ec355b74c8c3ae93f2554e3b, type: 2}
+  - {fileID: 114512436202559392, guid: 160c85f30e80f804487d910c30699a0a, type: 2}
+  - {fileID: 114468586396913158, guid: 42269370a94f7ee40aa2574c4f553ff3, type: 2}
   plants: []
+  plantSeeds: []
+--- !u!114 &114998714151286392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1889220587018338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b110289dfe9ebf047921710543716df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldData:
+    plants: []
+    seeds: []
+    playersName: []
+    playerPositions: []
+    playerInventories: []

@@ -9,34 +9,54 @@ public class WorldSerialization : MonoBehaviour{
 
 	public WorldData worldData;
 
-	public void SaveWorldFile()
+	public void FirstStart()
 	{
+		
+		worldData = new WorldData ();
 
-		//SAVING THE FILE
-		string path = Application.persistentDataPath + "/" + name.ToUpper () + ".grenworld";
-
-		Debug.Log (path);
-		BinaryFormatter bf = new BinaryFormatter ();
-
-
-		FileStream file = File.Create( path );
-
-		bf.Serialize( file, worldData );
-		file.Close();
 	}
 
-	public void LoadWorldFile()
+
+	public void SaveWorldFile()
 	{
-		if (File.Exists(Application.persistentDataPath + "/" + name.ToUpper () + ".grenworld")) {
+		if (worldData == null)
+			FirstStart ();
 
+		if (GameManager.gm.worldName != "") {
+
+			//SAVING THE FILE
+			string path = Application.persistentDataPath + "/Worlds/" + GameManager.gm.worldName + ".grenworld";
+
+			Debug.Log (path);
 			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + "/" + name.ToUpper () + ".grenworld", FileMode.Open);
 
-			worldData = (WorldData)bf.Deserialize (file);
+
+			FileStream file = File.Create (path);
+
+			bf.Serialize (file, worldData);
 			file.Close ();
+		}
+	}
 
+	public void LoadWorldFile(string worldName)
+	{
+		if (Directory.Exists (Application.persistentDataPath + "/Worlds")) {
+			if (File.Exists (Application.persistentDataPath + "/Worlds/" + worldName + ".grenworld")) {
+
+				BinaryFormatter bf = new BinaryFormatter ();
+				FileStream file = File.Open (Application.persistentDataPath + "/Worlds/" + worldName + ".grenworld", FileMode.Open);
+
+
+				//TRY CATCH
+
+				worldData = (WorldData)bf.Deserialize (file);
+				file.Close ();
+
+			} else {
+				worldData = new WorldData ();
+			}
 		} else {
-			worldData = new WorldData();
+			throw new UnityException ("directory world cannot be found");
 		}
 
 	}
@@ -47,7 +67,7 @@ public class WorldSerialization : MonoBehaviour{
 		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 
 		List<string> playersName = new List<string> ();
-		List<Vector3> playerPositions = new List<Vector3> ();
+		List<SerializedVector3> playerPositions = new List<SerializedVector3> ();
 		List<SerializedPlayerInventory> playerInventories = new List<SerializedPlayerInventory> ();
 
 		foreach (var p in players) {
@@ -58,14 +78,14 @@ public class WorldSerialization : MonoBehaviour{
 			for (int i = 0; i < playersName.Count; i++) {
 				if (player.playerName == playersName [i]) {
 					index = i;
-					playerPositions [i] = player.transform.position;
+					playerPositions [i] = new SerializedVector3(player.transform.position);
 
 					playerInventories [i] = new SerializedPlayerInventory (player.GetComponent<PlayerInventory> ());
 				}
 			}
 			if (index == -1) {
 				playersName.Add (player.playerName);
-				playerPositions.Add(player.transform.position);
+				playerPositions.Add(new SerializedVector3(player.transform.position));
 				playerInventories.Add(new SerializedPlayerInventory (player.GetComponent<PlayerInventory> ()));
 
 			}
@@ -88,68 +108,79 @@ public class WorldSerialization : MonoBehaviour{
 
 	}
 
+
+	public void LoadPlayerInformation(Player player)
+	{
+
+		for (int i = 0; i < worldData.playersName.Length; i++) {
+			if (player.playerName == worldData.playersName [i]) {
+
+				Debug.Log ("je remplis l'inventaire de " + player.playerName);
+
+				player.transform.position = worldData.playerPositions [i].Deserialize();
+
+				PlayerInventory playerInventory = player.GetComponent<PlayerInventory> ();
+				SerializedPlayerInventory serializedPlayerInventory = worldData.playerInventories [i];
+
+				playerInventory.inventory.Clear ();
+				playerInventory.inventory = new List<PlantSeedInventory> (serializedPlayerInventory.indexesInPlantManager.Length);
+
+				for (int j = 0; j < serializedPlayerInventory.indexesInPlantManager.Length; j++) {
+					playerInventory.inventory.Add(new PlantSeedInventory (serializedPlayerInventory.indexesInPlantManager [j], serializedPlayerInventory.numberOfSeeds [j]));
+				}
+
+			}
+		}
+
+
+
+	}
+
+
+
+
 	public void DeserializeWorld(WorldData worldData)
 	{
+
+		Debug.Log ("I'm deserializing the world save");
+
 
 		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (true);
 
 		//PLANTS
-		Debug.Log("nb of seeds : " + worldData.plants.Length);
+
+		GameManager.gm.pm.plants.Clear ();
+		GameManager.gm.pm.plants = new List<Plant> ();
 
 		foreach (SerializedPlant serializedPlant in worldData.plants) {
 			
-			Plant plant = Instantiate (GameManager.gm.pm.plantsPrefabs [serializedPlant.plantTypeIndex], serializedPlant.initialPosition, Quaternion.identity).GetComponent<Plant> ();
-			plant.initialDirection = serializedPlant.initialDirection;
+			Plant plant = Instantiate (GameManager.gm.pm.plantsPrefabs [serializedPlant.plantTypeIndex], 
+				serializedPlant.initialPosition.Deserialize(), 
+				Quaternion.identity).GetComponent<Plant> ();
+			
+			plant.initialDirection = serializedPlant.initialDirection.Deserialize();
+
 			plant.SetSeed (serializedPlant.seed);
 			plant.time = serializedPlant.plantTime;
-			plant.indexInGameData = serializedPlant.indexInGameData;
+			//plant.indexInGameData = serializedPlant.indexInGameData;
+			plant.InitializePlant ();
+
 
 			GameManager.gm.pm.plants.Add (plant);
-
-			plant.InitializePlant ();
 		}
-		//PLAYERS
-		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
 
-		foreach (var p in players) {
 
-			Player player = p.GetComponent<Player> ();
-
-			bool found = false;
-			for (int i = 0; i < worldData.playersName.Length; i++) {
-				if (player.playerName == worldData.playersName [i]) {
-					found = true;
-					player.transform.position = worldData.playerPositions [i];
-
-					worldData.playerInventories [i].DeserializePlayerInventory(player.GetComponent<PlayerInventory> ());
-
-				}
-			}
-			/*
-			if (!found) {
-				worldData.playersName.Add (player.playerName);
-				worldData.playerPositions.Add(player.transform.position);
-				worldData.playerInventories.Add(new SerializedPlayerInventory (player.GetComponent<PlayerInventory> ()));
-			}
-			*/
-		}
 
 		//SEEDS
-		Debug.Log("nb of seeds : " + worldData.seeds.Length);
+		GameManager.gm.pm.plantSeeds.Clear ();
+		GameManager.gm.pm.plantSeeds = new List<PlantSeed> ();
 
 		for (int i = 0; i < worldData.seeds.Length; i++) {
 
-			//PlantSeed s = Instantiate (GameManager.gm.pm.seedsPrefab, worldData.seeds [i].position, Quaternion.identity).GetComponent<PlantSeed> ();
-
-			GameManager.gm.pm.plantSeeds[i].indexInPlantManager = worldData.seeds [i].plantTypeIndex;
-			GameManager.gm.pm.plantSeeds[i].gameObject.SetActive (worldData.seeds [i].active);
-			print(worldData.seeds [i].active);
+			PlantSeed s = Instantiate (GameManager.gm.pm.seedsPrefab[worldData.seeds [i].plantTypeIndex], worldData.seeds [i].position.Deserialize(), Quaternion.identity).GetComponent<PlantSeed> ();
+			s.indexInPlantManager = worldData.seeds [i].plantTypeIndex;
+			GameManager.gm.pm.plantSeeds.Add (s);
 		}
-
-
-
-
-
 
 		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (false);
 	}
@@ -160,18 +191,23 @@ public class WorldSerialization : MonoBehaviour{
 [System.Serializable]
 public class WorldData
 {
-	public SerializedPlant[] plants;
+	public SerializedPlant[] plants;//OK
 
 
-	public SerializedPlantSeed[] seeds;
+	public SerializedPlantSeed[] seeds;//OK
 
 	public string[] playersName;//OK
-	public Vector3[] playerPositions;//OK
+	public SerializedVector3[] playerPositions;//OK
 	public SerializedPlayerInventory[] playerInventories;//OK
 
 	public WorldData()
 	{
-		//plants = new List<SerializedPlant> ();
+		plants = new SerializedPlant[0];
+		seeds = new SerializedPlantSeed[0];;
+
+		playersName = new string[0];
+		playerPositions = new SerializedVector3[0];
+		playerInventories = new SerializedPlayerInventory[0];
 	}
 
 }
@@ -189,48 +225,10 @@ public struct SerializedPlayerInventory
 		
 		for (int i = 0; i < indexesInPlantManager.Length; i++) {
 			
-			indexesInPlantManager [i] = playerInventory.inventory [i].plantSeed.indexInPlantManager;
+			indexesInPlantManager [i] = playerInventory.inventory [i].plantSeedIndexInPlantManager;
 			numberOfSeeds [i] = playerInventory.inventory [i].number;
 		}
 	}
-
-
-	/*
-	public void AddSeed(PlantSeed seed)
-	{
-		for (int i = 0; i < indexesInPlantManager.Count; i++) {
-			if (indexesInPlantManager [i] == seed.indexInPlantManager) {
-				numberOfSeeds++;
-				return;
-			}
-		}
-
-		indexesInPlantManager.Add (seed.indexInPlantManager);
-		numberOfSeeds.Add (1);
-	}
-	*/
-
-	public PlantSeed DeserializeSeedForInventory(int index)
-	{
-		GameObject seed = new GameObject ();
-		PlantSeed ps = seed.AddComponent<PlantSeed> ();
-		ps.indexInPlantManager = indexesInPlantManager [index];
-		return ps;
-	}
-
-	public void DeserializePlayerInventory(PlayerInventory playerInventory)
-	{
-		playerInventory.inventory = new List<PlantSeedInventory> (indexesInPlantManager.Length);
-
-		for (int i = 0; i < indexesInPlantManager.Length; i++) {
-
-			PlantSeed ps = DeserializeSeedForInventory (i);
-			ps.gameObject.SetActive (false);
-
-			playerInventory.inventory [i] = new PlantSeedInventory (ps, numberOfSeeds [i]);
-		}
-	}
-
 }
 
 [System.Serializable]
@@ -238,8 +236,8 @@ public struct SerializedPlant
 {
 	public int plantTypeIndex;
 	public float plantTime;
-	public Vector3 initialPosition;
-	public Vector3 initialDirection;
+	public SerializedVector3 initialPosition;
+	public SerializedVector3 initialDirection;
 
 	public int seed;
 
@@ -249,8 +247,8 @@ public struct SerializedPlant
 	{
 		this.plantTypeIndex = plantTypeIndex;
 		this.plantTime = plantTime;
-		this.initialPosition = initialPosition;
-		this.initialDirection = initialDirection;
+		this.initialPosition = new SerializedVector3(initialPosition);
+		this.initialDirection = new SerializedVector3 (initialDirection);
 		this.seed = seed;
 		this.indexInGameData = indexInGameData;
 	}
@@ -260,13 +258,87 @@ public struct SerializedPlant
 public struct SerializedPlantSeed
 {
 	public int plantTypeIndex;
-	public Vector3 position;
+	public SerializedVector3 position;
+
 	public bool active;
 
 	public SerializedPlantSeed(int plantTypeIndex, Vector3 position, bool active)
 	{
 		this.plantTypeIndex = plantTypeIndex;
-		this.position = position;
+		this.position = new SerializedVector3(position);
 		this.active = active;
 	}
 }
+
+[System.Serializable]
+public struct SerializedKeyFrame
+{
+	public float inTangent;
+	public float outTangent;
+	public float time;
+	public float value;
+
+	public int tangentMode;
+
+
+	public SerializedKeyFrame(Keyframe kf)
+	{
+		inTangent = kf.inTangent;
+		outTangent = kf.outTangent;
+		time = kf.time;
+		value = kf.value;
+
+		tangentMode = (int)kf.tangentMode;
+
+	}
+
+	public Keyframe Deserialize()
+	{
+		return new Keyframe (time, value, inTangent, outTangent);
+	}
+
+}
+
+[System.Serializable]
+public struct SerializedAnimationCurve
+{
+	public SerializedKeyFrame[] keys;
+
+	public SerializedAnimationCurve(AnimationCurve c)
+	{
+		keys = new SerializedKeyFrame[c.keys.Length];
+		for (int i = 0; i < c.keys.Length; i++) {
+			keys [i] = new SerializedKeyFrame (c.keys [i]);
+		}
+	}
+
+	public AnimationCurve Deserialize()
+	{
+		Keyframe[] k = new Keyframe[keys.Length];
+		for (int i = 0; i < k.Length; i++) {
+			k [i] = keys [i].Deserialize ();
+		}
+		return new AnimationCurve (k);
+	}
+}
+
+[System.Serializable]
+public struct SerializedVector3
+{
+	public float x;
+	public float y;
+	public float z;
+
+	public SerializedVector3(Vector3 vector3)
+	{
+		x = vector3.x;
+		y = vector3.y;
+		z = vector3.z;
+	}
+
+	public Vector3 Deserialize()
+	{
+		return new Vector3 (x, y, z);
+	}
+}
+

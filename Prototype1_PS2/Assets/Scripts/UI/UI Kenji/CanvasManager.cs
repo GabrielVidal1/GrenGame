@@ -27,6 +27,9 @@ public class CanvasManager : MonoBehaviour {
 
 	}
 
-
+	public void ExitAndSaveGame()
+	{
+		GameManager.gm.SaveAndExit ();
+	}
 
 }

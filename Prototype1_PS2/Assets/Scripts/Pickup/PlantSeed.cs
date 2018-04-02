@@ -13,7 +13,6 @@ public class PlantSeed : Pickup {
 	{
 		base.Init ();
 
-
 		GameManager.gm.pm.plantSeeds.Add (this);
 	}
 

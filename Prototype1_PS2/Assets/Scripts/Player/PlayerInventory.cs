@@ -21,7 +21,9 @@ public class PlayerInventory : NetworkBehaviour {
 
 
 	public int PlantIndex {
-		get { return inventory [selectedIndexInInventory].plantSeed.indexInPlantManager; }
+		
+		get {Debug.Log (selectedIndexInInventory + "/" + inventory.Count);
+			return inventory [selectedIndexInInventory].plantSeedIndexInPlantManager; }
 	}
 
 
@@ -32,7 +34,7 @@ public class PlayerInventory : NetworkBehaviour {
 
 	void Start () 
 	{
-		inventory = new List<PlantSeedInventory> ();
+		//inventory = new List<PlantSeedInventory> ();
 
 		layerMask = ~(1 << 1);
 
@@ -82,7 +84,7 @@ public class PlayerInventory : NetworkBehaviour {
 	public void UseSeed()
 	{
 		inventory [selectedIndexInInventory] = 
-			new PlantSeedInventory (inventory [selectedIndexInInventory].plantSeed, 
+			new PlantSeedInventory (inventory [selectedIndexInInventory].plantSeedIndexInPlantManager, 
 				inventory [selectedIndexInInventory].number - 1);
 
 
@@ -102,22 +104,25 @@ public class PlayerInventory : NetworkBehaviour {
 	public void AddSeedToInventory(PlantSeed seed)
 	{
 
+		if (NbOfSeeds == 0)
+			selectedIndexInInventory = 0;
 
 		int index = -1;
 
 		for (int i = 0; i < inventory.Count; i++) {
-			if (inventory [i].plantSeed.indexInPlantManager == seed.indexInPlantManager) {
+			if (inventory [i].plantSeedIndexInPlantManager == seed.indexInPlantManager) {
 				
 				index = i;
-				inventory [i] = new PlantSeedInventory (inventory [i].plantSeed, inventory [i].number + 1);
+				inventory [i] = new PlantSeedInventory (inventory [i].plantSeedIndexInPlantManager, inventory [i].number + 1);
 				print (inventory [i].number);
 				//print ("found a slot :" + i);
 			}
 		}
 		if (index == -1) {
 			//print ("new slot");
-			inventory.Add (new PlantSeedInventory(seed, 1));
+			inventory.Add (new PlantSeedInventory(seed.indexInPlantManager, 1));
 		}
+
 
 		if (isLocalPlayer)
 			CanvasManager.cm.seedSelectionWheel.AddSeed (index);
@@ -157,12 +162,12 @@ public class PlayerInventory : NetworkBehaviour {
 [System.Serializable]
 public struct PlantSeedInventory
 {
-	public PlantSeed plantSeed;
+	public int plantSeedIndexInPlantManager;
 	public int number;
 
-	public PlantSeedInventory(PlantSeed plantSeed, int number)
+	public PlantSeedInventory(int plantSeedIndexInPlantManager, int number)
 	{
-		this.plantSeed = plantSeed;
+		this.plantSeedIndexInPlantManager = plantSeedIndexInPlantManager;
 		this.number = number;
 	}
 

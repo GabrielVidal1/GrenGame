@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 using System;
@@ -10,10 +11,13 @@ using System.IO;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager gm;
-	static GameData gameData;
+
+	public string mainSceneName;
 
 
 	public Player localPlayer;
+	public string localPlayerName;
+
 
 	public NetworkManager nm;
 	public PlantManager pm;
@@ -22,6 +26,9 @@ public class GameManager : MonoBehaviour {
 	public bool isHost;
 
 	public string ipAddressToJoin;
+
+	public string worldName;
+
 
 	void Awake() {
 
@@ -36,12 +43,26 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+	public void SetWorld(string worldName)
+	{
+		LoadMainScene ();
+		wd.LoadWorldFile (worldName);
+		this.worldName = worldName;
+	}
+
+
+	public void LoadMainScene()
+	{
+		SceneManager.LoadScene(mainSceneName);
+	}
 
 	public void Launch(bool isHost)
 	{
-		this.isHost = isHost;
-		gameData = new GameData ();
+		Debug.Log ("I launched from :" + isHost);
+		wd.DeserializeWorld (wd.worldData);
 
+
+		this.isHost = isHost;
 
 		if (isHost) {
 			CanvasManager.cm.genericCamera.SetActive (false);
@@ -56,6 +77,15 @@ public class GameManager : MonoBehaviour {
 			nm.networkPort = 7777;
 			nm.StartClient ();
 		}
+	}
+
+
+	public void SaveAndExit()
+	{
+		wd.SerializeWorld ();
+		wd.SaveWorldFile ();
+
+		pm.DestroyPlants ();
 	}
 
 	public void StopGame()
@@ -123,15 +153,3 @@ public class GameManager : MonoBehaviour {
 }
 
 
-
-[Serializable]
-class GameData
-{
-	public List<SerializedPlant> plants;
-
-	public GameData()
-	{
-		plants = new List<SerializedPlant> ();
-	}
-
-}
