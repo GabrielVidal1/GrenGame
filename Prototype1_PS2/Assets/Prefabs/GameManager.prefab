@@ -179,6 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSceneName: Main
+  mainMenuSceneName: MainMenu
   localPlayer: {fileID: 0}
   localPlayerName: Player1
   nm: {fileID: 0}

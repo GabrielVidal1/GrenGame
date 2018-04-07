@@ -8,8 +8,10 @@ public class WorldButton : MonoBehaviour {
 
 	public TMP_Text worldNameText;
 
-	private string worldName;
 
+	//[SerializeField] private WorldSelectionPanel worldSelectionPanel;
+
+	private string worldName;
 	void Start () 
 	{
 		
@@ -18,20 +20,18 @@ public class WorldButton : MonoBehaviour {
 
 	}
 
-	public void Initialize(string wd)
+	public void Initialize(string wn)
 	{
-		worldName = wd;
-		worldNameText.text = wd;
+		worldName = wn;
+		worldNameText.text = wn;
 
 	}
 
 	public void LauchWorld()
 	{
 
-		GameManager.gm.SetWorld (worldName);
-
-
-
+		Debug.Log(transform.parent.parent.parent.parent.parent.name);
+		transform.parent.parent.parent.parent.parent.GetComponent<WorldSelectionPanel> ().Launch (worldName);
 	}
 
 }

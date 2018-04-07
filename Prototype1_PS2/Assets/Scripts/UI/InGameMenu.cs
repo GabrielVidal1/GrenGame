@@ -41,21 +41,14 @@ public class InGameMenu : MonoBehaviour {
 			Cursor.lockState = CursorLockMode.None;
 		else {
 			Cursor.lockState = CursorLockMode.Locked;
-			CanvasManager.cm.seedSelectionWheel.ReactivateFromInactiveState ();
+			//CanvasManager.cm.seedSelectionWheel.ReactivateFromInactiveState ();
 		}
 	}
 
 
 	public void LoadMultiplayerMenu()
 	{
-		CanvasManager.cm.multiplayerMenu.gameObject.SetActive (true);
-		pauseMenuUI.SetActive (false);
-		inGameOverlay.SetActive (true);
-
 		GameManager.gm.StopGame ();
-		isPaused = false;
-
-		gameObject.SetActive (false);
 	}
 
 }

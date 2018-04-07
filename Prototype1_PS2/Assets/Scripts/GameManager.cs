@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine;
 
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : NetworkBehaviour {
 
 	public static GameManager gm;
 
 	public string mainSceneName;
+	public string mainMenuSceneName;
 
 
 	public Player localPlayer;
@@ -30,12 +32,22 @@ public class GameManager : MonoBehaviour {
 	public string worldName;
 
 
+	public NetworkConnection clientConnection;
+
+	private bool isMain;
 	void Awake() {
 
 		if (gm == null)
 			gm = this;
-		else if (gm != this)
-			Destroy (gameObject);
+		else if (gm != this) {
+			if (isMain) {
+				Destroy (gm);
+				gm = this;
+			} else {
+				Destroy (gameObject);
+			}
+		}
+		isMain = true;
 
 		nm = GetComponent<NetworkManager> ();
 		pm = GetComponent<PlantManager> ();
@@ -43,56 +55,150 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+	public string GetPlayerName()
+	{
+		//Debug.Log (clientConnection.address + "         " + clientConnection.connectionId + "           " + clientConnection.hostId);
+
+		localPlayerName = clientConnection.address;
+		return localPlayerName;
+
+	}
+
+	public void LaunchNewWorld(string worldName, Slider loadingScreenLoadingBar)
+	{
+		SetWorld (worldName);
+		LoadScene (loadingScreenLoadingBar, mainSceneName);
+	}
+
+
 	public void SetWorld(string worldName)
 	{
-		LoadMainScene ();
 		wd.LoadWorldFile (worldName);
 		this.worldName = worldName;
 	}
 
-
-	public void LoadMainScene()
+	public void LoadScene(Slider loadingScreenLoadingBar, string sceneName)
 	{
-		SceneManager.LoadScene(mainSceneName);
+		StartCoroutine(_LoadMainScene(loadingScreenLoadingBar, sceneName));
 	}
 
-	public void Launch(bool isHost)
+	IEnumerator _LoadMainScene(Slider loadingScreenLoadingBar, string sceneName)
 	{
-		Debug.Log ("I launched from :" + isHost);
-		wd.DeserializeWorld (wd.worldData);
+		AsyncOperation loading = SceneManager.LoadSceneAsync(sceneName);
+
+		Debug.Log ("loading started !");
+
+		while (!loading.isDone) {
+			yield return null;
+			loadingScreenLoadingBar.value = Mathf.Clamp01( loading.progress / 0.9f);
+		}
+		Debug.Log ("loading END !");
+
+		if (sceneName == mainSceneName) {
+			if (isHost)
+				Launch ();
+			else {
 
 
+				ClientScene.Ready (clientConnection);
+				ClientScene.AddPlayer (0);
+
+
+			}
+		}
+		//else if (sceneName == mainMenuSceneName)
+			//DO THING
+
+	}
+		
+
+
+	public void PrepareLaunching(bool isHost)
+	{
 		this.isHost = isHost;
+	}
+
+
+
+
+	public void Launch()
+	{
 
 		if (isHost) {
-			CanvasManager.cm.genericCamera.SetActive (false);
+			//CanvasManager.cm.genericCamera.SetActive (false);
 			Debug.Log ("Start Host");
+			wd.DeserializeWorld (wd.worldData);
 
 			nm.StartHost ();
+
 		} else {
 			Debug.Log ("Start Client");
 
 			nm.networkAddress = ipAddressToJoin;
 			Debug.Log (ipAddressToJoin);
 			nm.networkPort = 7777;
+
 			nm.StartClient ();
+
+		}
+
+
+
+		Debug.Log ("I launched from :" + isHost);
+	}
+
+	public void OnServerStop()
+	{
+		if (isHost) {
+
+		} else {
+			CanvasManager.cm.disconnectionScreen.SetActive (true);
 		}
 	}
 
+	public void CmdClientDisconnectionServerSave ()
+	{
+		Debug.Log ("je sauvegarde la partie parce qu'un joueur est parti");
 
-	public void SaveAndExit()
+		wd.SerializeWorld ();
+		wd.SaveWorldFile ();
+	}
+
+
+
+	public void GoToMainMenu()
+	{
+		CanvasManager.cm.loadingScreen.SetActive (true);
+
+		LoadScene (CanvasManager.cm.loadingScreenLoadingBar, mainMenuSceneName);
+	}
+
+	public void Save()
 	{
 		wd.SerializeWorld ();
 		wd.SaveWorldFile ();
+		Debug.Log ("world saved !");
+	}
 
-		pm.DestroyPlants ();
+	public void SaveAndExit()
+	{
+		if (isHost) {
+			Save ();
+		} else {
+			Debug.Log ("finished saving on server");
+			//localPlayer.ForceServerSave ();
+			Debug.LogError ("je sauve la partie depuis le joueur :)");
+
+		}
+
+		StopGame ();
+
+		GoToMainMenu ();
 	}
 
 	public void StopGame()
 	{
-		CanvasManager.cm.genericCamera.SetActive (true);
-
-		localPlayer.DisablePlayer ();
+		//localPlayer.DisablePlayer ();
 
 		if (isHost) {
 			Debug.Log ("Stop Host");
@@ -105,6 +211,7 @@ public class GameManager : MonoBehaviour {
 
 	public void StopClient()
 	{
+		//Debug.Log("nm.StopClient ();");
 		nm.StopClient ();
 	}
 

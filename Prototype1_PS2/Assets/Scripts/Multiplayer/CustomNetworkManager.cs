@@ -9,16 +9,43 @@ public class CustomNetworkManager : NetworkManager {
 	{
 		Debug.Log ("Un client a rejoin");
 
-		CanvasManager.cm.genericCamera.SetActive (false);
+		GameManager.gm.clientConnection = conn;
+
+		if (GameManager.gm.isHost) {
+
+			base.OnClientConnect (conn);
+
+
+		}
+	}
+
+	public override void OnServerDisconnect (NetworkConnection conn)
+	{
 		
-		base.OnClientConnect (conn);
+		GameManager.gm.Save ();
+
+		Debug.Log ("Player Disconnection !");
+		NetworkServer.DestroyPlayersForConnection (conn);
+
+
+	}
+
+
+
+	public override void OnStopHost ()
+	{
+		Debug.Log ("the server Stopped !!!");
+
+		GameManager.gm.OnServerStop ();
+
+		base.OnStopServer ();
 
 	}
 
 	public override void OnClientDisconnect (NetworkConnection conn)
 	{
 		Debug.Log ("Un client a parti");
-		CanvasManager.cm.genericCamera.SetActive (true);
+		//CanvasManager.cm.genericCamera.SetActive (true);
 
 		base.OnClientDisconnect (conn);
 	}

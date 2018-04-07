@@ -23,6 +23,7 @@ public class SeedSelectionWheel : MonoBehaviour {
 	//[HideInInspector]
 	public bool canClick;
 
+	/*
 	public void ReactivateFromInactiveState()
 	{
 		if (player.NbOfSeeds > 0) {
@@ -30,7 +31,7 @@ public class SeedSelectionWheel : MonoBehaviour {
 			animator.SetBool ("Active", true);
 		}
 	}
-
+*/
 
 	public void SetPlayer(PlayerInventory playerInventory)
 	{
@@ -61,7 +62,7 @@ public class SeedSelectionWheel : MonoBehaviour {
 		} else {
 			if (index != -1) {
 				if (index == actualIndex) {
-					Debug.Log ("actualIndex : " + actualIndex);
+					//Debug.Log ("actualIndex : " + actualIndex);
 					seedCenter.SetPlantSeed (player.inventory [actualIndex]);
 				}
 			}
@@ -89,7 +90,7 @@ public class SeedSelectionWheel : MonoBehaviour {
 		if (canClick) {
 			canClick = false;
 
-			Debug.Log (actualIndex + " -> " + index);
+			Debug.Log (actualIndex + " -> " + index + "  / player.inventory.Count = " + player.inventory.Count);
 
 			if (index != actualIndex) {
 				if (index - actualIndex == 1 || 
@@ -101,7 +102,7 @@ public class SeedSelectionWheel : MonoBehaviour {
 
 					animator.SetTrigger ("RotateRight");
 
-					print ("RotateRight");
+					//print ("RotateRight");
 
 				} else {
 					//LEFT	
@@ -110,7 +111,7 @@ public class SeedSelectionWheel : MonoBehaviour {
 					seedCenter.SetPlantSeed (player.inventory [actualIndex]);
 
 					animator.SetTrigger ("RotateLeft");
-					print ("RotateLeft");
+					//print ("RotateLeft");
 
 				}
 				actualIndex = index;

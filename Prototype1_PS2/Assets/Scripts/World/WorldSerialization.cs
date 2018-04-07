@@ -65,10 +65,14 @@ public class WorldSerialization : MonoBehaviour{
 	{
 
 		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
-
+		/*
 		List<string> playersName = new List<string> ();
 		List<SerializedVector3> playerPositions = new List<SerializedVector3> ();
 		List<SerializedPlayerInventory> playerInventories = new List<SerializedPlayerInventory> ();
+		*/
+		List<string> playersName = new List<string>(worldData.playersName);
+		List<SerializedVector3> playerPositions = new List<SerializedVector3> (worldData.playerPositions);
+		List<SerializedPlayerInventory> playerInventories = new List<SerializedPlayerInventory> (worldData.playerInventories);
 
 		foreach (var p in players) {
 
@@ -111,6 +115,7 @@ public class WorldSerialization : MonoBehaviour{
 
 	public void LoadPlayerInformation(Player player)
 	{
+		//Debug.Log ("je sync l'inventaire de "+ player.playerName);
 
 		for (int i = 0; i < worldData.playersName.Length; i++) {
 			if (player.playerName == worldData.playersName [i]) {
@@ -145,7 +150,7 @@ public class WorldSerialization : MonoBehaviour{
 		Debug.Log ("I'm deserializing the world save");
 
 
-		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (true);
+		//CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (true);
 
 		//PLANTS
 
@@ -182,7 +187,13 @@ public class WorldSerialization : MonoBehaviour{
 			GameManager.gm.pm.plantSeeds.Add (s);
 		}
 
-		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (false);
+
+
+		this.worldData = worldData;
+
+		if (!GameManager.gm.isHost)
+			LoadPlayerInformation (GameManager.gm.localPlayer);
+
 	}
 
 }

@@ -26,7 +26,6 @@ public class Player : NetworkBehaviour {
 
 	public GameObject camera;
 
-	[SyncVar]
 	public string playerName;
 
 	public override void OnStartClient ()
@@ -40,6 +39,13 @@ public class Player : NetworkBehaviour {
 	{
 		EnablePlayer ();
 
+	}
+
+	[Command]
+	public void CmdSetNameOnServer(string name)
+	{
+		Debug.Log ("my previous name was : " + playerName+". Now, it is "+ name);
+		playerName = name;
 	}
 
 
@@ -59,27 +65,46 @@ public class Player : NetworkBehaviour {
 	void EnablePlayer()
 	{
 		//ni = GetComponent<NetworkIdentity> ();
-		GameManager.gm.localPlayer = this;
 
 		onToggleShared.Invoke (true);
 
 
-
+		Debug.Log ("je suis le joueur et je suis " + (null == this));
 
 		if (isLocalPlayer) {
 			onToggleLocal.Invoke (true);
 
-			playerName = GameManager.gm.localPlayerName;
-			GameManager.gm.wd.LoadPlayerInformation (this);
+			GameManager.gm.localPlayer = this;
+			playerName = GameManager.gm.GetPlayerName ();
+			CmdSetNameOnServer (playerName);
+
 
 
 			if (isClient && !GameManager.gm.isHost) {
-				Debug.Log ("Plants are being uploaded...");
+				Debug.Log ("Worlds are being synchronized...");
 				CmdSynchroniseWorld ();
+			} else {
+				
+				GameManager.gm.wd.LoadPlayerInformation (this);
 			}
+
 		} else
 			onToggleRemote.Invoke (true);
 	}
+	/*
+	public void ForceServerSave()
+	{
+		Debug.LogError ("je sauve la partie depuis le joueur :)");
+		CmdForceServerSave ();
+	}
+
+	[Command]
+	void CmdForceServerSave()
+	{
+		Debug.LogError ("je sauve la partie depuis le joueur :)");
+		GameManager.gm.CmdClientDisconnectionServerSave ();
+	}
+	*/
 
 	[Command]
 	public void CmdSynchroniseWorld()
@@ -88,7 +113,7 @@ public class Player : NetworkBehaviour {
 
 		//GET THE COMPLETE VERSION OF WORLD ON THE HOST PLAYER WorldSerialization
 
-		Debug.Log ("je serialise le monde");
+		Debug.Log ("je serialise le monde chez l'host");
 
 		GameManager.gm.wd.SerializeWorld();
 		pm.wd = GameManager.gm.wd.worldData;

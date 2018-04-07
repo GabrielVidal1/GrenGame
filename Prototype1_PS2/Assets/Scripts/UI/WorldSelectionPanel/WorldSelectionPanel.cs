@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using TMPro;
 using System.IO;
@@ -18,11 +19,10 @@ public class WorldSelectionPanel : MonoBehaviour {
 	[SerializeField] private GameObject worldListPanel;
 	[SerializeField] private GameObject newWorldPanel;
 
+	[SerializeField] private GameObject multiplayerMenu;
 
-
-
-	[SerializeField] GameObject mainMenu;
-
+	[SerializeField] private GameObject loadingScreen;
+	[SerializeField] private Slider loadingScreenLoadingBar;
 
 
 	void Start () 
@@ -37,7 +37,7 @@ public class WorldSelectionPanel : MonoBehaviour {
 
 		if (!Directory.Exists (path + "/Worlds")) {
 			Directory.CreateDirectory(path + "/Worlds");
-			Debug.Log (path + "/Worlds");
+			//Debug.Log (path + "/Worlds");
 		}
 
 		string[] worldFilesPathes = Directory.GetFiles (path + "/Worlds/");
@@ -45,16 +45,16 @@ public class WorldSelectionPanel : MonoBehaviour {
 		int validWorlds = 0;
 		foreach (string worldFilePath in worldFilesPathes) 
 		{
-			Debug.Log (worldFilePath.Substring (worldFilePath.Length - 10, 10));
+			//Debug.Log (worldFilePath.Substring (worldFilePath.Length - 10, 10));
 			if (worldFilePath.Substring (worldFilePath.Length - 10, 10) == ".grenworld") {
 
-				Debug.Log (worldFilePath + " is a valid world !");
+				//Debug.Log (worldFilePath + " is a valid world !");
 
 				WorldButton wb = Instantiate (worldButtonPrefab, worldListContent.transform).GetComponent<WorldButton> ();
 
 
 				string worldName = worldFilePath.Substring (worldFilePath.LastIndexOf ("/") + 1, worldFilePath.LastIndexOf (".") - worldFilePath.LastIndexOf ("/") - 1);
-				Debug.Log (worldName);
+				//Debug.Log (worldName);
 
 				wb.Initialize (worldName);
 
@@ -80,12 +80,57 @@ public class WorldSelectionPanel : MonoBehaviour {
 
 	public void CreateNewWorld()
 	{
-		GameManager.gm.SetWorld (worldNameInputField.text);
+		Debug.Log ("clicked on create new world button");
+		loadingScreen.SetActive (true);
+		GameManager.gm.LaunchNewWorld (worldNameInputField.text, loadingScreenLoadingBar);
 	}
 
-	public void BackToMainMenu()
+	public void BackToMultiplayerMenu()
 	{
-		mainMenu.SetActive (true);
+		multiplayerMenu.SetActive (true);
 		gameObject.SetActive (false);
 	}
+
+
+	public void Launch(string worldName)
+	{
+		Debug.Log (gameObject.activeSelf);
+		GameManager.gm.SetWorld (worldName);
+
+		loadingScreen.SetActive (true);
+		worldListPanel.SetActive (false);
+
+		gameObject.SetActive (true);
+
+		Debug.DebugBreak ();
+
+		GameManager.gm.LoadScene (loadingScreenLoadingBar, GameManager.gm.mainSceneName);
+
+
+
+	}
+	/*
+	public IEnumerator LoadMainScene()
+	{
+		
+
+		AsyncOperation loading = SceneManager.LoadSceneAsync(GameManager.gm.mainSceneName);
+		loading.allowSceneActivation = false;
+
+		Debug.Log ("loading started !");
+
+		while (!loading.isDone) {
+			yield return null;
+
+			//Debug.Log ("loading progress : " + loading.progress);
+
+
+			loadingScreenLoadingBar.value = loading.progress;
+		}
+
+		GameManager.gm.Launch ();
+		Debug.Break ();
+		loading.allowSceneActivation = true;
+	}
+	*/
 }

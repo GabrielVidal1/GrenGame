@@ -34,12 +34,12 @@ public class PlayerInventory : NetworkBehaviour {
 
 	void Start () 
 	{
-		//inventory = new List<PlantSeedInventory> ();
+		if (isLocalPlayer) {
+			CanvasManager.cm.seedSelectionWheel.SetPlayer (this);
+		}
 
 		layerMask = ~(1 << 1);
-
-		CanvasManager.cm.seedSelectionWheel.SetPlayer (this);
-		
+	
 		player = GetComponent<Player> ();
 		camera = player.camera;
 	}
