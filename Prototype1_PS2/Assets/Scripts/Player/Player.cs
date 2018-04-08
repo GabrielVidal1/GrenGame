@@ -28,6 +28,8 @@ public class Player : NetworkBehaviour {
 
 	public string playerName;
 
+	public bool synched;
+
 	public override void OnStartClient ()
 	{
 		GameManager.gm.nm.client.RegisterHandler(1000, OnMessageRecieve);
@@ -44,7 +46,7 @@ public class Player : NetworkBehaviour {
 	[Command]
 	public void CmdSetNameOnServer(string name)
 	{
-		Debug.Log ("my previous name was : " + playerName+". Now, it is "+ name);
+		//Debug.Log ("my previous name was : " + playerName+". Now, it is "+ name);
 		playerName = name;
 	}
 
@@ -64,12 +66,12 @@ public class Player : NetworkBehaviour {
 
 	void EnablePlayer()
 	{
-		//ni = GetComponent<NetworkIdentity> ();
+		synched = false;
 
 		onToggleShared.Invoke (true);
 
 
-		Debug.Log ("je suis le joueur et je suis " + (null == this));
+		//Debug.Log ("je suis le joueur et je suis " + playerName);
 
 		if (isLocalPlayer) {
 			onToggleLocal.Invoke (true);
@@ -81,7 +83,7 @@ public class Player : NetworkBehaviour {
 
 
 			if (isClient && !GameManager.gm.isHost) {
-				Debug.Log ("Worlds are being synchronized...");
+				//Debug.Log ("Worlds are being synchronized...");
 				CmdSynchroniseWorld ();
 			} else {
 				
@@ -91,20 +93,7 @@ public class Player : NetworkBehaviour {
 		} else
 			onToggleRemote.Invoke (true);
 	}
-	/*
-	public void ForceServerSave()
-	{
-		Debug.LogError ("je sauve la partie depuis le joueur :)");
-		CmdForceServerSave ();
-	}
 
-	[Command]
-	void CmdForceServerSave()
-	{
-		Debug.LogError ("je sauve la partie depuis le joueur :)");
-		GameManager.gm.CmdClientDisconnectionServerSave ();
-	}
-	*/
 
 	[Command]
 	public void CmdSynchroniseWorld()
@@ -113,10 +102,13 @@ public class Player : NetworkBehaviour {
 
 		//GET THE COMPLETE VERSION OF WORLD ON THE HOST PLAYER WorldSerialization
 
-		Debug.Log ("je serialise le monde chez l'host");
+		//Debug.Log ("je serialise le monde chez l'host");
 
 		GameManager.gm.wd.SerializeWorld();
 		pm.wd = GameManager.gm.wd.worldData;
+
+		(new GameObject ("TEST WORLDATA DEFORE SENDING")).AddComponent<Test> ().wd = pm.wd;
+
 
 		//SET THE MESSAGE TYPE TO SYNC THE PLANTS
 		pm.pma = PlayerMessageAction.LoadWorld;
@@ -131,8 +123,14 @@ public class Player : NetworkBehaviour {
 
 		//IF NEED TO SYNC World
 		if (msg.pma == PlayerMessageAction.LoadWorld) {
+
+			(new GameObject ("TEST WORLDATA AFTER RECEIVING")).AddComponent<Test> ().wd = msg.wd;
+
+			//GameManager.gm.wd.worldData = msg.wd;
+
+
 			GameManager.gm.wd.DeserializeWorld (msg.wd);
-			Debug.Log ("je deserialize le monde");
+			//Debug.Log ("je deserialize le monde");
 		}
 	}
 }

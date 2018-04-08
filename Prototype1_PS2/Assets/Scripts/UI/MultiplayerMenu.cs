@@ -27,11 +27,11 @@ public class MultiplayerMenu : MonoBehaviour {
 			if (tryToConnectToServer) {
 				if (!GameManager.gm.isHost) {
 
-					Debug.Log ("j'essaie de me connecter  : " + GameManager.gm.IsClientConnected ());
+					//Debug.Log ("j'essaie de me connecter  : " + GameManager.gm.IsClientConnected ());
 
 					if (GameManager.gm.IsClientConnected ()) {
 
-						Debug.Log ("client connection adress : " + GameManager.gm.clientConnection.address);
+						//Debug.Log ("client connection adress : " + GameManager.gm.clientConnection.address);
 						hasLaunched = true;
 
 						multiplayerClientWaitingScreen.SetActive (false);

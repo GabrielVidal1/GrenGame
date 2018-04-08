@@ -27,7 +27,7 @@ public class WorldSerialization : MonoBehaviour{
 			//SAVING THE FILE
 			string path = Application.persistentDataPath + "/Worlds/" + GameManager.gm.worldName + ".grenworld";
 
-			Debug.Log (path);
+			//Debug.Log (path);
 			BinaryFormatter bf = new BinaryFormatter ();
 
 
@@ -63,35 +63,43 @@ public class WorldSerialization : MonoBehaviour{
 
 	public void SerializeWorld()
 	{
+		(new GameObject ("Before serilisation")).AddComponent<Test> ().wd = new WorldData(worldData);
+
+
+		//Debug.Log ("je serialise le monde");
 
 		GameObject[] players = GameObject.FindGameObjectsWithTag ("Player");
-		/*
-		List<string> playersName = new List<string> ();
-		List<SerializedVector3> playerPositions = new List<SerializedVector3> ();
-		List<SerializedPlayerInventory> playerInventories = new List<SerializedPlayerInventory> ();
-		*/
+
 		List<string> playersName = new List<string>(worldData.playersName);
+
+		//Debug.Log (worldData.playersName.Length + " ----------  " + playersName.Count);
+
+
 		List<SerializedVector3> playerPositions = new List<SerializedVector3> (worldData.playerPositions);
 		List<SerializedPlayerInventory> playerInventories = new List<SerializedPlayerInventory> (worldData.playerInventories);
+
+
+
 
 		foreach (var p in players) {
 
 			Player player = p.GetComponent<Player> ();
 
-			int index = -1;
-			for (int i = 0; i < playersName.Count; i++) {
-				if (player.playerName == playersName [i]) {
-					index = i;
-					playerPositions [i] = new SerializedVector3(player.transform.position);
+			if (player.synched) {
+				int index = -1;
+				for (int i = 0; i < playersName.Count; i++) {
+					if (player.playerName == playersName [i]) {
+						index = i;
+						playerPositions [i] = new SerializedVector3 (player.transform.position);
 
-					playerInventories [i] = new SerializedPlayerInventory (player.GetComponent<PlayerInventory> ());
+						playerInventories [i] = new SerializedPlayerInventory (player.GetComponent<PlayerInventory> ());
+					}
 				}
-			}
-			if (index == -1) {
-				playersName.Add (player.playerName);
-				playerPositions.Add(new SerializedVector3(player.transform.position));
-				playerInventories.Add(new SerializedPlayerInventory (player.GetComponent<PlayerInventory> ()));
-
+				if (index == -1) {
+					playersName.Add (player.playerName);
+					playerPositions.Add (new SerializedVector3 (player.transform.position));
+					playerInventories.Add (new SerializedPlayerInventory (player.GetComponent<PlayerInventory> ()));
+				}
 			}
 		}
 
@@ -101,26 +109,28 @@ public class WorldSerialization : MonoBehaviour{
 
 
 		GameManager.gm.pm.SerializePlants (worldData);
-		Debug.Log(worldData.plants.Length);
+		//Debug.Log(worldData.plants.Length);
 
 
 		GameManager.gm.pm.SerializeSeeds (worldData);
-		Debug.Log(worldData.seeds.Length);
+		//Debug.Log(worldData.seeds.Length);
 
 
-		(new GameObject ()).AddComponent<Test> ().wd = worldData;
+		(new GameObject ("After serilisation")).AddComponent<Test> ().wd = new WorldData(worldData);
+
+		//(new GameObject ()).AddComponent<Test> ().wd = worldData;
 
 	}
 
 
 	public void LoadPlayerInformation(Player player)
 	{
-		//Debug.Log ("je sync l'inventaire de "+ player.playerName);
+		//Debug.LogError ("je sync l'inventaire de "+ player.playerName);
 
 		for (int i = 0; i < worldData.playersName.Length; i++) {
 			if (player.playerName == worldData.playersName [i]) {
 
-				Debug.Log ("je remplis l'inventaire de " + player.playerName);
+				//Debug.Log ("je remplis l'inventaire de " + player.playerName);
 
 				player.transform.position = worldData.playerPositions [i].Deserialize();
 
@@ -134,9 +144,13 @@ public class WorldSerialization : MonoBehaviour{
 					playerInventory.inventory.Add(new PlantSeedInventory (serializedPlayerInventory.indexesInPlantManager [j], serializedPlayerInventory.numberOfSeeds [j]));
 				}
 
+				if (serializedPlayerInventory.indexesInPlantManager.Length > 0) {
+					CanvasManager.cm.seedSelectionWheel.SetPlayer (player.GetComponent<PlayerInventory>());
+				}
 			}
 		}
 
+		player.synched = true;
 
 
 	}
@@ -147,7 +161,7 @@ public class WorldSerialization : MonoBehaviour{
 	public void DeserializeWorld(WorldData worldData)
 	{
 
-		Debug.Log ("I'm deserializing the world save");
+		//Debug.Log ("I'm deserializing the world save");
 
 
 		//CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (true);
@@ -219,6 +233,16 @@ public class WorldData
 		playersName = new string[0];
 		playerPositions = new SerializedVector3[0];
 		playerInventories = new SerializedPlayerInventory[0];
+	}
+
+	public WorldData(WorldData clone)
+	{
+		plants = (SerializedPlant[])clone.plants.Clone ();
+		seeds = (SerializedPlantSeed[])clone.seeds.Clone ();
+
+		playersName = (string[])clone.playersName.Clone ();
+		playerPositions = (SerializedVector3[])clone.playerPositions.Clone ();
+		playerInventories = (SerializedPlayerInventory[])clone.playerInventories.Clone ();
 	}
 
 }

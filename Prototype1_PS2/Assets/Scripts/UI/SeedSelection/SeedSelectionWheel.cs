@@ -90,7 +90,7 @@ public class SeedSelectionWheel : MonoBehaviour {
 		if (canClick) {
 			canClick = false;
 
-			Debug.Log (actualIndex + " -> " + index + "  / player.inventory.Count = " + player.inventory.Count);
+			//Debug.Log (actualIndex + " -> " + index + "  / player.inventory.Count = " + player.inventory.Count);
 
 			if (index != actualIndex) {
 				if (index - actualIndex == 1 || 

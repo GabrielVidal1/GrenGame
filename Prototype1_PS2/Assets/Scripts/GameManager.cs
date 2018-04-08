@@ -144,7 +144,7 @@ public class GameManager : NetworkBehaviour {
 
 
 
-		Debug.Log ("I launched from :" + isHost);
+		//Debug.Log ("I launched from :" + isHost);
 	}
 
 	public void OnServerStop()
@@ -158,7 +158,7 @@ public class GameManager : NetworkBehaviour {
 
 	public void CmdClientDisconnectionServerSave ()
 	{
-		Debug.Log ("je sauvegarde la partie parce qu'un joueur est parti");
+		//Debug.Log ("je sauvegarde la partie parce qu'un joueur est parti");
 
 		wd.SerializeWorld ();
 		wd.SaveWorldFile ();
@@ -185,9 +185,8 @@ public class GameManager : NetworkBehaviour {
 		if (isHost) {
 			Save ();
 		} else {
-			Debug.Log ("finished saving on server");
-			//localPlayer.ForceServerSave ();
-			Debug.LogError ("je sauve la partie depuis le joueur :)");
+			//Debug.Log ("finished saving on server");
+			//Debug.LogError ("je sauve la partie depuis le joueur :)");
 
 		}
 
@@ -211,7 +210,6 @@ public class GameManager : NetworkBehaviour {
 
 	public void StopClient()
 	{
-		//Debug.Log("nm.StopClient ();");
 		nm.StopClient ();
 	}
 

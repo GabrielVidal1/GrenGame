@@ -22,7 +22,7 @@ public class PlayerInventory : NetworkBehaviour {
 
 	public int PlantIndex {
 		
-		get {Debug.Log (selectedIndexInInventory + "/" + inventory.Count);
+		get {//Debug.Log (selectedIndexInInventory + "/" + inventory.Count);
 			return inventory [selectedIndexInInventory].plantSeedIndexInPlantManager; }
 	}
 
@@ -34,10 +34,6 @@ public class PlayerInventory : NetworkBehaviour {
 
 	void Start () 
 	{
-		if (isLocalPlayer) {
-			CanvasManager.cm.seedSelectionWheel.SetPlayer (this);
-		}
-
 		layerMask = ~(1 << 1);
 	
 		player = GetComponent<Player> ();
@@ -49,6 +45,20 @@ public class PlayerInventory : NetworkBehaviour {
 	{
 		if (!isLocalPlayer)
 			return;
+
+
+
+		//TEST A SUPPRIMER QUAND LE TEST EST FINI
+		//if (Input.GetKeyDown (KeyCode.O))
+		//	GameManager.gm.wd.SerializeWorld ();
+		//TEST A SUPPRIMER QUAND LE TEST EST FINI
+
+
+
+
+
+
+
 
 		if (!CanvasManager.cm.inGameMenu.isPaused) {
 
@@ -155,7 +165,7 @@ public class PlayerInventory : NetworkBehaviour {
 			}
 		}
 
-		Debug.Log ("Impossible to reach this part of the code => Multiplayer Sync Problems");
+		//Debug.Log ("Impossible to reach this part of the code => Multiplayer Sync Problems");
 	}
 }
 
