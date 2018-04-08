@@ -9,12 +9,20 @@ using TMPro;
 public class CanvasManager : MonoBehaviour {
 
 	public static CanvasManager cm;
-	public GameObject genericCamera;
+	//public GameObject genericCamera;
 	public string mainMenuSceneName;
 	
 	
 	public InGameMenu inGameMenu;
-	public MultiplayerMenu multiplayerMenu;
+
+	public GameObject loadingScreen;
+	public Slider loadingScreenLoadingBar;
+
+
+	public GameObject disconnectionScreen;
+	//public MultiplayerMenu multiplayerMenu;
+
+	public SeedSelectionWheel seedSelectionWheel;
 
 	void Awake() {
 
@@ -25,6 +33,14 @@ public class CanvasManager : MonoBehaviour {
 
 	}
 
+	public void ExitAndSaveGame()
+	{
+		GameManager.gm.SaveAndExit ();
+	}
 
+	public void GoToMainMenu()
+	{
+		GameManager.gm.GoToMainMenu ();
+	}
 
 }

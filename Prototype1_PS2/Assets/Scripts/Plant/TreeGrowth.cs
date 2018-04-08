@@ -10,10 +10,14 @@ public class TreeGrowth : MonoBehaviour {
 	[Range(1, 24)]
 	public int updateRate;
 
+	//public bool canGrow;
+
+
 	Plant pg;
 	private float lastUpdate;
 	void Start()
 	{
+		//canGrow = true;
 		pg = GetComponent<Plant> ();
 		growthSpeed = 1f / pg.maxDuration;
 		lastUpdate = Time.time;
@@ -21,6 +25,7 @@ public class TreeGrowth : MonoBehaviour {
 
 	void Update () 
 	{
+		//if (canGrow) {
 		if (pg.time < 1f) {
 
 
@@ -29,7 +34,7 @@ public class TreeGrowth : MonoBehaviour {
 
 			if (updateRate * Time.deltaTime + lastUpdate <= Time.time) {
 
-				GameManager.SavePlantTime (pg.indexInGameData, pg.time);
+				//GameManager.SavePlantTime (pg.indexInGameData, pg.time);
 
 				pg.UpdatePlant ();
 				lastUpdate = Time.time;
@@ -38,7 +43,7 @@ public class TreeGrowth : MonoBehaviour {
 			pg.time = 1f;
 			//GameManager.SavePlantTime (pg.indexInGameData, 1f);
 
+			//}
 		}
-
 	}
 }

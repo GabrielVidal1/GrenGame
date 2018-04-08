@@ -15,9 +15,9 @@ public class Plant : MonoBehaviour{
 
 	#region PUBLIC VARIABLES
 
+	public int indexInPlantManagerArray;
+
 	public int plantSeed;
-
-
 	[Range(0f, 1f)]
 	public float time;
 	public float maxDuration;
@@ -858,6 +858,7 @@ public class Plant : MonoBehaviour{
 			currentDirection = distance * (force + gravity + noiseMultiplier * noise).normalized;
 			//currentDirection = distance * (force + currentDirection + gravity + noiseMultiplier * noise).normalized;
 
+
 			PosDir pd = new PosDir (currentPosition, currentDirection, currentNormal);
 
 
@@ -866,11 +867,16 @@ public class Plant : MonoBehaviour{
 				//COLLISION CALCULATION WITH 10 ITERATIONS
 				for (int k = 0; k < 10; k++)
 					pd = Collision (new PosDir (currentPosition, pd.dir, pd.normal), distance);
+
+				currentPosition = pd.pos;
+				currentDirection = pd.dir;
+			
+			} else {
+
+				currentPosition += currentDirection;
 			}
 
 
-			currentPosition = pd.pos;
-			currentDirection = pd.dir;
 
 			noiseMultiplier = 1f;
 

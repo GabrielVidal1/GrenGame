@@ -11,7 +11,7 @@ public class PlayerMessage : MessageBase
 {
 	//public NetworkInstanceId netId;
 
-	public PlantSave[] plantsToSync;
+	public WorldData wd;
 
 	public PlayerMessageAction pma;
 
@@ -24,7 +24,11 @@ public class Player : NetworkBehaviour {
 	[SerializeField] ToggleEvent onToggleShared;
 	[SerializeField] ToggleEvent onToggleRemote;
 
-	//private NetworkIdentity ni;
+	public GameObject camera;
+
+	public string playerName;
+
+	public bool synched;
 
 	public override void OnStartClient ()
 	{
@@ -36,6 +40,14 @@ public class Player : NetworkBehaviour {
 	void Start()
 	{
 		EnablePlayer ();
+
+	}
+
+	[Command]
+	public void CmdSetNameOnServer(string name)
+	{
+		//Debug.Log ("my previous name was : " + playerName+". Now, it is "+ name);
+		playerName = name;
 	}
 
 
@@ -54,32 +66,52 @@ public class Player : NetworkBehaviour {
 
 	void EnablePlayer()
 	{
-		//ni = GetComponent<NetworkIdentity> ();
-		GameManager.gm.localPlayer = this;
+		synched = false;
 
 		onToggleShared.Invoke (true);
+
+
+		//Debug.Log ("je suis le joueur et je suis " + playerName);
 
 		if (isLocalPlayer) {
 			onToggleLocal.Invoke (true);
 
+			GameManager.gm.localPlayer = this;
+			playerName = GameManager.gm.GetPlayerName ();
+			CmdSetNameOnServer (playerName);
+
+
+
 			if (isClient && !GameManager.gm.isHost) {
-				//Debug.Log ("Plants are being uploaded...");
-				CmdSynchronisePlants ();
+				//Debug.Log ("Worlds are being synchronized...");
+				CmdSynchroniseWorld ();
+			} else {
+				
+				GameManager.gm.wd.LoadPlayerInformation (this);
 			}
+
 		} else
 			onToggleRemote.Invoke (true);
 	}
 
+
 	[Command]
-	public void CmdSynchronisePlants()
+	public void CmdSynchroniseWorld()
 	{
 		PlayerMessage pm = new PlayerMessage ();
 
-		//GET THE COMPLETE VERSION OF PLANTS ON THE HOST PLAYER GAMEDATA
-		pm.plantsToSync = GameManager.gm.GetPlantArrayToTransmit ();
+		//GET THE COMPLETE VERSION OF WORLD ON THE HOST PLAYER WorldSerialization
+
+		//Debug.Log ("je serialise le monde chez l'host");
+
+		GameManager.gm.wd.SerializeWorld();
+		pm.wd = GameManager.gm.wd.worldData;
+
+		(new GameObject ("TEST WORLDATA DEFORE SENDING")).AddComponent<Test> ().wd = pm.wd;
+
 
 		//SET THE MESSAGE TYPE TO SYNC THE PLANTS
-		pm.pma = PlayerMessageAction.SynchronisePlants;
+		pm.pma = PlayerMessageAction.LoadWorld;
 
 		//SEND THE MESSAGE
 		base.connectionToClient.Send (1000, pm);
@@ -89,16 +121,22 @@ public class Player : NetworkBehaviour {
 	{
 		var msg = netMsg.ReadMessage<PlayerMessage> ();
 
-		//IF NEED TO SYNC PLANTS
-		if (msg.pma == PlayerMessageAction.SynchronisePlants) {
+		//IF NEED TO SYNC World
+		if (msg.pma == PlayerMessageAction.LoadWorld) {
 
-			GameManager.gm.LoadPlants (msg.plantsToSync);
+			(new GameObject ("TEST WORLDATA AFTER RECEIVING")).AddComponent<Test> ().wd = msg.wd;
+
+			//GameManager.gm.wd.worldData = msg.wd;
+
+
+			GameManager.gm.wd.DeserializeWorld (msg.wd);
+			//Debug.Log ("je deserialize le monde");
 		}
 	}
 }
 
 public enum PlayerMessageAction
 {
-	SynchronisePlants,
+	LoadWorld,
 	None
 }

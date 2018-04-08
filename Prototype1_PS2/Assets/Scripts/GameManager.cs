@@ -1,65 +1,203 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine;
 
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : NetworkBehaviour {
 
 	public static GameManager gm;
-	static GameData gameData;
+
+	public string mainSceneName;
+	public string mainMenuSceneName;
 
 
 	public Player localPlayer;
+	public string localPlayerName;
+
 
 	public NetworkManager nm;
 	public PlantManager pm;
+	public WorldSerialization wd;
 
 	public bool isHost;
 
 	public string ipAddressToJoin;
 
+	public string worldName;
+
+
+	public NetworkConnection clientConnection;
+
+	private bool isMain;
 	void Awake() {
 
 		if (gm == null)
 			gm = this;
-		else if (gm != this)
-			Destroy (gameObject);
+		else if (gm != this) {
+			if (isMain) {
+				Destroy (gm);
+				gm = this;
+			} else {
+				Destroy (gameObject);
+			}
+		}
+		isMain = true;
 
 		nm = GetComponent<NetworkManager> ();
 		pm = GetComponent<PlantManager> ();
+		wd = GetComponent<WorldSerialization> ();
+
+	}
+
+	public string GetPlayerName()
+	{
+		//Debug.Log (clientConnection.address + "         " + clientConnection.connectionId + "           " + clientConnection.hostId);
+
+		localPlayerName = clientConnection.address;
+		return localPlayerName;
+
+	}
+
+	public void LaunchNewWorld(string worldName, Slider loadingScreenLoadingBar)
+	{
+		SetWorld (worldName);
+		LoadScene (loadingScreenLoadingBar, mainSceneName);
 	}
 
 
-	public void Launch(bool isHost)
+	public void SetWorld(string worldName)
+	{
+		wd.LoadWorldFile (worldName);
+		this.worldName = worldName;
+	}
+
+	public void LoadScene(Slider loadingScreenLoadingBar, string sceneName)
+	{
+		StartCoroutine(_LoadMainScene(loadingScreenLoadingBar, sceneName));
+	}
+
+	IEnumerator _LoadMainScene(Slider loadingScreenLoadingBar, string sceneName)
+	{
+		AsyncOperation loading = SceneManager.LoadSceneAsync(sceneName);
+
+		Debug.Log ("loading started !");
+
+		while (!loading.isDone) {
+			yield return null;
+			loadingScreenLoadingBar.value = Mathf.Clamp01( loading.progress / 0.9f);
+		}
+		Debug.Log ("loading END !");
+
+		if (sceneName == mainSceneName) {
+			if (isHost)
+				Launch ();
+			else {
+
+
+				ClientScene.Ready (clientConnection);
+				ClientScene.AddPlayer (0);
+
+
+			}
+		}
+		//else if (sceneName == mainMenuSceneName)
+			//DO THING
+
+	}
+		
+
+
+	public void PrepareLaunching(bool isHost)
 	{
 		this.isHost = isHost;
-		gameData = new GameData ();
+	}
 
+
+
+
+	public void Launch()
+	{
 
 		if (isHost) {
-			CanvasManager.cm.genericCamera.SetActive (false);
+			//CanvasManager.cm.genericCamera.SetActive (false);
 			Debug.Log ("Start Host");
+			wd.DeserializeWorld (wd.worldData);
 
 			nm.StartHost ();
+
 		} else {
 			Debug.Log ("Start Client");
 
 			nm.networkAddress = ipAddressToJoin;
 			Debug.Log (ipAddressToJoin);
 			nm.networkPort = 7777;
+
 			nm.StartClient ();
+
 		}
+
+
+
+		//Debug.Log ("I launched from :" + isHost);
+	}
+
+	public void OnServerStop()
+	{
+		if (isHost) {
+
+		} else {
+			CanvasManager.cm.disconnectionScreen.SetActive (true);
+		}
+	}
+
+	public void CmdClientDisconnectionServerSave ()
+	{
+		//Debug.Log ("je sauvegarde la partie parce qu'un joueur est parti");
+
+		wd.SerializeWorld ();
+		wd.SaveWorldFile ();
+	}
+
+
+
+	public void GoToMainMenu()
+	{
+		CanvasManager.cm.loadingScreen.SetActive (true);
+
+		LoadScene (CanvasManager.cm.loadingScreenLoadingBar, mainMenuSceneName);
+	}
+
+	public void Save()
+	{
+		wd.SerializeWorld ();
+		wd.SaveWorldFile ();
+		Debug.Log ("world saved !");
+	}
+
+	public void SaveAndExit()
+	{
+		if (isHost) {
+			Save ();
+		} else {
+			//Debug.Log ("finished saving on server");
+			//Debug.LogError ("je sauve la partie depuis le joueur :)");
+
+		}
+
+		StopGame ();
+
+		GoToMainMenu ();
 	}
 
 	public void StopGame()
 	{
-		CanvasManager.cm.genericCamera.SetActive (true);
-
-		localPlayer.DisablePlayer ();
+		//localPlayer.DisablePlayer ();
 
 		if (isHost) {
 			Debug.Log ("Stop Host");
@@ -79,46 +217,26 @@ public class GameManager : MonoBehaviour {
 	{
 		return nm.IsClientConnected ();
 	}
-
-	public static void SavePlantTime(int plantIndex, float time)
-	{
-		PlantSave ps = gameData.plants [plantIndex];
-		ps.plantTime = time;
-		gameData.plants [plantIndex] = ps;
-		//Debug.Log ("Updated Plant " + plantIndex.ToString ());
-	}
-
-	public static void Save()
-	{
-
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream file = File.Create( Application.persistentDataPath + "/GameData.dat");
-
-		bf.Serialize( file, gameData );
-		file.Close();
-
-		Debug.Log ("Game Succesfuly saved!");
-	}
-
-	public void LoadPlants(PlantSave[] plantsSave)
+	/*
+	public void LoadPlants(SerializedPlant[] serializedPlants)
 	{
 		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (true);
 
-		foreach (PlantSave plantSave in plantsSave) {
-			LoadPlant(plantSave);
+		foreach (SerializedPlant serializedPlant in serializedPlants) {
+			LoadPlant(serializedPlant);
 		}
 
 		CanvasManager.cm.multiplayerMenu.multiplayerClientLoadingPlants.SetActive (false);
 	}
 
 
-	private void LoadPlant(PlantSave plantSave)
+	void LoadPlant(SerializedPlant serializedPlant)
 	{
-		Plant plant = Instantiate (pm.plantsPrefabs [plantSave.plantTypeIndex], plantSave.initialPosition, Quaternion.identity).GetComponent<Plant> ();
-		plant.initialDirection = plantSave.initialDirection;
-		plant.SetSeed (plantSave.seed);
-		plant.time = plantSave.plantTime;
-		plant.indexInGameData = plantSave.indexInGameData;
+		Plant plant = Instantiate (pm.plantsPrefabs [serializedPlant.plantTypeIndex], serializedPlant.initialPosition, Quaternion.identity).GetComponent<Plant> ();
+		plant.initialDirection = serializedPlant.initialDirection;
+		plant.SetSeed (serializedPlant.seed);
+		plant.time = serializedPlant.plantTime;
+		plant.indexInGameData = serializedPlant.indexInGameData;
 
 		pm.plants.Add (plant);
 
@@ -127,53 +245,16 @@ public class GameManager : MonoBehaviour {
 
 
 
-		gameData.plants.Add (plantSave);
+		WorldSerialization.worldData.plants.Add (serializedPlant);
 
 
 	}
 
 	public void CreateNewPlant(int plantTypeIndex, float plantTime, Vector3 initialPosition, Vector3 initialDirection, int seed)
 	{
-		PlantSave ps = new PlantSave (plantTypeIndex, 0f, initialPosition, initialDirection, seed, gameData.plants.Count);
 		LoadPlant (ps);
 	}
-
-	public PlantSave[] GetPlantArrayToTransmit()
-	{
-		return gameData.plants.ToArray ();
-	}
+	*/
 }
 
-public struct PlantSave
-{
-	public int plantTypeIndex;
-	public float plantTime;
-	public Vector3 initialPosition;
-	public Vector3 initialDirection;
 
-	public int seed;
-
-	public int indexInGameData;
-
-	public PlantSave(int plantTypeIndex, float plantTime, Vector3 initialPosition, Vector3 initialDirection, int seed, int indexInGameData)
-	{
-		this.plantTypeIndex = plantTypeIndex;
-		this.plantTime = plantTime;
-		this.initialPosition = initialPosition;
-		this.initialDirection = initialDirection;
-		this.seed = seed;
-		this.indexInGameData = indexInGameData;
-	}
-}
-
-[Serializable]
-class GameData
-{
-	public List<PlantSave> plants;
-
-	public GameData()
-	{
-		plants = new List<PlantSave> ();
-	}
-
-}

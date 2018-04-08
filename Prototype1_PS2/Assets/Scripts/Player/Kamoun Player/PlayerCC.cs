@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class PlayerCC : MonoBehaviour
 {
 
@@ -22,12 +23,6 @@ public class PlayerCC : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		/*CORRECTION
-		if (Input.GetKey(KeyCode.Escape))
-			Screen.lockCursor = false;
-		else
-			Screen.lockCursor = true;
-		*/
 		if (!CanvasManager.cm.inGameMenu.isPaused) {
 			if (CC.isGrounded) {
 				moveDirection = new Vector3 (Input.GetAxis ("Horizontal"), 0, Input.GetAxis ("Vertical"));
@@ -50,4 +45,77 @@ public class PlayerCC : MonoBehaviour
 		}
 	}
      		
+}
+*/
+
+public class PlayerCC : MonoBehaviour
+{
+
+	public float horizontalSpeed = 6f;
+
+	public float verticalSpeed;
+
+	public float hooverHeigth;
+	public float jumpHeigth;
+
+	CharacterController CC;
+	public GameObject camera01;
+
+	[SerializeField]
+	private float heigth;
+
+	bool moved = false;
+
+	[SerializeField]
+	private float groundHeigth;
+
+	Vector3 moveDirection;
+
+	void Start ()
+	{
+
+
+		CC = GetComponent<CharacterController>();
+		heigth = hooverHeigth;
+
+
+	}
+
+	// Update is called once per frame
+	void Update ()
+	{
+		if (!CanvasManager.cm.inGameMenu.isPaused) {
+
+
+			//if (moved) {
+			Ray ray = new Ray (transform.position, Vector3.down);
+			RaycastHit hit;
+			if (Physics.Raycast (ray, out hit, 100f)) {
+				groundHeigth = hit.point.y;
+			}
+			//moved = false;
+			//}
+
+			moveDirection = new Vector3 (Input.GetAxis ("Horizontal"), moveDirection.y, Input.GetAxis ("Vertical"));
+			moveDirection = transform.TransformDirection (moveDirection);
+			moveDirection *= horizontalSpeed * Time.deltaTime;
+
+			//if (moveDirection != Vector3.zero)
+			//	moved = true;
+
+		} else {
+			moveDirection = Vector3.zero;
+		}
+
+
+		if (Input.GetButton ("Jump")) {
+			heigth = jumpHeigth;
+		} else  {
+			heigth = hooverHeigth;
+		}
+
+		moveDirection.y = Mathf.Lerp (0, (heigth  + groundHeigth)- transform.position.y, verticalSpeed * Time.deltaTime);
+		CC.Move (moveDirection);
+	}
+
 }

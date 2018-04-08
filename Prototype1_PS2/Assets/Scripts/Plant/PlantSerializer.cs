@@ -10,7 +10,7 @@ public class PlantSerializer {
 	public static void SavePlant(Plant plant)
 	{
 		
-		SerializedPlant p = new SerializedPlant(plant);
+		SerializedPlantData p = new SerializedPlantData(plant);
 		
 		string path = Application.persistentDataPath + "/" + plant.name.ToUpper () + ".grenplant";
 
@@ -25,12 +25,11 @@ public class PlantSerializer {
 
 
 	}
-	
-	
+
 }
 
 [System.Serializable]
-class SerializedPlant
+class SerializedPlantData
 {
 
 	#region PUBLIC VARIABLES
@@ -106,7 +105,7 @@ class SerializedPlant
 	//RECURSIONS
 
 	public bool hasRecursions;
-	public SerializedPlant branchPrefab;
+	public SerializedPlantData branchPrefab;
 
 	public float brancheAngleDelta;
 
@@ -132,7 +131,7 @@ class SerializedPlant
 	#endregion
 
 
-	public SerializedPlant( Plant plant)
+	public SerializedPlantData( Plant plant)
 	{
 		if (plant == null)
 			return;
@@ -246,7 +245,7 @@ class SerializedPlant
 		
 		hasRecursions = plant.hasRecursions;
 		
-		branchPrefab = new SerializedPlant(plant.branchPrefab);
+		branchPrefab = new SerializedPlantData(plant.branchPrefab);
 
 		
 		brancheAngleDelta = plant.brancheAngleDelta;
@@ -569,55 +568,4 @@ class SerializedLeaf
 
 }
 
-[System.Serializable]
-class SerializedVector3
-{
-	public float x;
-	public float y;
-	public float z;
-
-	public SerializedVector3(Vector3 vector3)
-	{
-		x = vector3.x;
-		y = vector3.y;
-		z = vector3.z;
-	}
-}
-
-[System.Serializable]
-class SerializedAnimationCurve
-{
-	public SerializedKeyFrame[] keys;
-
-	public SerializedAnimationCurve(AnimationCurve c)
-	{
-		keys = new SerializedKeyFrame[c.keys.Length];
-		for (int i = 0; i < c.keys.Length; i++) {
-			keys [i] = new SerializedKeyFrame (c.keys [i]);
-		}
-	}
-}
-
-[System.Serializable]
-class SerializedKeyFrame
-{
-	public float inTangent;
-	public float outTangent;
-	public float time;
-	public float value;
-
-	public int tangentMode;
-
-
-	public SerializedKeyFrame(Keyframe kf)
-	{
-		inTangent = kf.inTangent;
-		outTangent = kf.outTangent;
-		time = kf.time;
-		value = kf.value;
-
-		tangentMode = (int)kf.tangentMode;
-
-	}
-}
-
+ 
