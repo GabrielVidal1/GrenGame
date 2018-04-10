@@ -420,22 +420,12 @@ Prefab:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114437106939328180, guid: 9ff9fc806b30eba44af39818e8142853,
+    - target: {fileID: 114824183593719034, guid: 9ff9fc806b30eba44af39818e8142853,
         type: 2}
       propertyPath: m_havePropertiesChanged
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114437106939328180, guid: 9ff9fc806b30eba44af39818e8142853,
-        type: 2}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114495423201619874, guid: 9ff9fc806b30eba44af39818e8142853,
-        type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114495423201619874, guid: 9ff9fc806b30eba44af39818e8142853,
+    - target: {fileID: 114824183593719034, guid: 9ff9fc806b30eba44af39818e8142853,
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1
@@ -512,50 +502,6 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-<<<<<<< HEAD
-    - target: {fileID: 114824183593719034, guid: 9ff9fc806b30eba44af39818e8142853,
-        type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114824183593719034, guid: 9ff9fc806b30eba44af39818e8142853,
-        type: 2}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114839699372245508, guid: 9ff9fc806b30eba44af39818e8142853,
-        type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114839699372245508, guid: 9ff9fc806b30eba44af39818e8142853,
-        type: 2}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224794869672952346, guid: 9ff9fc806b30eba44af39818e8142853,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224577626161627178, guid: 9ff9fc806b30eba44af39818e8142853,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1579703341084522, guid: 9ff9fc806b30eba44af39818e8142853, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1464796517681826, guid: 9ff9fc806b30eba44af39818e8142853, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1199254547043388, guid: 9ff9fc806b30eba44af39818e8142853, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-=======
     - target: {fileID: 1199254547043388, guid: 9ff9fc806b30eba44af39818e8142853, type: 2}
       propertyPath: m_Name
       value: MainMenuCanvas
@@ -570,7 +516,6 @@ Prefab:
       propertyPath: loadingScreenLoadingBar
       value: 
       objectReference: {fileID: 1579782894}
->>>>>>> World-Serialization/Seeds
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9ff9fc806b30eba44af39818e8142853, type: 2}
   m_IsPrefabParent: 0

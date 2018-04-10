@@ -34,6 +34,10 @@ public class PlayerInventory : NetworkBehaviour {
 
 	void Start () 
 	{
+
+		if (isLocalPlayer)
+			CanvasManager.cm.seedSelectionWheel.SetPlayer (this);
+		
 		layerMask = ~(1 << 1);
 	
 		player = GetComponent<Player> ();
