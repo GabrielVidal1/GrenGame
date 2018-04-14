@@ -41,6 +41,7 @@ public class PlantEditor : Editor {
 		if (!myObject.isBranch)
 			scrollZone = EditorGUILayout.BeginScrollView (scrollZone);
 
+		myObject.pointValue = EditorGUILayout.IntField ("Point Value", myObject.pointValue);
 
 		EditorGUILayout.LabelField ("Seed", myObject.plantSeed.ToString ());
 

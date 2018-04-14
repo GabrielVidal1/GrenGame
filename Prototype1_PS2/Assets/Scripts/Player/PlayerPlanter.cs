@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerPlanter : NetworkBehaviour {
 
+	public float reach = 100f;
 
 	private GameObject camera;
 	private Player player;
@@ -14,7 +15,7 @@ public class PlayerPlanter : NetworkBehaviour {
 
 	void Start () 
 	{
-		layerMask = ~(1 << 1);
+		layerMask = /*~(1 << 1);*/ LayerMask.GetMask ("FertileGround");
 
 
 		player = GetComponent<Player> ();
@@ -24,22 +25,51 @@ public class PlayerPlanter : NetworkBehaviour {
 
 
 	[Command]
-	public void CmdPlant(int index, Vector3 position, Vector3 direction)
+	public void CmdPlant(int index, Vector3 origin, Vector3 direction)
 	{
-		RpcPlant (index, position, direction);
+		RpcPlant (index, origin, direction);
 	}
 
 	[ClientRpc]
-	public void RpcPlant(int index, Vector3 position, Vector3 direction)
+	public void RpcPlant(int index, Vector3 origin, Vector3 direction)
 	{
-		Plant plant = Instantiate (GameManager.gm.pm.plantsPrefabs [index], position, Quaternion.identity);
-		plant.initialDirection = direction;
-		plant.SetSeed (Plant.plantNumber);
 
-		plant.time = 0f;
-		plant.InitializePlant ();
 
-		GameManager.gm.pm.plants.Add (plant);
+		Ray ray = new Ray (origin, direction);
+		RaycastHit hit;
+
+		if (Physics.Raycast (ray, out hit, 100f, layerMask)) {
+
+			Plant plant = Instantiate (GameManager.gm.pm.plantsPrefabs [index], hit.point + 0.1f * hit.normal, Quaternion.identity);
+			plant.initialDirection = hit.normal;
+			plant.SetSeed (Plant.plantNumber);
+			
+			plant.time = 0f;
+			plant.InitializePlant ();
+			
+			playerInventory.UseSeed ();
+
+
+			Zone touchedZone = hit.collider.GetComponent<Zone> ();
+
+			int plantIndex = GameManager.gm.pm.AddPlantAndGetIndex (plant);
+
+
+			if (touchedZone) {
+
+
+				touchedZone.AddPlant (plantIndex);
+
+
+			} else {
+				Debug.LogError ("This zone is impossible to plant on !!");
+			}
+
+			
+
+
+
+		}
 	}
 
 
@@ -60,29 +90,21 @@ public class PlayerPlanter : NetworkBehaviour {
 
 					if (CanvasManager.cm.seedSelectionWheel.canClick) {
 
-						Ray ray = new Ray (camera.transform.position /*+ camera.transform.forward*/, camera.transform.forward);
+						Vector3 origin = camera.transform.position;
+						Vector3 direction = camera.transform.forward;
+
+						Ray ray = new Ray (origin, direction);
 						RaycastHit hit;
 
 						if (Physics.Raycast (ray, out hit, 100f, layerMask)) {
-
-
-
-							Vector3 dir = hit.normal;
-
-							CmdPlant (playerInventory.PlantIndex, hit.point + 0.1f * hit.normal, hit.normal);
-							playerInventory.UseSeed ();
-
-							//Debug.DrawRay (hit.point, hit.normal, Color.red, 10f);
+							CmdPlant (playerInventory.PlantIndex,origin, direction);
 						}
+
+
+
 					}
 				}
 			}
-			/*
-			if (Input.GetKeyDown (KeyCode.E)) {
-				selectedIndex = (selectedIndex + 1) % GameManager.gm.pm.plantsPrefabs.Length;
-				UpdateSelectedPlantText ();
-			}
-			*/
 		}
 		
 	}

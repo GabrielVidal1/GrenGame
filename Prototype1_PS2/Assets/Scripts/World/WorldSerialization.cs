@@ -198,6 +198,7 @@ public class WorldSerialization : MonoBehaviour{
 
 			PlantSeed s = Instantiate (GameManager.gm.pm.seedsPrefab[worldData.seeds [i].plantTypeIndex], worldData.seeds [i].position.Deserialize(), Quaternion.identity).GetComponent<PlantSeed> ();
 			s.indexInPlantManager = worldData.seeds [i].plantTypeIndex;
+			s.name = "RELOADED_SEED_" + i.ToString();			
 			GameManager.gm.pm.plantSeeds.Add (s);
 		}
 
@@ -225,6 +226,9 @@ public class WorldData
 	public SerializedVector3[] playerPositions;//OK
 	public SerializedPlayerInventory[] playerInventories;//OK
 
+	public SerializedZone[] zones;
+
+
 	public WorldData()
 	{
 		plants = new SerializedPlant[0];
@@ -233,6 +237,7 @@ public class WorldData
 		playersName = new string[0];
 		playerPositions = new SerializedVector3[0];
 		playerInventories = new SerializedPlayerInventory[0];
+		zones = new SerializedZone[0];
 	}
 
 	public WorldData(WorldData clone)
@@ -243,9 +248,23 @@ public class WorldData
 		playersName = (string[])clone.playersName.Clone ();
 		playerPositions = (SerializedVector3[])clone.playerPositions.Clone ();
 		playerInventories = (SerializedPlayerInventory[])clone.playerInventories.Clone ();
+		zones = (SerializedZone[])clone.zones.Clone ();
+
 	}
 
 }
+
+[System.Serializable]
+public struct SerializedZone
+{
+	public int nbOfPoints;
+
+	public SerializedZone (Zone zone)
+	{
+		nbOfPoints = zone.nbOfPoints;
+	}
+}
+
 
 [System.Serializable]
 public struct SerializedPlayerInventory

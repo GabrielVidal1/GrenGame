@@ -24,6 +24,7 @@ public class GameManager : NetworkBehaviour {
 	public NetworkManager nm;
 	public PlantManager pm;
 	public WorldSerialization wd;
+	public ZoneAndDoorManager zd;
 
 	public bool isHost;
 
@@ -47,11 +48,13 @@ public class GameManager : NetworkBehaviour {
 				Destroy (gameObject);
 			}
 		}
+
 		isMain = true;
 
 		nm = GetComponent<NetworkManager> ();
 		pm = GetComponent<PlantManager> ();
 		wd = GetComponent<WorldSerialization> ();
+		zd = GetComponent<ZoneAndDoorManager> ();
 
 	}
 

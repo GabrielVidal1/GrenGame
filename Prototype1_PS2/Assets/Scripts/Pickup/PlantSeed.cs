@@ -13,6 +13,7 @@ public class PlantSeed : Pickup {
 	{
 		base.Init ();
 
+		Debug.Log ("je suis une graine !    " + name);
 		GameManager.gm.pm.plantSeeds.Add (this);
 	}
 

@@ -15,7 +15,9 @@ public class Plant : MonoBehaviour{
 
 	#region PUBLIC VARIABLES
 
-	public int indexInPlantManagerArray;
+	public int pointValue;
+
+	public int plantTypeIndex;
 
 	public int plantSeed;
 	[Range(0f, 1f)]

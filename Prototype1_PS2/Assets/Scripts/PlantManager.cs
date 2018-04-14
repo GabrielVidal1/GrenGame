@@ -32,13 +32,19 @@ public class PlantManager : MonoBehaviour {
 	}
 
 
+	public int AddPlantAndGetIndex(Plant plant)
+	{
+		plants.Add (plant);
+		return plants.Count - 1;
+	}
+
 
 	void Start()
 	{
 		plantDiscovered = new bool[plantsPrefabs.Length];
 		for (int i = 0; i < plantDiscovered.Length; i++) {
 			plantDiscovered [i] = true;
-			plantsPrefabs [i].indexInPlantManagerArray = i;
+			plantsPrefabs [i].plantTypeIndex = i;
 
 		}
 
@@ -55,7 +61,7 @@ public class PlantManager : MonoBehaviour {
 
 
 			SerializedPlant sPlant = 
-				new SerializedPlant (plants[i].indexInPlantManagerArray, 
+				new SerializedPlant (plants[i].plantTypeIndex, 
 					plants[i].time, 
 					plants[i].transform.position, 
 					plants[i].initialDirection, 
