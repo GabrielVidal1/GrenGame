@@ -1,3 +1,6 @@
 # PROJET-S2
 
-/!\ La scène 'Main' a un problème de fusion (Merge Error) /!\
+Problème réglé.
+
+Merci de pull la dernière version du projet avant de faire des commit qui cassent tout
+
