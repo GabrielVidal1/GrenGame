@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 114833581927181336}
   - component: {fileID: 114629320625391470}
   - component: {fileID: 114738843666635456}
+  - component: {fileID: 114530247847475852}
   m_Layer: 1
   m_Name: PlayerKamoun
   m_TagString: Player
@@ -373,6 +374,17 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114530247847475852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652012922637364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb18e46903106540ad703577087debe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114571973457969810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -402,6 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20838ffb5264746489ce9c0f47228039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reach: 100
 --- !u!114 &114738843666635456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -472,6 +485,8 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: ToggleEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   camera: {fileID: 1858469207150750}
+  playerName: 
+  synched: 0
 --- !u!124 &124250022054620664
 Behaviour:
   m_ObjectHideFlags: 1

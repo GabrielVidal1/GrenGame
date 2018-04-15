@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ShapeEditionMode : MonoBehaviour {
 
+	/*
+
 	public ManipulationNode[] nodes;
 	public ManipulationNode nodePrefab;
 
@@ -140,20 +142,6 @@ public class ShapeEditionMode : MonoBehaviour {
 	private void UpdateCurveForNode(ManipulationNode node)
 	{
 		if (node.nodeType == NodeType.ShapeNode) {
-			/*
-			Keyframe k = plant.finalShapeOverLength.keys [node.nodeIndex];
-
-			float nTime = node;
-			float nValue = node;
-	
-			Debug.Log (nTime + "  " + nValue);
-
-			k.value = nValue;
-			k.time = nTime;
-
-			Debug.Log (k.time  + "  " + k.value);
-
-*/
 
 			Keyframe[] keys = new Keyframe[keyCount];
 			for (int i = 0; i < keyCount; i++) {
@@ -192,7 +180,7 @@ public class ShapeEditionMode : MonoBehaviour {
 
 		}
 	}
-
+*/
 }
 
 public enum NodeType
