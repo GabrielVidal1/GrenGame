@@ -19,4 +19,10 @@ public class Noise3D : MonoBehaviour {
 		return Mathf.PerlinNoise (position.x - position.z, position.y + position.z);
 	}
 
+	public static Vector3 RandomVector()
+	{
+		return new Vector3 (0.2514354f, -0.3546345f, 0.3645f);
+	}
+
+
 }

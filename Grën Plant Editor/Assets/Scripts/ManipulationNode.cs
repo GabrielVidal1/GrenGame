@@ -11,20 +11,32 @@ public class ChangeEventNode : UnityEvent<ManipulationNode> {}
 
 public class ManipulationNode : MonoBehaviour {
 
-	[SerializeField] private bool xAxis;
-	[SerializeField] private Vector2 xRange;
+	[SerializeField] public bool xAxis;
+	[SerializeField] public Vector2 xRange;
 	public float xRatio;
-	public float xValue;
+	public float xValue
+	{
+		get { return ((transform.position - origin).x - xRange.x) / xRatio; }
+		set { SetValueX (value); }
+	}
 
-	[SerializeField] private bool yAxis;
-	[SerializeField] private Vector2 yRange;
+	[SerializeField] public bool yAxis;
+	[SerializeField] public Vector2 yRange;
 	public float yRatio;
-	public float yValue;
+	public float yValue
+	{
+		get { return ((transform.position - origin).y - yRange.x) / yRatio; }
+		set { SetValueY (value); }
+	}
 
-	[SerializeField] private bool zAxis;
-	[SerializeField] private Vector2 zRange;
+	[SerializeField] public bool zAxis;
+	[SerializeField] public Vector2 zRange;
 	public float zRatio;
-	public float zValue;
+	public float zValue
+	{
+		get { return ((transform.position - origin).z - zRange.x) / zRatio; }
+		set { SetValueZ (value); }
+	}
 
 	[SerializeField] private ChangeEvent OnChangeValueX;
 	[SerializeField] private ChangeEvent OnChangeValueY;
@@ -85,19 +97,21 @@ public class ManipulationNode : MonoBehaviour {
 	}
 
 
-	public void SetValueX(float value)
+	void SetValueX(float value)
 	{
-		transform.position = origin + Vector3.right * xRatio * value;
+		transform.position = new Vector3(origin.x + xRatio * value, transform.position.y, transform.position.z );
+		//transform.position = origin + Vector3.right * xRatio * value;
 	}
 
-	public void SetValueY(float value)
+	void SetValueY(float value)
 	{
-		transform.position = origin + Vector3.up * yRatio * value;
+		transform.position = new Vector3(transform.position.x, origin.y + yRatio * value, transform.position.z);
+		//transform.position = origin + Vector3.up * yRatio * value;
 	}
 
-	public void SetValueZ(float value)
+	void SetValueZ(float value)
 	{
-		transform.position = origin + Vector3.forward * zRatio * value;
+		transform.position = new Vector3(transform.position.x, transform.position.y, origin.z + zRatio * value);
 	}
 
 	void OnMouseDown()
@@ -167,39 +181,26 @@ public class ManipulationNode : MonoBehaviour {
 
 				transform.position = hit.point;
 
-				Vector3 rPos = transform.position - origin;
-
-
 				transform.position = origin +
 				new Vector3 (
-						xAxis ? Mathf.Max (Mathf.Min (rPos.x, xRatio * xRange.y), xRatio * xRange.x) : 0f,				
-						yAxis ? Mathf.Max (Mathf.Min (rPos.y, yRatio * yRange.y), yRatio * yRange.x) : 0f, 
-						zAxis ? Mathf.Max (Mathf.Min (rPos.z, zRatio * zRange.y), zRatio * zRange.x) : 0f);
+						xAxis ? Mathf.Max (Mathf.Min ((transform.position - origin).x, xRatio * xRange.y), xRatio * xRange.x) : 0f,				
+						yAxis ? Mathf.Max (Mathf.Min ((transform.position - origin).y, yRatio * yRange.y), yRatio * yRange.x) : 0f, 
+						zAxis ? Mathf.Max (Mathf.Min ((transform.position - origin).z, zRatio * zRange.y), zRatio * zRange.x) : 0f);
+				
 
-				rPos = transform.position - origin;
-
-				float nxValue = (rPos.x - xRange.x);
-				float nyValue = (rPos.y - yRange.x);
-				float nzValue = (rPos.z - zRange.x);
-
-				if (nxValue != xValue) {
-					xValue = nxValue;
-					OnChangeValueX.Invoke (nxValue);
-					OnChangeValue.Invoke (this);
+				if (xAxis) {
+					OnChangeValueX.Invoke (xValue);
 				}
 
-				if (nyValue != yValue) {
-					yValue = nyValue;
-					OnChangeValueY.Invoke (nyValue);
-					OnChangeValue.Invoke (this);
+				if (yAxis) {
+					OnChangeValueY.Invoke (yValue);
 				}
 
-				if ( nzValue != zValue) {
-					zValue = nzValue;
-					OnChangeValueZ.Invoke (nzValue);
-					OnChangeValue.Invoke (this);
+				if ( zAxis) {
+					OnChangeValueZ.Invoke (zValue);
 				}
 
+				OnChangeValue.Invoke (this);
 			}
 		}
 	}

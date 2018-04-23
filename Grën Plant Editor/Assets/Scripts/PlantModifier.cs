@@ -16,27 +16,30 @@ public class PlantModifier : MonoBehaviour {
 	void Start () {
 
 		radiusNode.Initialize ();
-		radiusNode.SetValueX (plant.initialRadius);
+		radiusNode.xValue = plant.initialRadius;
 
 
 		lengthNode.Initialize ();
 		lengthNode.yRatio = 1f;
-		lengthNode.SetValueY (plant.nbOfSegments * plant.initialSegmentLength);
+		lengthNode.yValue = plant.nbOfSegments * plant.initialSegmentLength;
 
 
 		for (int i = 0; i < shapeNodes.Length; i++) {
 
 
-			float ratio = ((float)i / shapeNodes.Length);
+			//float ratio = ((float)i / shapeNodes.Length);
 
-			Debug.Log (ratio);
+			//Debug.Log (ratio);
+			shapeNodes[i].yRange = new Vector2(0f, 1f);
+			shapeNodes[i].zRange = new Vector2(0.01f, 1f);
+
 
 			shapeNodes [i].Initialize ();
 			shapeNodes [i].yRatio = plant.nbOfSegments * plant.initialSegmentLength;
 			shapeNodes [i].zRatio = plant.initialRadius;
 
-			shapeNodes [i].SetValueY (ratio * (plant.nbOfSegments * plant.initialSegmentLength));
-			shapeNodes [i].SetValueZ (plant.finalShapeOverLength.Evaluate (ratio ));
+			//shapeNodes [i].SetValueY (ratio * (plant.nbOfSegments * plant.initialSegmentLength));
+			shapeNodes [i].zValue = plant.finalShapeOverLength.Evaluate (shapeNodes [i].yValue);
 
 
 
@@ -53,12 +56,16 @@ public class PlantModifier : MonoBehaviour {
 
 	public void ChangeInitialRadius(float radius)
 	{
+		//Debug.Log ("RADIUS : " + radius);
 		plant.initialRadius = radius;
 		plant.InitializePlant ();
 
+		Debug.Log ("changed radius");
+
+
 		for (int i = 0; i < shapeNodes.Length; i++) {
 			shapeNodes [i].zRatio = plant.initialRadius;
-			shapeNodes [i].SetValueZ (plant.finalShapeOverLength.Evaluate (shapeNodes [i].zValue / (plant.nbOfSegments * plant.initialSegmentLength)));
+			shapeNodes [i].zValue = plant.finalShapeOverLength.Evaluate (shapeNodes [i].yValue);
 
 		}
 	}
@@ -67,6 +74,8 @@ public class PlantModifier : MonoBehaviour {
 	{
 		plant.nbOfSegments = (int)(value / plant.initialSegmentLength) + 2;
 		plant.InitializePlant ();
+
+		Debug.Log ("changed nb of segments");
 
 		for (int i = 0; i < shapeNodes.Length; i++) {
 			shapeNodes [i].yRatio = plant.nbOfSegments * plant.initialSegmentLength;
@@ -83,9 +92,12 @@ public class PlantModifier : MonoBehaviour {
 		Keyframe[] keys = new Keyframe[shapeNodes.Length];
 		for (int i = 0; i < shapeNodes.Length; i++) {
 			
-			keys [i] = new Keyframe (shapeNodes[i].yValue / totalLength, shapeNodes[i].zValue / plant.initialRadius);
+			keys [i] = new Keyframe (shapeNodes[i].yValue, shapeNodes[i].zValue);
+
+			shapeNodes [i].zValue = plant.finalShapeOverLength.Evaluate (shapeNodes[i].yValue );
+
 		}
-		Debug.Log ("Update");
+		Debug.Log ("changed shape");
 		plant.finalShapeOverLength = new AnimationCurve (keys);
 		plant.InitializePlant ();
 	}
