@@ -275,9 +275,6 @@ class SerializedPlantData
 
 		
 		brancheLengthRatio = plant.brancheLengthRatio;
-
-		
-		branchForceParameters = plant.branchForceParameters;
 	}
 
 	/*

@@ -237,6 +237,7 @@ MonoBehaviour:
   - {fileID: 114406117644882906, guid: 97c7dae98d59c324083c6b02cd5e534c, type: 2}
   - {fileID: 114626937825601152, guid: eec4ad4a7533ae14a8607c00f41983ff, type: 2}
   - {fileID: 114173939077354296, guid: 6fd43c076efecee4ab9a163f30409bb7, type: 2}
+  - {fileID: 114048030750317720, guid: c837f0f89c86fbf43b3fe31d5e542b44, type: 2}
   seedsPrefab:
   - {fileID: 114655151406520926, guid: 6a8509a3a81927e43a344ada5d44dbf3, type: 2}
   - {fileID: 114808792705863548, guid: 83625e75a091882449a31fccdeee2e3f, type: 2}
@@ -245,6 +246,7 @@ MonoBehaviour:
   - {fileID: 114512436202559392, guid: 160c85f30e80f804487d910c30699a0a, type: 2}
   - {fileID: 114468586396913158, guid: 42269370a94f7ee40aa2574c4f553ff3, type: 2}
   - {fileID: 114264086105866968, guid: a501762d4581b1249b353b456488e308, type: 2}
+  - {fileID: 114361178983775266, guid: b7b23491f03fc3b42ba7481be5092142, type: 2}
   plants: []
   plantSeeds: []
 --- !u!114 &114998714151286392

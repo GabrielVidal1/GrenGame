@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum LeavesRepartitionMode
+{Density, Number}
 
 [RequireComponent(typeof(MeshFilter))]
 [System.Serializable]
@@ -78,6 +80,10 @@ public class Plant : MonoBehaviour{
 	public bool leavesOnlyOnSections;
 
 	public float leavesDensity;
+	public int leavesNumber;
+
+	public LeavesRepartitionMode leavesRepartitionMode;
+
 	public AnimationCurve leavesDistribution;
 	public AnimationCurve leavesBirthdateDistribution;
 	public Interval leafGrowthDuration;
@@ -98,15 +104,17 @@ public class Plant : MonoBehaviour{
 	public AnimationCurve branchBirthDateDistribution;
 
 	public Interval branchGrowthDuration;
+
+	public bool brancheIndependentRadius;
 	public Interval branchInitialRadiusMultiplier;
 
 
 	public AnimationCurve branchesTangencityOverLength;
 	public bool branchesOnlyOnSections;
 	public AnimationCurve branchLengthOverTrunkLength;
-	public Interval brancheLengthRatio;
-	public bool branchForceParameters;
 
+	public bool brancheIndependentLength;
+	public Interval brancheLengthRatio;
 
 	//FLOWERS
 	public bool hasFlowers;
@@ -116,6 +124,7 @@ public class Plant : MonoBehaviour{
 	public Flower flowerPrefab;
 
 	public AnimationCurve flowerGrowthOverTime;
+	public AnimationCurve flowersBirthdateDistribution;
 
 
 	public Interval flowerGrowthDuration;
@@ -182,14 +191,28 @@ public class Plant : MonoBehaviour{
 		actualTrunkGrowthDuration = trunkGrowthDuration.RandomValue();
 			
 		maxDuration = actualTrunkGrowthDuration;
+		if (hasFlowers)
+			maxDuration += flowerGrowthDuration.max;
 		if (hasLeaves)
 			maxDuration += leafGrowthDuration.max;
 		if (hasRecursions) {
 			maxDuration += branchGrowthDuration.max;
 			if (branchPrefab.hasLeaves)
 				maxDuration += branchPrefab.leafGrowthDuration.max;
+			if (branchPrefab.hasFlowers)
+				maxDuration += branchPrefab.flowerGrowthDuration.max;
 			if (branchPrefab.hasRecursions)
 				maxDuration += branchPrefab.branchGrowthDuration.max;
+			if (branchPrefab.hasRecursions) {
+				if (branchPrefab.branchPrefab.hasLeaves)
+					maxDuration += branchPrefab.branchPrefab.leafGrowthDuration.max;
+				if (branchPrefab.branchPrefab.hasFlowers)
+					maxDuration += branchPrefab.branchPrefab.flowerGrowthDuration.max;
+				if (branchPrefab.branchPrefab.hasRecursions)
+					maxDuration += branchPrefab.branchPrefab.branchGrowthDuration.max;
+
+
+			}
 		}
 
 
@@ -381,22 +404,23 @@ public class Plant : MonoBehaviour{
 
 				branche.trunkGrowthDuration = branchGrowthDuration;
 
-				branche.leafGrowthDuration = leafGrowthDuration;
+				//branche.leafGrowthDuration = leafGrowthDuration;
 
 				branche.isBranch = true;
 				branche.initialDirection = direction;
-				branche.initialRadius = initialBrancheRadiusBranch * branchInitialRadiusMultiplier.RandomValue();
+				if (!brancheIndependentRadius)
+					branche.initialRadius = initialBrancheRadiusBranch * branchInitialRadiusMultiplier.RandomValue();
+
 				branche.initialNormal = tangentDirection;
 
 				//branche.initialSegmentLength = initialSegmentLength;
 				//branche.finalSegmentLength = finalSegmentLength;
 
 				//branche.nbOfSides = Mathf.Max (3, nbOfSides - 1);
-
-				float nbOfS = branchLengthOverTrunkLength.Evaluate (lengthRatio) * nbOfSegments * brancheLengthRatio.RandomValue() + 1;
-
-				branche.nbOfSegments = (int)nbOfS;
-
+				if (!brancheIndependentLength) {
+					float nbOfS = branchLengthOverTrunkLength.Evaluate (lengthRatio) * nbOfSegments * brancheLengthRatio.RandomValue() + 1;
+					branche.nbOfSegments = (int)nbOfS;
+				}
 
 				//BRANCH CREATION
 
@@ -488,18 +512,30 @@ public class Plant : MonoBehaviour{
 		leavesParent.parent = transform;
 		leavesParent.transform.localPosition = Vector3.zero;
 
-		int leavesIteration = (int)(leavesDensity * totalLength);
+		int leavesIteration = 0;
+
+		if (leavesRepartitionMode == LeavesRepartitionMode.Density)
+			leavesIteration = (int)(leavesDensity * totalLength);
+		else if (leavesRepartitionMode == LeavesRepartitionMode.Number)
+			leavesIteration = leavesNumber;
+
+		if (uniqueEndFlower)
+			leavesIteration += 1;
 
 		leaves = new LeafInfo[leavesIteration];
-
-
+		
+		
 		int iteration = 0;
 
-		while ( iteration < leavesIteration) {
-
+		while (iteration < leavesIteration) {
 
 			float lengthRatio = Random.value;
 			float proba = leavesDistribution.Evaluate (lengthRatio);
+
+			if (uniqueEndFlower && iteration == 0) {
+				lengthRatio = 0.99f;
+				proba = 2f;
+			}
 
 			if (Random.value < proba) {
 
@@ -538,13 +574,26 @@ public class Plant : MonoBehaviour{
 				Vector3 up = (1f - sunOrientationIntensity) * tangentDirection.normalized + sunOrientationIntensity * Vector3.up * sunOrientationIntensityOverTime.Evaluate(time);
 				direction.y *= sunOrientationIntensity * sunOrientationIntensityOverTime.Evaluate(time);
 
+				if (uniqueEndFlower && iteration == 0) {
+					int last = positionsAndNormals.pos.Length - 1;
+					direction = positionsAndNormals.pos[last] - positionsAndNormals.pos[last - 1];
+					Debug.DrawRay (position, direction.normalized, Color.red, 10f);
+				}
 
 				direction.Normalize ();
 
 				GameObject thing;
-				bool isLeaf = !hasFlowers || Random.value > leafChanceOfBeingFlower;
+				bool isFlower = hasFlowers &&
+				                ((uniqueEndFlower && iteration == 0)
+				                || (Random.value < leafChanceOfBeingFlower && !uniqueEndFlower));
 
-				if (isLeaf) {
+
+
+				//Debug.Log ("Is Leaf ? : " + !isFlower);
+
+				float birthDate = 0f;
+				float growthDuration = 0f;
+				if (!isFlower) {
 					
 					//LEAF CREATION
 					Leaf leaf = Instantiate (leafPrefab, position, Quaternion.identity);
@@ -553,6 +602,13 @@ public class Plant : MonoBehaviour{
 					leaf.initialDirection = direction;
 					leaf.upDirection = up;
 
+					growthDuration = leafGrowthDuration.RandomValue ();
+
+					//Debug.Log (leafGrowthDuration.min + "   " + leafGrowthDuration.max);
+
+					//Debug.Log ("Leaf growthDuration = " + growthDuration);
+
+					birthDate = Mathf.Lerp (ValueAt (trunkTimeOverTime, lengthRatio) * maxDuration, maxDuration - growthDuration, leavesBirthdateDistribution.Evaluate (Random.value));
 
 					leaf.transform.localScale *= leafSize.RandomValue ();
 
@@ -565,6 +621,9 @@ public class Plant : MonoBehaviour{
 					flower.initialDirection = direction;
 					//flower.upDirection = up;
 
+					growthDuration = flowerGrowthDuration.RandomValue ();
+
+					birthDate = Mathf.Lerp (ValueAt (trunkTimeOverTime, lengthRatio) * maxDuration, maxDuration - growthDuration, flowersBirthdateDistribution.Evaluate (Random.value));
 
 					flower.transform.localScale *= flowerSize.RandomValue ();
 
@@ -574,12 +633,9 @@ public class Plant : MonoBehaviour{
 
 				thing.transform.parent = leavesParent;
 
-				float growthDuration = leafGrowthDuration.RandomValue ();
+				//Debug.Log ("growthDuration = " + growthDuration);
 
-				float birthDate = Mathf.Lerp (ValueAt (trunkTimeOverTime, lengthRatio) * maxDuration, maxDuration - growthDuration, leavesBirthdateDistribution.Evaluate (Random.value));
-
-
-				LeafInfo l = new LeafInfo (isLeaf, thing, lengthRatio, direction, pointIndex1, pointIndex2, lerpValue, birthDate, growthDuration);
+				LeafInfo l = new LeafInfo (uniqueEndFlower && iteration == 0, !isFlower, thing, lengthRatio, direction, pointIndex1, pointIndex2, lerpValue, birthDate, growthDuration);
 					
 				leaves [actualLeavesNumber] = l;
 
@@ -618,9 +674,14 @@ public class Plant : MonoBehaviour{
 
 					if (thing.isLeafOrFlower) {
 						localTime = Mathf.Min(1f, leafGrowthOverTime.Evaluate ((absolutTime - thing.birthDate) / thing.growthDuration));
+						//Debug.Log (absolutTime + "    " + thing.birthDate + "      " + thing.growthDuration);
+						//Debug.Log (localTime);
+
 						thing.leaf.time = leafGrowthOverTime.Evaluate (localTime);
 					} else {
+						//Debug.Log (absolutTime + "    " + thing.birthDate + "      " + thing.growthDuration);
 						localTime = Mathf.Min(1f, flowerGrowthOverTime.Evaluate ((absolutTime - thing.birthDate) / thing.growthDuration));
+						//Debug.Log (localTime);
 						thing.flower.time = flowerGrowthOverTime.Evaluate (localTime);
 					}
 
@@ -642,7 +703,9 @@ public class Plant : MonoBehaviour{
 						thing.leaf.upDirection = up.normalized;
 						thing.leaf.UpdateMesh ();
 					} else {
-						thing.flower.initialDirection = initialDirection.normalized;
+						if (!thing.isEndFlower)
+							thing.flower.initialDirection = initialDirection.normalized;
+
 						thing.flower.transform.localPosition = localPosition;
 						//thing.flower.upDirection = up.normalized;
 						thing.flower.UpdateMesh ();
@@ -1058,8 +1121,11 @@ struct LeafInfo
 
 	public bool grownOnce;
 
-	public LeafInfo(bool isLeafOrFlower, GameObject thing, float lengthRatio, Vector3 normalDirection, int pointIndex1, int pointIndex2, float lerpValue, float birthDate, float growthDuration )
+	public bool isEndFlower;
+
+	public LeafInfo(bool isEndFlower, bool isLeafOrFlower, GameObject thing, float lengthRatio, Vector3 normalDirection, int pointIndex1, int pointIndex2, float lerpValue, float birthDate, float growthDuration )
 	{
+		this.isEndFlower = isEndFlower;
 		this.isLeafOrFlower = isLeafOrFlower;
 
 		if (isLeafOrFlower) {

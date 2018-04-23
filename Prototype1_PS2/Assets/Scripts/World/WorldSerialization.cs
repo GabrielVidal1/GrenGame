@@ -248,7 +248,7 @@ public class WorldData
 		playersName = (string[])clone.playersName.Clone ();
 		playerPositions = (SerializedVector3[])clone.playerPositions.Clone ();
 		playerInventories = (SerializedPlayerInventory[])clone.playerInventories.Clone ();
-		zones = (SerializedZone[])clone.zones.Clone ();
+		//zones = (SerializedZone[])clone.zones.Clone ();
 
 	}
 

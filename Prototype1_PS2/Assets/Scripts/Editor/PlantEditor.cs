@@ -91,7 +91,7 @@ public class PlantEditor : Editor {
 
 		EditorGUILayout.LabelField ("Mesh Characteristics", EditorStyles.toolbarButton);
 
-		EditorGUI.BeginDisabledGroup (myObject.isBranch || myObject.branchForceParameters);
+		EditorGUI.BeginDisabledGroup (myObject.isBranch || !myObject.brancheIndependentLength);
 		myObject.nbOfSegments = EditorGUILayout.IntSlider ("Number Of Segments", myObject.nbOfSegments, 1, 500);
 		EditorGUI.EndDisabledGroup ();
 
@@ -100,10 +100,10 @@ public class PlantEditor : Editor {
 
 
 		EditorGUILayout.LabelField ("Initial Condition", EditorStyles.toolbarButton);
-		EditorGUI.BeginDisabledGroup (myObject.isBranch || myObject.branchForceParameters);
+		EditorGUI.BeginDisabledGroup (myObject.isBranch || !myObject.brancheIndependentRadius);
 
 		myObject.initialRadius = EditorGUILayout.FloatField ("Initial Radius", myObject.initialRadius);
-		if (myObject.initialRadius < 0f) {
+		if (myObject.initialRadius <= 0f) {
 			Debug.LogError ("The Radius Can't Be Null Or Negative!");
 			myObject.initialRadius = 0.01f;
 		}
@@ -128,14 +128,26 @@ public class PlantEditor : Editor {
 		EditorGUILayout.LabelField ("Shape", EditorStyles.toolbarButton);
 
 		myObject.initialShapeOverLength = EditorGUILayout.CurveField ("Initial Shape Over Length", myObject.initialShapeOverLength, Color.green, new Rect (0, 0, 1, 2));
+		if (myObject.initialShapeOverLength == null) {
+			myObject.initialShapeOverLength = AnimationCurve.Linear (0f, 1f, 1f, 0f);
+		}
 
 		myObject.finalShapeOverLength = EditorGUILayout.CurveField ("Final Shape Over Length", myObject.finalShapeOverLength, Color.green, new Rect (0, 0, 1, 2));
+		if (myObject.finalShapeOverLength == null) {
+			myObject.finalShapeOverLength = AnimationCurve.Linear (0f, 1f, 1f, 0f);
+		}
 
 		myObject.shapeOverTime = EditorGUILayout.CurveField ("Shape Transition Over Length", myObject.shapeOverTime, Color.green, new Rect (0, 0, 1, 1));
+		if (myObject.shapeOverTime == null) {
+			myObject.shapeOverTime = AnimationCurve.Linear (0f, 0f, 1f, 1f);
+		}
 
 		EditorGUILayout.Space ();
 
 		myObject.radiusOverAngle = EditorGUILayout.CurveField ("Radius Over Angle", myObject.radiusOverAngle, Color.green, new Rect (0, 0, 1, 1));
+		if (myObject.radiusOverAngle == null) {
+			myObject.radiusOverAngle = AnimationCurve.Linear (0f, 1f, 1f, 1f);
+		}
 
 		EditorGUILayout.Space ();
 
@@ -144,6 +156,9 @@ public class PlantEditor : Editor {
 		EditorGUILayout.LabelField ("Length", EditorStyles.toolbarButton);
 
 		myObject.lengthOverTime = EditorGUILayout.CurveField ("Length Over Time", myObject.lengthOverTime, Color.green, new Rect (0, 0, 1, 1));
+		if (myObject.lengthOverTime == null) {
+			myObject.lengthOverTime = AnimationCurve.Linear (0f, 0f, 1f, 1f);
+		}
 
 		//EditorGUI.BeginDisabledGroup (myObject.isBranch || myObject.branchForceParameters);
 		myObject.initialSegmentLength = EditorGUILayout.Slider ("Initial Segment Length", myObject.initialSegmentLength, 0.01f, 10f);
@@ -151,6 +166,9 @@ public class PlantEditor : Editor {
 		//EditorGUI.EndDisabledGroup ();
 
 		myObject.segmentLengthOverLength = EditorGUILayout.CurveField ("Segment Length Over Length", myObject.segmentLengthOverLength, Color.green, new Rect (0, 0, 1, 1));
+		if (myObject.segmentLengthOverLength == null) {
+			myObject.segmentLengthOverLength = AnimationCurve.Linear (0f, 1f, 1f, 1f);
+		}
 
 
 		EditorGUILayout.Space ();
@@ -164,6 +182,9 @@ public class PlantEditor : Editor {
 			myObject.gravityForce = EditorGUILayout.Slider ("Gravity Intensity", myObject.gravityForce, -5f, 5f);
 
 			myObject.gravityOverLength = EditorGUILayout.CurveField ("Gravity Intensity Over Length", myObject.gravityOverLength, Color.green, new Rect (0, 0, 1, 1));
+			if (myObject.gravityOverLength == null) {
+				myObject.gravityOverLength = AnimationCurve.Linear (0f, 1f, 1f, 1f);
+			}
 
 			EditorGUILayout.Space ();
 		}
@@ -176,6 +197,9 @@ public class PlantEditor : Editor {
 			myObject.noiseSize = EditorGUILayout.Slider ("Noise Size", myObject.noiseSize, 0.01f, 1f);
 
 			myObject.noiseOverLength = EditorGUILayout.CurveField ("Noise Intensity Over Length", myObject.noiseOverLength, Color.green, new Rect (0, 0, 1, 1));
+			if (myObject.noiseOverLength == null) {
+				myObject.noiseOverLength = AnimationCurve.Linear (0f, 1f, 1f, 1f);
+			}
 
 			EditorGUILayout.Space ();
 
@@ -192,7 +216,12 @@ public class PlantEditor : Editor {
 
 			if (myObject.leafPrefab != null) {
 
-				myObject.leavesDensity = EditorGUILayout.Slider ("Leaf Density", myObject.leavesDensity, 0f, 10f);
+				myObject.leavesRepartitionMode = (LeavesRepartitionMode)EditorGUILayout.EnumPopup ("Leaves Repartition Mode", myObject.leavesRepartitionMode);
+
+				if (myObject.leavesRepartitionMode == LeavesRepartitionMode.Density)
+					myObject.leavesDensity = EditorGUILayout.Slider ("Leaf Density", myObject.leavesDensity, 0f, 10f);
+				if (myObject.leavesRepartitionMode == LeavesRepartitionMode.Number)
+					myObject.leavesNumber = EditorGUILayout.IntSlider ("Leaf Number", myObject.leavesNumber, 0, 100);
 
 				EditorGUILayout.PropertyField (leafGrowthDuration, new GUIContent ("Leaf Growth Duration"), true);
 				EditorGUILayout.PropertyField (leafSize, new GUIContent ("Leaf Size"), true);
@@ -252,8 +281,11 @@ public class PlantEditor : Editor {
 				EditorGUILayout.PropertyField (flowerGrowthDuration, new GUIContent ("Flower Growth Duration"), true);
 				EditorGUILayout.PropertyField (flowerSize, new GUIContent ("Flower Size"), true);
 				myObject.flowerGrowthOverTime = EditorGUILayout.CurveField ("Flower Growth Over Time", myObject.flowerGrowthOverTime, Color.green, new Rect (0, 0, 1, 1));
-
-				EditorGUI.BeginDisabledGroup (myObject.uniqueEndFlower);
+				myObject.flowersBirthdateDistribution = EditorGUILayout.CurveField ("Flowers Birth Distribution Over Time", myObject.flowersBirthdateDistribution, Color.green, new Rect (0, 0, 1, 1));
+				if (myObject.flowersBirthdateDistribution == null)
+					myObject.flowersBirthdateDistribution = AnimationCurve.Linear (0, 0, 1, 1);
+				
+				//EditorGUI.BeginDisabledGroup (myObject.uniqueEndFlower);
 
 				if (myObject.hasLeaves) {
 					myObject.leafChanceOfBeingFlower = EditorGUILayout.Slider ("Leaf Chance Of Being A Flower", myObject.leafChanceOfBeingFlower, 0f, 1f);
@@ -264,7 +296,7 @@ public class PlantEditor : Editor {
 				}
 
 
-				EditorGUI.EndDisabledGroup ();
+				//EditorGUI.EndDisabledGroup ();
 
 
 				if (myObject.leafPrefab != null) {
@@ -304,14 +336,18 @@ public class PlantEditor : Editor {
 			myObject.branchBirthDateDistribution = EditorGUILayout.CurveField ("Branches Birth Distribution Over Time", myObject.branchBirthDateDistribution, Color.green, new Rect (0, 0, 1, 1));
 
 			EditorGUILayout.PropertyField (branchGrowthDuration, new GUIContent ("Branch Growth Duration"));
-			EditorGUILayout.PropertyField (branchInitialRadiusMultiplier, new GUIContent ("Branch Radius Multiplier"));
+
+			myObject.brancheIndependentRadius = EditorGUILayout.Toggle ("Branche Independent Radius", myObject.brancheIndependentRadius);
+			if (!myObject.brancheIndependentRadius)
+				EditorGUILayout.PropertyField (branchInitialRadiusMultiplier, new GUIContent ("Branch Radius Multiplier"));
 
 			EditorGUILayout.Space ();
 
 			myObject.branchesTangencityOverLength = EditorGUILayout.CurveField ("Branches Tangency Over Length", myObject.branchesTangencityOverLength, Color.green, new Rect (0, 0, 1, 1));
 
-
-			EditorGUILayout.PropertyField (brancheLengthRatio, new GUIContent ("Branch Length Ratio"));
+			myObject.brancheIndependentLength = EditorGUILayout.Toggle ("Branche Independent Length", myObject.brancheIndependentLength);
+			if (!myObject.brancheIndependentLength)
+				EditorGUILayout.PropertyField (brancheLengthRatio, new GUIContent ("Branch Length Ratio"));
 
 			myObject.branchLengthOverTrunkLength = EditorGUILayout.CurveField ("Branches Length Over Trunk Length", myObject.branchLengthOverTrunkLength, Color.green, new Rect (0, 0, 1, 1));
 
