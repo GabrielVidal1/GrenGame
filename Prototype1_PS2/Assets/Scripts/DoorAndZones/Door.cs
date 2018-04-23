@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Door : MonoBehaviour {
@@ -14,17 +15,26 @@ public class Door : MonoBehaviour {
 
 	[SerializeField] private Animator doorAnimator;
 
+	[SerializeField] private Slider slider;
 
 	private bool opened;
+	public bool IsOpen
+	{
+		get {return opened;}
+	}
 
-	void Start () {
-		
+	void Start () 
+	{
+		foreach (Zone zone in associatedZones) {
+			zone.AddToDoorArray (this);
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void InitOpen()
+	{
+		doorAnimator.SetTrigger ("InitOpen");
 	}
+
 
 	private void Open()
 	{
@@ -54,8 +64,14 @@ public class Door : MonoBehaviour {
 
 	public void UpdateSlider()
 	{
-		
+		int tot = TotalPoint ();
 
+		Debug.Log (tot);
+
+		if (tot > neededPointsToOpen)
+			slider.value = 1f;
+		else
+			slider.value = (float)tot / neededPointsToOpen;
 	}
 
 	private int TotalPoint()

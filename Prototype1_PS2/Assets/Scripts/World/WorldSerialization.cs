@@ -114,7 +114,9 @@ public class WorldSerialization : MonoBehaviour{
 
 		GameManager.gm.pm.SerializeSeeds (worldData);
 		//Debug.Log(worldData.seeds.Length);
+		GameManager.gm.zd.SerializeDoors(worldData);
 
+		GameManager.gm.zd.SerializeZones(worldData);
 
 		(new GameObject ("After serilisation")).AddComponent<Test> ().wd = new WorldData(worldData);
 
@@ -202,6 +204,11 @@ public class WorldSerialization : MonoBehaviour{
 			GameManager.gm.pm.plantSeeds.Add (s);
 		}
 
+		GameManager.gm.zd.DeserializeZones (worldData);
+
+		GameManager.gm.zd.DeserializeDoors (worldData);
+
+
 
 
 		this.worldData = worldData;
@@ -217,6 +224,9 @@ public class WorldSerialization : MonoBehaviour{
 [System.Serializable]
 public class WorldData
 {
+	//public bool firstSave;
+
+
 	public SerializedPlant[] plants;//OK
 
 
@@ -227,6 +237,7 @@ public class WorldData
 	public SerializedPlayerInventory[] playerInventories;//OK
 
 	public SerializedZone[] zones;
+	public SerializedDoor[] doors;
 
 
 	public WorldData()
@@ -238,6 +249,7 @@ public class WorldData
 		playerPositions = new SerializedVector3[0];
 		playerInventories = new SerializedPlayerInventory[0];
 		zones = new SerializedZone[0];
+		doors = new SerializedDoor[0];
 	}
 
 	public WorldData(WorldData clone)
@@ -248,10 +260,22 @@ public class WorldData
 		playersName = (string[])clone.playersName.Clone ();
 		playerPositions = (SerializedVector3[])clone.playerPositions.Clone ();
 		playerInventories = (SerializedPlayerInventory[])clone.playerInventories.Clone ();
-		//zones = (SerializedZone[])clone.zones.Clone ();
+		zones = (SerializedZone[])clone.zones.Clone ();
+		doors = (SerializedDoor[])clone.doors.Clone ();
 
 	}
 
+}
+
+[System.Serializable]
+public struct SerializedDoor
+{
+	public bool open;
+
+	public SerializedDoor (Door door)
+	{
+		open = door.IsOpen;
+	}
 }
 
 [System.Serializable]
@@ -261,7 +285,7 @@ public struct SerializedZone
 
 	public SerializedZone (Zone zone)
 	{
-		nbOfPoints = zone.nbOfPoints;
+		nbOfPoints = zone.TotalPoints();
 	}
 }
 
