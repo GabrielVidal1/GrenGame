@@ -49,6 +49,7 @@ public class Plant : MonoBehaviour{
 	public AnimationCurve finalShapeOverLength;
 	public AnimationCurve shapeOverTime;
 
+	public AnimationCurve radiusOverAngle;
 
 	public float initialSegmentLength;
 	public float finalSegmentLength;
@@ -68,6 +69,7 @@ public class Plant : MonoBehaviour{
 
 	public bool hasCollisions;
 
+	//LEAVES
 	public bool hasLeaves;
 	public Leaf leafPrefab;
 
@@ -80,15 +82,12 @@ public class Plant : MonoBehaviour{
 	public AnimationCurve leavesBirthdateDistribution;
 	public Interval leafGrowthDuration;
 
-
-
 	public float sunOrientationIntensity;
 	public AnimationCurve sunOrientationIntensityOverTime;
 	public AnimationCurve leafGrowthOverTime;
 
 
 	//RECURSIONS
-
 	public bool hasRecursions;
 	public Plant branchPrefab;
 
@@ -102,16 +101,27 @@ public class Plant : MonoBehaviour{
 	public Interval branchInitialRadiusMultiplier;
 
 
-
 	public AnimationCurve branchesTangencityOverLength;
-
 	public bool branchesOnlyOnSections;
-
 	public AnimationCurve branchLengthOverTrunkLength;
-
 	public Interval brancheLengthRatio;
-
 	public bool branchForceParameters;
+
+
+	//FLOWERS
+	public bool hasFlowers;
+
+	public bool uniqueEndFlower;
+
+	public Flower flowerPrefab;
+
+	public AnimationCurve flowerGrowthOverTime;
+
+
+	public Interval flowerGrowthDuration;
+	public Interval flowerSize;
+
+	public float leafChanceOfBeingFlower;
 
 	#endregion
 
@@ -186,8 +196,8 @@ public class Plant : MonoBehaviour{
 
 		InitializeMesh ();
 
-		if (hasLeaves)
-			GenerateLeaves ();
+		if (hasLeaves || hasFlowers)
+			GenerateLeavesAndFLowers ();
 
 		if (hasRecursions)
 			GenerateRecursions ();
@@ -202,8 +212,8 @@ public class Plant : MonoBehaviour{
 
 			UpdateMesh ();
 		
-			if (hasLeaves)
-				UpdateLeaves ();
+			if (hasLeaves || hasFlowers)
+				UpdateLeavesAndFlowers ();
 		
 			if (hasRecursions)
 				UpdateRecursions ();
@@ -464,7 +474,7 @@ public class Plant : MonoBehaviour{
 	}
 
 	//USED TO FIRST GENERATE THE LEAVES ON THE PLANT
-	public void GenerateLeaves()
+	public void GenerateLeavesAndFLowers()
 	{ 
 		actualLeavesNumber = 0;
 
@@ -531,26 +541,45 @@ public class Plant : MonoBehaviour{
 
 				direction.Normalize ();
 
+				GameObject thing;
+				bool isLeaf = !hasFlowers || Random.value > leafChanceOfBeingFlower;
 
-				//LEAF CREATION
-				Leaf leaf = Instantiate (leafPrefab, position, Quaternion.identity).GetComponent<Leaf> ();
-				leaf.transform.parent = leavesParent;
-				leaf.name = "Leaf_" + actualLeavesNumber.ToString ();
-				leaf.initialDirection = direction;
-				leaf.upDirection = up;
+				if (isLeaf) {
+					
+					//LEAF CREATION
+					Leaf leaf = Instantiate (leafPrefab, position, Quaternion.identity);
+					thing = leaf.gameObject;
+					leaf.name = "Leaf_" + actualLeavesNumber.ToString ();
+					leaf.initialDirection = direction;
+					leaf.upDirection = up;
 
 
-				leaf.transform.localScale *= leafSize.RandomValue();
+					leaf.transform.localScale *= leafSize.RandomValue ();
 
-				leaf.time = 0f;
+					leaf.time = 0f;
+				} else {
 
+					Flower flower = Instantiate (flowerPrefab, position, Quaternion.identity);
+					thing = flower.gameObject;
+					flower.name = "Flower_" + actualLeavesNumber.ToString ();
+					flower.initialDirection = direction;
+					//flower.upDirection = up;
+
+
+					flower.transform.localScale *= flowerSize.RandomValue ();
+
+					flower.time = 0f;
+
+				}
+
+				thing.transform.parent = leavesParent;
 
 				float growthDuration = leafGrowthDuration.RandomValue ();
 
 				float birthDate = Mathf.Lerp (ValueAt (trunkTimeOverTime, lengthRatio) * maxDuration, maxDuration - growthDuration, leavesBirthdateDistribution.Evaluate (Random.value));
 
 
-				LeafInfo l = new LeafInfo (leaf, lengthRatio, direction, pointIndex1, pointIndex2, lerpValue, birthDate, growthDuration);
+				LeafInfo l = new LeafInfo (isLeaf, thing, lengthRatio, direction, pointIndex1, pointIndex2, lerpValue, birthDate, growthDuration);
 					
 				leaves [actualLeavesNumber] = l;
 
@@ -565,46 +594,60 @@ public class Plant : MonoBehaviour{
 	}
 
 	//USED TO UPDATE THE LEAVES EVERY FRAME
-	public void UpdateLeaves()
+	public void UpdateLeavesAndFlowers()
 	{
 		float absolutTime = time * maxDuration;
 
 		for (int i = 0; i < actualLeavesNumber; i++) {
 
 			//DISTANCE FROM ROOT / LENGTH
-			LeafInfo leaf = leaves [i];
+			LeafInfo thing = leaves [i];
 
 
-			if (leaf.birthDate > absolutTime) {
+			if (thing.birthDate > absolutTime) {
 				//NOT GROWN
-				leaf.leaf.time = 0f;
+				if (thing.isLeafOrFlower)
+					thing.leaf.time = 0f;
+				else
+					thing.flower.time = 0f;
 			} else {
 
-				if (absolutTime - leaf.birthDate < leaf.growthDuration || !leaf.grownOnce) {
-					float localTime = Mathf.Min(1f, leafGrowthOverTime.Evaluate ((absolutTime - leaf.birthDate) / leaf.growthDuration));
+				if (absolutTime - thing.birthDate < thing.growthDuration || !thing.grownOnce) {
 
-					leaf.leaf.time = leafGrowthOverTime.Evaluate (localTime);
+					float localTime = 0f;
 
+					if (thing.isLeafOrFlower) {
+						localTime = Mathf.Min(1f, leafGrowthOverTime.Evaluate ((absolutTime - thing.birthDate) / thing.growthDuration));
+						thing.leaf.time = leafGrowthOverTime.Evaluate (localTime);
+					} else {
+						localTime = Mathf.Min(1f, flowerGrowthOverTime.Evaluate ((absolutTime - thing.birthDate) / thing.growthDuration));
+						thing.flower.time = flowerGrowthOverTime.Evaluate (localTime);
+					}
 
 					//INTIAL DIRECTION
-					Vector3 initialDirection = (mf.sharedMesh.vertices [leaf.pointIndex1] - mf.sharedMesh.vertices [leaf.pointIndex2]).normalized;
+					Vector3 initialDirection = (mf.sharedMesh.vertices [thing.pointIndex1] - mf.sharedMesh.vertices [thing.pointIndex2]).normalized;
 					initialDirection.y = Mathf.Lerp (initialDirection.y, 1f - sunOrientationIntensity, sunOrientationIntensityOverTime.Evaluate (localTime));
 
 					//TANGENT DIRECTION
-					Vector3 tangentDirection = mf.sharedMesh.vertices [leaf.pointIndex1] - mf.sharedMesh.vertices [leaf.pointIndex1 + nbOfSides];
+					Vector3 tangentDirection = mf.sharedMesh.vertices [thing.pointIndex1] - mf.sharedMesh.vertices [thing.pointIndex1 + nbOfSides];
 
 					//UP DIRECTION
 					Vector3 up = Vector3.Lerp(tangentDirection.normalized ,Vector3.up * sunOrientationIntensityOverTime.Evaluate (localTime), sunOrientationIntensity);
 
-					Vector3 localPosition = Vector3.Lerp(mf.sharedMesh.vertices [leaf.pointIndex1], mf.sharedMesh.vertices [leaf.pointIndex1 + nbOfSides] , leaf.lerpValue);
+					Vector3 localPosition = Vector3.Lerp(mf.sharedMesh.vertices [thing.pointIndex1], mf.sharedMesh.vertices [thing.pointIndex1 + nbOfSides] , thing.lerpValue);
 
-
-					leaf.leaf.initialDirection = initialDirection.normalized;
-					leaf.leaf.transform.localPosition = localPosition;
-					leaf.leaf.upDirection = up.normalized;
-
-					leaf.grownOnce = true;
-					leaf.leaf.UpdateMesh ();
+					if (thing.isLeafOrFlower) {
+						thing.leaf.initialDirection = initialDirection.normalized;
+						thing.leaf.transform.localPosition = localPosition;
+						thing.leaf.upDirection = up.normalized;
+						thing.leaf.UpdateMesh ();
+					} else {
+						thing.flower.initialDirection = initialDirection.normalized;
+						thing.flower.transform.localPosition = localPosition;
+						//thing.flower.upDirection = up.normalized;
+						thing.flower.UpdateMesh ();
+					}
+					thing.grownOnce = true;
 				}
 				
 
@@ -723,7 +766,7 @@ public class Plant : MonoBehaviour{
 				float angle = j * angleCoefficient;
 
 				Vector3 point = (positionOffset + currentPosition)
-					+ (u * Mathf.Cos (angle) + v * Mathf.Sin (angle)) * radius;
+					+ (u * Mathf.Cos (angle) + v * Mathf.Sin (angle)) * radius * radiusOverAngle.Evaluate((float)j / nbOfSides);
 
 				int index = i * nbOfSides + j;
 				points[index] = point;
@@ -806,7 +849,7 @@ public class Plant : MonoBehaviour{
 	{
 
 		//PARAMETERS
-
+		totalLength = 0f;
 		initialDirection.Normalize ();
 
 		PositionsAndNormals positionsNormals = new PositionsAndNormals (arrayLength);
@@ -922,7 +965,50 @@ public class Plant : MonoBehaviour{
 
 
 }
+/*
+//STRUCTURE FOR FLOWERS AND INFORMATION ABOUT IT
+struct FlowerInfo
+{
+	public Flower flower;
+	public float lengthRatio;
 
+	public Vector3 normalDirection;
+
+	public int pointIndex1;
+	public int pointIndex2;
+
+	public float lerpValue;
+
+	public float birthDate;
+	public float growthDuration;
+
+	public bool grownOnce;
+
+	public FlowerInfo(Flower flower, float lengthRatio, Vector3 normalDirection, int pointIndex1, int pointIndex2, float lerpValue, float birthDate, float growthDuration )
+	{
+		this.flower = flower;
+		this.lengthRatio = lengthRatio;
+		this.pointIndex1 = pointIndex1;
+		this.pointIndex2 = pointIndex2;
+		this.lerpValue = lerpValue;
+
+		this.birthDate = birthDate;
+		this.growthDuration = growthDuration;
+
+		this.normalDirection = normalDirection;
+
+		grownOnce = false;
+
+		flower.Initialize ();
+	}
+
+
+
+
+}
+*/
+
+//STRUCTURE FOR BRANCHES AND INFORMATION ABOUT IT
 struct BranchesInfo
 {
 	public Plant branch;
@@ -950,11 +1036,14 @@ struct BranchesInfo
 	}
 }
 
-
 //STRUCTURE FOR LEAVES AND INFORMATION ABOUT IT
 struct LeafInfo
 {
+	public bool isLeafOrFlower;
+
 	public Leaf leaf;
+	public Flower flower;
+
 	public float lengthRatio;
 
 	public Vector3 normalDirection;
@@ -969,9 +1058,19 @@ struct LeafInfo
 
 	public bool grownOnce;
 
-	public LeafInfo(Leaf leaf, float lengthRatio, Vector3 normalDirection, int pointIndex1, int pointIndex2, float lerpValue, float birthDate, float growthDuration )
+	public LeafInfo(bool isLeafOrFlower, GameObject thing, float lengthRatio, Vector3 normalDirection, int pointIndex1, int pointIndex2, float lerpValue, float birthDate, float growthDuration )
 	{
-		this.leaf = leaf;
+		this.isLeafOrFlower = isLeafOrFlower;
+
+		if (isLeafOrFlower) {
+			this.leaf = thing.GetComponent<Leaf> ();
+			this.leaf.Initialize ();
+			this.flower = null;
+		} else {
+			this.flower = thing.GetComponent<Flower> ();
+			this.flower.Initialize ();
+			this.leaf = null;
+		}
 		this.lengthRatio = lengthRatio;
 		this.pointIndex1 = pointIndex1;
 		this.pointIndex2 = pointIndex2;
@@ -984,7 +1083,6 @@ struct LeafInfo
 
 		grownOnce = false;
 
-		leaf.Initialize ();
 	}
 
 

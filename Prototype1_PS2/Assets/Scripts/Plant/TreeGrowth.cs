@@ -19,6 +19,9 @@ public class TreeGrowth : MonoBehaviour {
 	{
 		//canGrow = true;
 		pg = GetComponent<Plant> ();
+
+		pg.InitializePlant ();
+
 		growthSpeed = 1f / pg.maxDuration;
 		lastUpdate = Time.time;
 	}

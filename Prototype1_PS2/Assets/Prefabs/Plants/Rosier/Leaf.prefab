@@ -56,7 +56,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: ebcfa721a52d73343a5c1447214b23d1, type: 2}
+  - {fileID: 2100000, guid: 1f334d8336848594a9645ce62d5984fb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,8 +99,8 @@ MonoBehaviour:
   nbOfNormalSegments: 3
   initialDirection: {x: 1, y: 0, z: 0}
   upDirection: {x: 0, y: 1, z: 0}
-  width: 1
-  length: 1
+  width: 0.46
+  length: 0.3
   widthOverTime:
     serializedVersion: 2
     m_Curve:
@@ -179,7 +179,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  coronalVariations: 1
+  coronalVariations: 0
   coronalCurvatureIntensity: 0.66
   coronalCurvature:
     serializedVersion: 2
@@ -241,7 +241,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  sagittalVariations: 1
+  sagittalVariations: 0
   sagittalCurvatureIntensity: 0.35
   sagittalCurvature:
     serializedVersion: 2

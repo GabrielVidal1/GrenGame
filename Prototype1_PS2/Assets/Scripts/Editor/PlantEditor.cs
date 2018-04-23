@@ -9,17 +9,21 @@ public class PlantEditor : Editor {
 
 
 	private bool displayLeafParameters;
+	private bool displayFlowerParameters;
 	private bool displayBranchParameters;
 
 	private Editor leafEditor;
+	private Editor flowerEditor;
 	private Editor branchEditor;
 
+	SerializedProperty flowerGrowthDuration;
 	SerializedProperty leafGrowthDuration;
 	SerializedProperty branchGrowthDuration;
 	SerializedProperty branchInitialRadiusMultiplier;
 	SerializedProperty brancheLengthRatio;
 	SerializedProperty trunkGrowthDuration;
 	SerializedProperty leafSize;
+	SerializedProperty flowerSize;
 
 	Rect brancheRect;
 
@@ -28,20 +32,22 @@ public class PlantEditor : Editor {
 	void OnEnable()
 	{
 		leafGrowthDuration = serializedObject.FindProperty ("leafGrowthDuration");
+		flowerGrowthDuration = serializedObject.FindProperty ("flowerGrowthDuration");
 		branchGrowthDuration = serializedObject.FindProperty ("branchGrowthDuration");
 		branchInitialRadiusMultiplier = serializedObject.FindProperty ("branchInitialRadiusMultiplier");
 		brancheLengthRatio = serializedObject.FindProperty ("brancheLengthRatio");
 		trunkGrowthDuration = serializedObject.FindProperty ("trunkGrowthDuration");
 		leafSize = serializedObject.FindProperty ("leafSize");
+		flowerSize = serializedObject.FindProperty ("flowerSize");
 	}
 	public override void OnInspectorGUI ()
 	{
 		Plant myObject = (Plant)target;
 
-		if (!myObject.isBranch)
-			scrollZone = EditorGUILayout.BeginScrollView (scrollZone);
-
-		myObject.pointValue = EditorGUILayout.IntField ("Point Value", myObject.pointValue);
+		if (!myObject.isBranch) {
+			//scrollZone = EditorGUILayout.BeginScrollView (scrollZone);
+			myObject.pointValue = EditorGUILayout.IntField ("Point Value", myObject.pointValue);
+		}
 
 		EditorGUILayout.LabelField ("Seed", myObject.plantSeed.ToString ());
 
@@ -86,7 +92,7 @@ public class PlantEditor : Editor {
 		EditorGUILayout.LabelField ("Mesh Characteristics", EditorStyles.toolbarButton);
 
 		EditorGUI.BeginDisabledGroup (myObject.isBranch || myObject.branchForceParameters);
-		myObject.nbOfSegments = EditorGUILayout.IntSlider ("Number Of Segments", myObject.nbOfSegments, 1, 2000);
+		myObject.nbOfSegments = EditorGUILayout.IntSlider ("Number Of Segments", myObject.nbOfSegments, 1, 500);
 		EditorGUI.EndDisabledGroup ();
 
 		myObject.nbOfSides = EditorGUILayout.IntSlider ("Number Of Sides", myObject.nbOfSides, 3, 64);
@@ -121,11 +127,15 @@ public class PlantEditor : Editor {
 		EditorGUILayout.Space ();
 		EditorGUILayout.LabelField ("Shape", EditorStyles.toolbarButton);
 
-		myObject.initialShapeOverLength = EditorGUILayout.CurveField("Initial Shape Over Length", myObject.initialShapeOverLength, Color.green, new Rect(0, 0, 1, 2));
+		myObject.initialShapeOverLength = EditorGUILayout.CurveField ("Initial Shape Over Length", myObject.initialShapeOverLength, Color.green, new Rect (0, 0, 1, 2));
 
-		myObject.finalShapeOverLength = EditorGUILayout.CurveField("Final Shape Over Length", myObject.finalShapeOverLength, Color.green, new Rect(0, 0, 1, 2));
+		myObject.finalShapeOverLength = EditorGUILayout.CurveField ("Final Shape Over Length", myObject.finalShapeOverLength, Color.green, new Rect (0, 0, 1, 2));
 
-		myObject.shapeOverTime = EditorGUILayout.CurveField("Shape Transition Over Length", myObject.shapeOverTime, Color.green, new Rect(0, 0, 1, 1));
+		myObject.shapeOverTime = EditorGUILayout.CurveField ("Shape Transition Over Length", myObject.shapeOverTime, Color.green, new Rect (0, 0, 1, 1));
+
+		EditorGUILayout.Space ();
+
+		myObject.radiusOverAngle = EditorGUILayout.CurveField ("Radius Over Angle", myObject.radiusOverAngle, Color.green, new Rect (0, 0, 1, 1));
 
 		EditorGUILayout.Space ();
 
@@ -133,14 +143,14 @@ public class PlantEditor : Editor {
 
 		EditorGUILayout.LabelField ("Length", EditorStyles.toolbarButton);
 
-		myObject.lengthOverTime = EditorGUILayout.CurveField("Length Over Time", myObject.lengthOverTime, Color.green, new Rect(0, 0, 1, 1));
+		myObject.lengthOverTime = EditorGUILayout.CurveField ("Length Over Time", myObject.lengthOverTime, Color.green, new Rect (0, 0, 1, 1));
 
 		//EditorGUI.BeginDisabledGroup (myObject.isBranch || myObject.branchForceParameters);
-		myObject.initialSegmentLength = EditorGUILayout.Slider("Initial Segment Length", myObject.initialSegmentLength, 0.01f, 10f);
-		myObject.finalSegmentLength = EditorGUILayout.Slider("Final Segment Length", myObject.finalSegmentLength, 0.01f, 10f);
+		myObject.initialSegmentLength = EditorGUILayout.Slider ("Initial Segment Length", myObject.initialSegmentLength, 0.01f, 10f);
+		myObject.finalSegmentLength = EditorGUILayout.Slider ("Final Segment Length", myObject.finalSegmentLength, 0.01f, 10f);
 		//EditorGUI.EndDisabledGroup ();
 
-		myObject.segmentLengthOverLength = EditorGUILayout.CurveField("Segment Length Over Length", myObject.segmentLengthOverLength, Color.green, new Rect(0, 0, 1, 1));
+		myObject.segmentLengthOverLength = EditorGUILayout.CurveField ("Segment Length Over Length", myObject.segmentLengthOverLength, Color.green, new Rect (0, 0, 1, 1));
 
 
 		EditorGUILayout.Space ();
@@ -153,7 +163,7 @@ public class PlantEditor : Editor {
 
 			myObject.gravityForce = EditorGUILayout.Slider ("Gravity Intensity", myObject.gravityForce, -5f, 5f);
 
-			myObject.gravityOverLength = EditorGUILayout.CurveField("Gravity Intensity Over Length", myObject.gravityOverLength, Color.green, new Rect(0, 0, 1, 1));
+			myObject.gravityOverLength = EditorGUILayout.CurveField ("Gravity Intensity Over Length", myObject.gravityOverLength, Color.green, new Rect (0, 0, 1, 1));
 
 			EditorGUILayout.Space ();
 		}
@@ -165,13 +175,13 @@ public class PlantEditor : Editor {
 			myObject.noiseForce = EditorGUILayout.Slider ("Noise Intensity", myObject.noiseForce, 0f, 5f);
 			myObject.noiseSize = EditorGUILayout.Slider ("Noise Size", myObject.noiseSize, 0.01f, 1f);
 
-			myObject.noiseOverLength = EditorGUILayout.CurveField("Noise Intensity Over Length", myObject.noiseOverLength, Color.green, new Rect(0, 0, 1, 1));
+			myObject.noiseOverLength = EditorGUILayout.CurveField ("Noise Intensity Over Length", myObject.noiseOverLength, Color.green, new Rect (0, 0, 1, 1));
 
 			EditorGUILayout.Space ();
 
 		}
 
-		myObject.hasCollisions = EditorGUILayout.Toggle ("Has Collisions", myObject.hasCollisions);
+		//myObject.hasCollisions = EditorGUILayout.Toggle ("Has Collisions", myObject.hasCollisions);
 
 		EditorGUILayout.LabelField ("Leaves", EditorStyles.toolbarButton);
 		myObject.hasLeaves = EditorGUILayout.Toggle ("Has Leaves", myObject.hasLeaves);
@@ -225,7 +235,57 @@ public class PlantEditor : Editor {
 			}
 		}
 
+		EditorGUILayout.LabelField ("Flowers", EditorStyles.toolbarButton);
+		myObject.hasFlowers = EditorGUILayout.Toggle ("Has Flowers", myObject.hasFlowers);
 
+		if (myObject.hasFlowers) {
+
+			myObject.flowerPrefab = EditorGUILayout.ObjectField ("Flower Prefab", myObject.flowerPrefab, typeof(Flower), false) as Flower;
+
+
+
+			if (myObject.flowerPrefab != null) {
+
+				myObject.uniqueEndFlower = EditorGUILayout.Toggle ("Unique Ending Flower", myObject.uniqueEndFlower);
+
+
+				EditorGUILayout.PropertyField (flowerGrowthDuration, new GUIContent ("Flower Growth Duration"), true);
+				EditorGUILayout.PropertyField (flowerSize, new GUIContent ("Flower Size"), true);
+				myObject.flowerGrowthOverTime = EditorGUILayout.CurveField ("Flower Growth Over Time", myObject.flowerGrowthOverTime, Color.green, new Rect (0, 0, 1, 1));
+
+				EditorGUI.BeginDisabledGroup (myObject.uniqueEndFlower);
+
+				if (myObject.hasLeaves) {
+					myObject.leafChanceOfBeingFlower = EditorGUILayout.Slider ("Leaf Chance Of Being A Flower", myObject.leafChanceOfBeingFlower, 0f, 1f);
+				} else {
+					myObject.leafChanceOfBeingFlower = 1f;
+					myObject.leavesDensity = EditorGUILayout.Slider ("Flower Density", myObject.leavesDensity, 0f, 10f);
+
+				}
+
+
+				EditorGUI.EndDisabledGroup ();
+
+
+				if (myObject.leafPrefab != null) {
+
+					displayFlowerParameters = EditorGUILayout.Foldout (displayFlowerParameters, "Flower Prefab Informations");
+					if (displayFlowerParameters) {
+
+						EditorGUI.indentLevel++;
+
+						if (flowerEditor == null)
+							flowerEditor = CreateEditor (myObject.flowerPrefab);
+
+						flowerEditor.DrawDefaultInspector ();
+
+						EditorGUI.indentLevel--;
+					}
+					EditorGUILayout.Space ();
+				}
+
+			}
+		}
 
 
 		EditorGUILayout.LabelField ("Recursion", EditorStyles.toolbarButton);
@@ -288,12 +348,12 @@ public class PlantEditor : Editor {
 					
 					brancheRect = EditorGUILayout.GetControlRect ();
 
-					EditorGUI.indentLevel ++;
+					EditorGUI.indentLevel++;
 					branchEditor.OnInspectorGUI ();
 
 					brancheRect.yMax = EditorGUILayout.GetControlRect ().yMax;
 					brancheRect.xMax = brancheRect.x + 10f * EditorGUI.indentLevel;
-					EditorGUI.indentLevel --;
+					EditorGUI.indentLevel--;
 
 					EditorGUI.DrawRect (brancheRect, Color.grey);
 					branchEditor.serializedObject.ApplyModifiedProperties ();
@@ -307,9 +367,10 @@ public class PlantEditor : Editor {
 
 
 		}
-		if (!myObject.isBranch)
-			EditorGUILayout.EndScrollView ();
 
+		if (!myObject.isBranch){
+			//EditorGUILayout.EndScrollView ();
+	    }
 		if (!myObject.isBranch) {
 
 			EditorGUILayout.Separator ();
