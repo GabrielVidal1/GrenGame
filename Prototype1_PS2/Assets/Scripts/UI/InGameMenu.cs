@@ -26,9 +26,11 @@ public class InGameMenu : MonoBehaviour {
 			TogglePause (!isPaused);
 		}
 
-		if (!isPaused)
-			Cursor.lockState = CursorLockMode.Locked;
-
+        if (!isPaused)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 	}
 
 	public void TogglePause(bool toggle)

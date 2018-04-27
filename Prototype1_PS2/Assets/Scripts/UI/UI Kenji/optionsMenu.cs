@@ -67,4 +67,9 @@ public class optionsMenu : MonoBehaviour {
         menu.SetActive(false);
         parent.SetActive(true);
     }
+
+    public void Fullscreen(bool isFc)
+    {
+        Screen.fullScreen = isFc;
+    }
 }
