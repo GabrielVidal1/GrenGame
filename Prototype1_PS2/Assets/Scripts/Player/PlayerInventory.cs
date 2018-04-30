@@ -56,6 +56,26 @@ public class PlayerInventory : NetworkBehaviour {
 	}
 
 	// Update is called once per frame
+
+
+	[Command]
+	void CmdCheatSeeds()
+	{
+		RpcCheatSeeds ();
+	}
+
+	[ClientRpc]
+	void RpcCheatSeeds()
+	{
+		Debug.Log ("cheat");
+		inventory.Clear ();
+		for (int i = 0; i < GameManager.gm.pm.plantsPrefabs.Length; i++) {
+			inventory.Add(new PlantSeedInventory (i, 100));
+		}
+		if (isLocalPlayer)
+			CanvasManager.cm.seedSelectionWheel.AddSeed (0);
+	}
+
 	void Update () 
 	{
 		if (!isLocalPlayer)
@@ -64,10 +84,7 @@ public class PlayerInventory : NetworkBehaviour {
 
 		//CHEAT  ----------------------------------------------
 		if (Input.GetKeyDown (KeyCode.Keypad0)) {
-			inventory.Clear ();
-			for (int i = 0; i < GameManager.gm.pm.plantsPrefabs.Length; i++) {
-				inventory.Add(new PlantSeedInventory (i, 100));
-			}
+			CmdCheatSeeds ();
 		}
 		// -----------------------------------------------------
 
