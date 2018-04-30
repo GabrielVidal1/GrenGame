@@ -97,7 +97,7 @@ public class PlayerCC : MonoBehaviour
             //moved = false;
             //}
 
-            if (Input.GetKeyDown(KeyCode.Shift))
+            if (Input.GetKeyDown(KeyCode.LeftShift))
                 horizontalSpeed += sprint;
 
             moveDirection = new Vector3 (Input.GetAxis ("Horizontal"), moveDirection.y, Input.GetAxis ("Vertical"));
