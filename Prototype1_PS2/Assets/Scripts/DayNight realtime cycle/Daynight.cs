@@ -17,7 +17,7 @@ public class Daynight : MonoBehaviour {
        
 
         float rot = 360 * (currentTime / maxTime) - 90;
-        transform.rotation = Quaternion.Euler(0, 0, rot);
+        transform.rotation = Quaternion.Euler(rot, 0, 0);
 
     }
 	
@@ -25,7 +25,7 @@ public class Daynight : MonoBehaviour {
 	void Update () {
 
         float rot = (360 * (1 / maxTime)) * Time.deltaTime * timespeed;
-        transform.Rotate(0, 0, rot);
+        transform.Rotate(rot, 0, 0);
         
 
         currentTime += Time.deltaTime * timespeed;
