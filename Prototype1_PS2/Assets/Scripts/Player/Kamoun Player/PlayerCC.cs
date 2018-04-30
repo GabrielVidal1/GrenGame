@@ -109,13 +109,15 @@ public class PlayerCC : MonoBehaviour
 
 
 		if (Input.GetButton ("Jump")) {
-			heigth = jumpHeigth;
+			if CC.isGrounded
+				heigth = jumpHeigth;
 		} else  {
 			heigth = hooverHeigth;
 		}
 
 		moveDirection.y = Mathf.Lerp (0, (heigth  + groundHeigth)- transform.position.y, verticalSpeed * Time.deltaTime);
 		CC.Move (moveDirection);
+	
 	}
 
 }
