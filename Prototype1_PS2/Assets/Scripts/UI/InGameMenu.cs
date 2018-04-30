@@ -39,9 +39,10 @@ public class InGameMenu : MonoBehaviour {
 			Cursor.lockState = CursorLockMode.None;
 		} else {
 			Cursor.lockState = CursorLockMode.Locked;
-			//Debug.Log ("je quitte le menu pause");
-		}
-	}
+            Cursor.visible = false;
+            //Debug.Log ("je quitte le menu pause");
+        }
+    }
 
 
 	public void LoadMultiplayerMenu()
