@@ -57,6 +57,7 @@ public class PlayerCC : MonoBehaviour
 
 	public float hooverHeigth;
 	public float jumpHeigth;
+    public float sprint;
 
 	CharacterController CC;
 	public GameObject camera01;
@@ -93,10 +94,13 @@ public class PlayerCC : MonoBehaviour
 			if (Physics.Raycast (ray, out hit, 100f)) {
 				groundHeigth = hit.point.y;
 			}
-			//moved = false;
-			//}
+            //moved = false;
+            //}
 
-			moveDirection = new Vector3 (Input.GetAxis ("Horizontal"), moveDirection.y, Input.GetAxis ("Vertical"));
+            if (Input.GetKeyDown(KeyCode.Shift))
+                horizontalSpeed += sprint;
+
+            moveDirection = new Vector3 (Input.GetAxis ("Horizontal"), moveDirection.y, Input.GetAxis ("Vertical"));
 			moveDirection = transform.TransformDirection (moveDirection);
 			moveDirection *= horizontalSpeed * Time.deltaTime;
 
