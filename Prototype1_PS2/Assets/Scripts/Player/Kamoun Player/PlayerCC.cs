@@ -63,7 +63,7 @@ public class PlayerCC : MonoBehaviour
 	public GameObject camera01;
 
 	[SerializeField]
-	private float heigth;
+	private float height;
 
 	bool moved = false;
 
@@ -77,7 +77,7 @@ public class PlayerCC : MonoBehaviour
 
 
 		CC = GetComponent<CharacterController>();
-		heigth = hooverHeigth;
+		height = hooverHeigth;
 
 
 	}
@@ -97,8 +97,10 @@ public class PlayerCC : MonoBehaviour
             //moved = false;
             //}
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-                horizontalSpeed += sprint;
+            if (Input.GetKey(KeyCode.LeftShift))
+                horizontalSpeed = sprint;
+            else
+                horizontalSpeed = 6f;
 
             moveDirection = new Vector3 (Input.GetAxis ("Horizontal"), moveDirection.y, Input.GetAxis ("Vertical"));
 			moveDirection = transform.TransformDirection (moveDirection);
@@ -113,12 +115,12 @@ public class PlayerCC : MonoBehaviour
 
 
 		if (Input.GetButton ("Jump")) {
-			heigth = jumpHeigth;
+			height = jumpHeigth;
 		} else  {
-			heigth = hooverHeigth;
+			height = hooverHeigth;
 		}
 
-		moveDirection.y = Mathf.Lerp (0, (heigth  + groundHeigth)- transform.position.y, verticalSpeed * Time.deltaTime);
+		moveDirection.y = Mathf.Lerp (0, (height  + groundHeigth)- transform.position.y, verticalSpeed * Time.deltaTime);
 		CC.Move (moveDirection);
 	
 	}

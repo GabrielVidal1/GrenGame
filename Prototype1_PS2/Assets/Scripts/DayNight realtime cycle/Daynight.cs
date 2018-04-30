@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sun : MonoBehaviour {
+public class Daynight : MonoBehaviour {
 
     public string time;
     public float timespeed = 1.0f;
