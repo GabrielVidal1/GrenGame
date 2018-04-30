@@ -144,10 +144,12 @@ public class PlantEditor : Editor {
 
 		EditorGUILayout.Space ();
 
-		myObject.radiusOverAngle = EditorGUILayout.CurveField ("Radius Over Angle", myObject.radiusOverAngle, Color.green, new Rect (0, 0, 1, 1));
-		if (myObject.radiusOverAngle == null) {
-			myObject.radiusOverAngle = AnimationCurve.Linear (0f, 1f, 1f, 1f);
+		serializedObject.FindProperty("radiusOverAngle").animationCurveValue = EditorGUILayout.CurveField ("Radius Over Angle", myObject.radiusOverAngle, Color.green, new Rect (0, 0, 1, 1));
+		if (serializedObject.FindProperty("radiusOverAngle").animationCurveValue == null) {
+			serializedObject.FindProperty("radiusOverAngle").animationCurveValue = AnimationCurve.Linear (0f, 1f, 1f, 1f);
 		}
+
+		serializedObject.ApplyModifiedProperties ();
 
 		EditorGUILayout.Space ();
 
