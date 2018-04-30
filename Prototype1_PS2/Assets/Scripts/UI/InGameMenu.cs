@@ -24,7 +24,8 @@ public class InGameMenu : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			TogglePause (!isPaused);
-		}
+            Cursor.visible = true;
+        }
 
         if (!isPaused)
         {
