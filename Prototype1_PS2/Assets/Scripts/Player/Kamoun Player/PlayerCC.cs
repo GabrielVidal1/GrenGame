@@ -109,8 +109,7 @@ public class PlayerCC : MonoBehaviour
 
 
 		if (Input.GetButton ("Jump")) {
-			if (CC.isGrounded)
-				heigth = jumpHeigth;
+			heigth = jumpHeigth;
 		} else  {
 			heigth = hooverHeigth;
 		}
