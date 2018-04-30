@@ -91,7 +91,7 @@ public class PlantEditor : Editor {
 
 		EditorGUILayout.LabelField ("Mesh Characteristics", EditorStyles.toolbarButton);
 
-		EditorGUI.BeginDisabledGroup (myObject.isBranch || !myObject.brancheIndependentLength);
+		EditorGUI.BeginDisabledGroup (myObject.isBranch && !myObject.brancheIndependentLength);
 		myObject.nbOfSegments = EditorGUILayout.IntSlider ("Number Of Segments", myObject.nbOfSegments, 1, 500);
 		EditorGUI.EndDisabledGroup ();
 
@@ -100,7 +100,7 @@ public class PlantEditor : Editor {
 
 
 		EditorGUILayout.LabelField ("Initial Condition", EditorStyles.toolbarButton);
-		EditorGUI.BeginDisabledGroup (myObject.isBranch || !myObject.brancheIndependentRadius);
+		EditorGUI.BeginDisabledGroup (myObject.isBranch && !myObject.brancheIndependentRadius);
 
 		myObject.initialRadius = EditorGUILayout.FloatField ("Initial Radius", myObject.initialRadius);
 		if (myObject.initialRadius <= 0f) {
