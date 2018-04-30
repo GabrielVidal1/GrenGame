@@ -64,8 +64,9 @@ public class PlayerInventory : NetworkBehaviour {
 
 		//CHEAT  ----------------------------------------------
 		if (Input.GetKeyDown (KeyCode.Keypad0)) {
-			for (int i = 0; i < inventory.Count; i++) {
-				inventory [i] = new PlantSeedInventory (inventory [i].plantSeedIndexInPlantManager, 10);
+			inventory.Clear ();
+			for (int i = 0; i < GameManager.gm.pm.plantsPrefabs.Length; i++) {
+				inventory.Add(new PlantSeedInventory (i, 100));
 			}
 		}
 		// -----------------------------------------------------
