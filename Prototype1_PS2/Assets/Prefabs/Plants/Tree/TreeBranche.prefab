@@ -368,7 +368,7 @@ MonoBehaviour:
   branchPrefab: {fileID: 114900384433649046, guid: bacc62468f20a104bbb18dea601d3f65,
     type: 2}
   brancheAngleDelta: 1.41
-  nbOfBranches: 31
+  nbOfBranches: 15
   branchesDistribution:
     serializedVersion: 2
     m_Curve:

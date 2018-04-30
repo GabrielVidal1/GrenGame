@@ -95,6 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointValue: 0
+  plantTypeIndex: 0
   plantSeed: 241
   time: 1
   maxDuration: 4.5313916
@@ -170,6 +172,12 @@ MonoBehaviour:
       inSlope: 15.160716
       outSlope: 15.160716
       tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  radiusOverAngle:
+    serializedVersion: 2
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
@@ -258,6 +266,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  hasCollisions: 0
   hasLeaves: 1
   leafPrefab: {fileID: 114705378526173178, guid: 37f90e4be9c5d6c469400c074765e47f,
     type: 2}
@@ -266,6 +275,8 @@ MonoBehaviour:
     max: 1.5
   leavesOnlyOnSections: 0
   leavesDensity: 6.09
+  leavesNumber: 0
+  leavesRepartitionMode: 0
   leavesDistribution:
     serializedVersion: 2
     m_Curve:
@@ -361,6 +372,7 @@ MonoBehaviour:
   branchGrowthDuration:
     min: 0
     max: 0
+  brancheIndependentRadius: 0
   branchInitialRadiusMultiplier:
     min: 0
     max: 0
@@ -377,36 +389,34 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  brancheIndependentLength: 0
   brancheLengthRatio:
     min: 0
     max: 0
-  branchForceParameters: 0
-  isBranch: 1
-  indexInGameData: 0
-  trunkTimeOverTime:
+  hasFlowers: 0
+  uniqueEndFlower: 0
+  flowerPrefab: {fileID: 0}
+  flowerGrowthOverTime:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.55863446
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  flowersBirthdateDistribution:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flowerGrowthDuration:
+    min: 0
+    max: 0
+  flowerSize:
+    min: 0
+    max: 0
+  leafChanceOfBeingFlower: 0
+  isBranch: 1
+  indexInGameData: 0
 --- !u!114 &114519267123252776
 MonoBehaviour:
   m_ObjectHideFlags: 1
