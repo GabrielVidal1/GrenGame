@@ -96,9 +96,9 @@ public class SeedSelectionWheel : MonoBehaviour {
 			//Debug.Log (actualIndex + " -> " + index + "  / player.inventory.Count = " + player.inventory.Count);
 
 			if (index != actualIndex) {
-				if (index - actualIndex == 1 || 
-					index - actualIndex == - player.NbOfSeeds + 1 || 
-					player.NbOfSeeds == 2) {
+				if (index - actualIndex == 1 ||
+				    index - actualIndex == -player.NbOfSeeds + 1 ||
+				    player.NbOfSeeds == 2) {
 					//RIGTH
 					seedCenter.SetPlantSeed (player.inventory [index]);
 					seedRight.SetPlantSeed (player.inventory [actualIndex]);
@@ -119,6 +119,8 @@ public class SeedSelectionWheel : MonoBehaviour {
 				}
 				actualIndex = index;
 
+			} else {
+				canClick = true;
 			}
 		}
 	}
