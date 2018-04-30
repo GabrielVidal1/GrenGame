@@ -62,14 +62,13 @@ public class PlayerInventory : NetworkBehaviour {
 			return;
 
 
-
-		//TEST A SUPPRIMER QUAND LE TEST EST FINI
-		//if (Input.GetKeyDown (KeyCode.O))
-		//	GameManager.gm.wd.SerializeWorld ();
-		//TEST A SUPPRIMER QUAND LE TEST EST FINI
-
-
-
+		//CHEAT  ----------------------------------------------
+		if (Input.GetKeyDown (KeyCode.Keypad0)) {
+			for (int i = 0; i < inventory.Count; i++) {
+				inventory [i] = new PlantSeedInventory (inventory [i].plantSeedIndexInPlantManager, 10);
+			}
+		}
+		// -----------------------------------------------------
 
 
 
