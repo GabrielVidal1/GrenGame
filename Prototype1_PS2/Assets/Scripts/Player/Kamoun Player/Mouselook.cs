@@ -19,7 +19,8 @@ public class Mouselook : MonoBehaviour
 			Screen.lockCursor = true;
 		*/
 
-		if (!CanvasManager.cm.inGameMenu.isPaused) {
+		if (!CanvasManager.cm.inGameMenu.isPaused
+			&& !CanvasManager.cm.playerInventoryGrid.Opened) {
 
 
 			//Cursor.lockState = CursorLockMode.Locked;

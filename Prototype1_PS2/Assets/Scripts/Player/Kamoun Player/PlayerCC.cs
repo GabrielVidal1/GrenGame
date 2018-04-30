@@ -85,7 +85,8 @@ public class PlayerCC : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!CanvasManager.cm.inGameMenu.isPaused) {
+		if (!CanvasManager.cm.inGameMenu.isPaused
+			&& !CanvasManager.cm.playerInventoryGrid.Opened) {
 
 
 			//if (moved) {

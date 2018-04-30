@@ -24,6 +24,9 @@ public class CanvasManager : MonoBehaviour {
 
 	public SeedSelectionWheel seedSelectionWheel;
 
+	public PlayerInventoryGrid playerInventoryGrid;
+
+
 	void Awake() {
 
 		if (cm == null)

@@ -36,6 +36,9 @@ public class SeedSelectionWheel : MonoBehaviour {
 	public void SetPlayer(PlayerInventory playerInventory)
 	{
 		player = playerInventory;
+
+		CanvasManager.cm.playerInventoryGrid.SetPlayer (playerInventory);
+
 		if (player.NbOfSeeds > 0) {
 			seedCenter.SetPlantSeed (player.inventory [actualIndex]);
 
@@ -119,6 +122,13 @@ public class SeedSelectionWheel : MonoBehaviour {
 			}
 		}
 	}
+
+	public void SetIndex(int index)
+	{
+		actualIndex = index;
+		EndRotation ();
+	}
+
 
 	public void EndRotation()
 	{

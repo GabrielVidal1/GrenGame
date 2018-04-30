@@ -10,8 +10,6 @@ public class InGameMenu : MonoBehaviour {
 
 	public GameObject inGameOverlay;
 
-	public TextMeshProUGUI selectedPlant;
-
 	public bool isPaused = false;
 
 
@@ -24,13 +22,6 @@ public class InGameMenu : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			TogglePause (!isPaused);
-            Cursor.visible = true;
-        }
-
-        if (!isPaused)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
 	}
 
@@ -40,11 +31,15 @@ public class InGameMenu : MonoBehaviour {
 		pauseMenuUI.SetActive (isPaused);
 		inGameOverlay.SetActive (!isPaused);
 
-		if (isPaused)
+		if (isPaused) {
+
+			CanvasManager.cm.playerInventoryGrid.CloseInventory ();
+
+			Cursor.visible = true;
 			Cursor.lockState = CursorLockMode.None;
-		else {
+		} else {
 			Cursor.lockState = CursorLockMode.Locked;
-			//CanvasManager.cm.seedSelectionWheel.ReactivateFromInactiveState ();
+			//Debug.Log ("je quitte le menu pause");
 		}
 	}
 

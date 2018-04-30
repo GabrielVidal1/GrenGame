@@ -42,8 +42,19 @@ public class PlayerInventory : NetworkBehaviour {
 	
 		player = GetComponent<Player> ();
 		camera = player.camera;
+
+
+		//FIRST CURSOR SET
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = true;
 	}
-	
+
+	public void SetIndex(int index)
+	{
+		selectedIndexInInventory = index;
+		CanvasManager.cm.seedSelectionWheel.SetIndex (index);
+	}
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -75,6 +86,17 @@ public class PlayerInventory : NetworkBehaviour {
 					if (hit.collider.tag == "Pickup") {
 						CmdRayCastPickup (ray.origin, ray.direction);
 					}
+				}
+			}
+
+			if (Input.GetKeyDown (KeyCode.Tab)) {
+
+				if (CanvasManager.cm.playerInventoryGrid.IsReady) {
+
+					if (CanvasManager.cm.playerInventoryGrid.Opened)
+						CanvasManager.cm.playerInventoryGrid.CloseInventory ();
+					else
+						CanvasManager.cm.playerInventoryGrid.OpenInventory ();
 				}
 			}
 
