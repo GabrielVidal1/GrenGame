@@ -1648,6 +1648,10 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1380260699}
+    - target: {fileID: 1416841801174064, guid: dda49ecabb8f26f4097e2332d01aa80c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dda49ecabb8f26f4097e2332d01aa80c, type: 2}
   m_IsPrefabParent: 0
@@ -2943,6 +2947,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 90.00001
       objectReference: {fileID: 0}
+    - target: {fileID: 1818880812963318, guid: 978580513a88fe74295693487fa00b1b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 978580513a88fe74295693487fa00b1b, type: 2}
   m_IsPrefabParent: 0
@@ -3281,7 +3289,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 72dc8e1fddf860a49b23a5f20c35deb0, type: 2}
+  - {fileID: 2100000, guid: 7683bca27716c5c41a81b1042c406eda, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3327,8 +3335,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 718450402}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.98, y: 0.42, z: -17.48}
-  m_LocalScale: {x: 6.2000003, y: 0.3, z: 6.1999984}
+  m_LocalPosition: {x: 0, y: 0.37, z: 0}
+  m_LocalScale: {x: 100, y: 0.3, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13
@@ -3772,7 +3780,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &847461848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7631,7 +7639,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000029854975, y: -0.000019713838}
+  m_AnchoredPosition: {x: 0.000028613902, y: -0.000019713838}
   m_SizeDelta: {x: -15.693483, y: -14.626801}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1559737937
@@ -8238,7 +8246,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 659660083}
   inGameOverlay: {fileID: 1790270079}
-  selectedPlant: {fileID: 0}
   isPaused: 0
 --- !u!1 &1742984949
 GameObject:
