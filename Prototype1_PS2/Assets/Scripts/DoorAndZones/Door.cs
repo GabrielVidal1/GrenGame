@@ -17,6 +17,7 @@ public class Door : MonoBehaviour {
 
 	[SerializeField] private Slider slider;
 
+	[SerializeField]
 	private bool opened;
 	public bool IsOpen
 	{
@@ -32,7 +33,10 @@ public class Door : MonoBehaviour {
 
 	public void InitOpen()
 	{
+		opened = true;
 		doorAnimator.SetTrigger ("InitOpen");
+		doorAnimator.SetBool ("Opened", true);
+
 	}
 
 

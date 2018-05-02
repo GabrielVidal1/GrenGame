@@ -98,9 +98,11 @@ public class GameManager : NetworkBehaviour {
 		Debug.Log ("loading END !");
 
 		if (sceneName == mainSceneName) {
-			if (isHost)
+			if (isHost) {
 				Launch ();
-			else {
+
+
+			} else {
 
 
 				ClientScene.Ready (clientConnection);

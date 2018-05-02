@@ -14,17 +14,25 @@ public class DoorAndZonesEditor : Editor {
 		DrawDefaultInspector ();
 
 		if (GUILayout.Button ("Update")) {
-			Object[] t = GameObject.FindObjectsOfType (typeof(Zone));
+			Object[] zones = GameObject.FindGameObjectsWithTag ("Zone");
 			if (myObject.zones != null)
 				myObject.zones.Clear ();
 			else
 				myObject.zones = new List<Zone> ();
 
-			for (int i = 0; i < t.Length; i++) {
-				myObject.zones.Add (((GameObject)t[i]).GetComponent<Zone> ());
+			for (int i = 0; i < zones.Length; i++) {
+				myObject.zones.Add (((GameObject)zones[i]).GetComponent<Zone> ());
 			}
 
+			Object[] doors = GameObject.FindGameObjectsWithTag ("Door");
+			if (myObject.doors != null)
+				myObject.doors.Clear ();
+			else
+				myObject.doors = new List<Door> ();
 
+			for (int i = 0; i < doors.Length; i++) {
+				myObject.doors.Add (((GameObject)doors[i]).GetComponent<Door> ());
+			}
 			//myObject.doors = new List<Zone> (GameObject.FindObjectsOfType (typeof(Door)));
 
 

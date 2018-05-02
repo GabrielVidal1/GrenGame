@@ -9,6 +9,31 @@ public class ZoneAndDoorManager : MonoBehaviour {
 
 	public List<Door> doors;
 
+	public void Init()
+	{
+		Object[] z = GameObject.FindGameObjectsWithTag ("Zone");
+		if (zones != null)
+			zones.Clear ();
+		else
+			zones = new List<Zone> ();
+
+		for (int i = 0; i < z.Length; i++) {
+			zones.Add (((GameObject)z[i]).GetComponent<Zone> ());
+		}
+
+		Object[] d = GameObject.FindGameObjectsWithTag ("Door");
+		if (doors != null)
+			doors.Clear ();
+		else
+			doors = new List<Door> ();
+
+		for (int i = 0; i < d.Length; i++) {
+			doors.Add (((GameObject)d[i]).GetComponent<Door> ());
+		}
+
+
+	}
+
 
 	public void SerializeZones(WorldData wd)
 	{
@@ -40,6 +65,7 @@ public class ZoneAndDoorManager : MonoBehaviour {
 			if (wd.doors [i].open) {
 				doors [i].InitOpen ();
 			}
+			doors [i].UpdateSlider ();
 		}
 	}
 }

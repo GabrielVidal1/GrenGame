@@ -114,8 +114,9 @@ public class WorldSerialization : MonoBehaviour{
 
 		GameManager.gm.pm.SerializeSeeds (worldData);
 		//Debug.Log(worldData.seeds.Length);
-		GameManager.gm.zd.SerializeDoors(worldData);
 
+		GameManager.gm.zd.Init ();
+		GameManager.gm.zd.SerializeDoors(worldData);
 		GameManager.gm.zd.SerializeZones(worldData);
 
 		(new GameObject ("After serilisation")).AddComponent<Test> ().wd = new WorldData(worldData);
@@ -204,8 +205,9 @@ public class WorldSerialization : MonoBehaviour{
 			GameManager.gm.pm.plantSeeds.Add (s);
 		}
 
-		GameManager.gm.zd.DeserializeZones (worldData);
 
+		GameManager.gm.zd.Init ();
+		GameManager.gm.zd.DeserializeZones (worldData);
 		GameManager.gm.zd.DeserializeDoors (worldData);
 
 
