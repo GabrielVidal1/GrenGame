@@ -170,8 +170,8 @@ public class Plant : MonoBehaviour{
 
 	public void SetSeed(int seed)
 	{
-		plantSeed = 3*seed;
-		Random.InitState (1234 * plantSeed);
+		plantSeed = seed;
+		Random.InitState (plantSeed);
 		plantNumber++;
 		hasSetSeed = true;
 
