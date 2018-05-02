@@ -31,6 +31,7 @@ public class PlayerInteract : NetworkBehaviour {
 
 		if (Physics.Raycast (ray, out hit, 100f)) {
 			if (hit.collider.tag == "Door") {
+				Debug.Log ("interact <3 !! ");
 
 				Door door = hit.collider.GetComponent<Door> ();
 

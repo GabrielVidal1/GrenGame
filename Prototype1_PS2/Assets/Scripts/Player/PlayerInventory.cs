@@ -120,12 +120,14 @@ public class PlayerInventory : NetworkBehaviour {
 			float mouseScroll = Input.mouseScrollDelta.y;
 			if (mouseScroll != 0) {
 				if (NbOfSeeds > 1) {
-					if (mouseScroll < 0) {
-						selectedIndexInInventory = (selectedIndexInInventory + 1) % NbOfSeeds; 
-					} else {
-						selectedIndexInInventory = ((selectedIndexInInventory - 1) + NbOfSeeds) % NbOfSeeds;
+					if (CanvasManager.cm.seedSelectionWheel.canClick) {
+						if (mouseScroll < 0) {
+							selectedIndexInInventory = (selectedIndexInInventory + 1) % NbOfSeeds; 
+						} else {
+							selectedIndexInInventory = ((selectedIndexInInventory - 1) + NbOfSeeds) % NbOfSeeds;
+						}
+						CanvasManager.cm.seedSelectionWheel.SetNewSelectedPlantIndex (selectedIndexInInventory);
 					}
-					CanvasManager.cm.seedSelectionWheel.SetNewSelectedPlantIndex (selectedIndexInInventory);
 				}
 			}
 		}

@@ -20,7 +20,7 @@ public class SeedSelectionWheel : MonoBehaviour {
 
 	bool hasPlayer;
 
-	//[HideInInspector]
+	[HideInInspector]
 	public bool canClick;
 
 	/*
