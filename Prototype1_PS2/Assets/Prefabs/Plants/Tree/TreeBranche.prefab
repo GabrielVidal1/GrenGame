@@ -102,6 +102,7 @@ MonoBehaviour:
   trunkGrowthDuration:
     min: 9
     max: 11
+  offsetTangents: 1
   smooth: 1
   smoothCoef: 0.16
   noise: 0

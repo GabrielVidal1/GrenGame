@@ -81,6 +81,7 @@ MonoBehaviour:
   trunkGrowthDuration:
     min: 6
     max: 8
+  offsetTangents: 0
   smooth: 0
   smoothCoef: 0.498
   noise: 1
@@ -244,7 +245,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hasCollisions: 0
+  hasCollisions: 1
   hasLeaves: 0
   leafPrefab: {fileID: 114297230689991988, guid: 6bbbad84c81a8fe4caf7ff58737aaea9,
     type: 2}

@@ -103,6 +103,7 @@ MonoBehaviour:
   trunkGrowthDuration:
     min: 1
     max: 5
+  offsetTangents: 1
   smooth: 1
   smoothCoef: 0.428
   noise: 0
@@ -186,7 +187,7 @@ MonoBehaviour:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   initialSegmentLength: 0.1
   finalSegmentLength: 0.1
   lengthOverTime:

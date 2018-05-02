@@ -9,6 +9,8 @@ using System.IO;
 
 public class PlantManager : MonoBehaviour {
 
+	public Moss mossPrefab;
+
 	public Plant[] plantsPrefabs;
 	public PlantSeed[] seedsPrefab;
 

@@ -229,6 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8481936a071cac646a83da7b97f5fb43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mossPrefab: {fileID: 114303279763951084, guid: 978580513a88fe74295693487fa00b1b,
+    type: 2}
   plantsPrefabs:
   - {fileID: 114473160277983610, guid: 76d0550e3ef41a44a9325b2e75911a26, type: 2}
   - {fileID: 114986533861210988, guid: b15911916e5137f4bbf3db3720b259ce, type: 2}
@@ -238,6 +240,7 @@ MonoBehaviour:
   - {fileID: 114626937825601152, guid: eec4ad4a7533ae14a8607c00f41983ff, type: 2}
   - {fileID: 114173939077354296, guid: 6fd43c076efecee4ab9a163f30409bb7, type: 2}
   - {fileID: 114048030750317720, guid: c837f0f89c86fbf43b3fe31d5e542b44, type: 2}
+  - {fileID: 114370906160678954, guid: 9abcd32f5ea875543ab30de5cc1119a6, type: 2}
   seedsPrefab:
   - {fileID: 114655151406520926, guid: 6a8509a3a81927e43a344ada5d44dbf3, type: 2}
   - {fileID: 114808792705863548, guid: 83625e75a091882449a31fccdeee2e3f, type: 2}
@@ -247,6 +250,7 @@ MonoBehaviour:
   - {fileID: 114468586396913158, guid: 42269370a94f7ee40aa2574c4f553ff3, type: 2}
   - {fileID: 114264086105866968, guid: a501762d4581b1249b353b456488e308, type: 2}
   - {fileID: 114361178983775266, guid: b7b23491f03fc3b42ba7481be5092142, type: 2}
+  - {fileID: 114320665190776330, guid: 90574f7ea5dcdba47b7ef3bd39a44efc, type: 2}
   plants: []
   plantSeeds: []
 --- !u!114 &114998714151286392
@@ -267,3 +271,4 @@ MonoBehaviour:
     playerPositions: []
     playerInventories: []
     zones: []
+    doors: []

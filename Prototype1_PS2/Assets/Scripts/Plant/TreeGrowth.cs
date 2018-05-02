@@ -12,9 +12,14 @@ public class TreeGrowth : MonoBehaviour {
 
 	//public bool canGrow;
 
+	[Range(0.01f, 5f)]
+	public float mossRadius;
 
 	Plant pg;
 	private float lastUpdate;
+
+	private Moss moss;
+
 	void Start()
 	{
 		//canGrow = true;
@@ -24,6 +29,10 @@ public class TreeGrowth : MonoBehaviour {
 
 		growthSpeed = 1f / pg.maxDuration;
 		lastUpdate = Time.time;
+
+		moss = (Moss)Instantiate (GameManager.gm.pm.mossPrefab, transform);
+
+		moss.finalRadius = mossRadius;
 	}
 
 	void Update () 
@@ -37,6 +46,8 @@ public class TreeGrowth : MonoBehaviour {
 
 			if (updateRate * Time.deltaTime + lastUpdate <= Time.time) {
 
+				moss.time = pg.time;
+				moss.UpdateMoss ();
 				//GameManager.SavePlantTime (pg.indexInGameData, pg.time);
 
 				pg.UpdatePlant ();
@@ -44,9 +55,7 @@ public class TreeGrowth : MonoBehaviour {
 			}
 		} else {
 			pg.time = 1f;
-			//GameManager.SavePlantTime (pg.indexInGameData, 1f);
 
-			//}
 		}
 	}
 }

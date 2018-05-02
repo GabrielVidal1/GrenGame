@@ -28,6 +28,7 @@ public class Plant : MonoBehaviour{
 
 	public Interval trunkGrowthDuration;
 
+	public bool offsetTangents;
 
 	public bool smooth;
 	public float smoothCoef;
@@ -122,6 +123,8 @@ public class Plant : MonoBehaviour{
 	public bool uniqueEndFlower;
 
 	public Flower flowerPrefab;
+
+	public bool hasFixedDirection;
 
 	public AnimationCurve flowerGrowthOverTime;
 	public AnimationCurve flowersBirthdateDistribution;
@@ -618,7 +621,9 @@ public class Plant : MonoBehaviour{
 					Flower flower = Instantiate (flowerPrefab, position, Quaternion.identity);
 					thing = flower.gameObject;
 					flower.name = "Flower_" + actualLeavesNumber.ToString ();
-					flower.initialDirection = direction;
+					if (!hasFixedDirection)
+						flower.initialDirection = direction;
+						
 					//flower.upDirection = up;
 
 					growthDuration = flowerGrowthDuration.RandomValue ();
@@ -703,7 +708,7 @@ public class Plant : MonoBehaviour{
 						thing.leaf.upDirection = up.normalized;
 						thing.leaf.UpdateMesh ();
 					} else {
-						if (!thing.isEndFlower)
+						if (!thing.isEndFlower && !hasFixedDirection)
 							thing.flower.initialDirection = initialDirection.normalized;
 
 						thing.flower.transform.localPosition = localPosition;
@@ -828,8 +833,11 @@ public class Plant : MonoBehaviour{
 
 				float angle = j * angleCoefficient;
 
-				Vector3 point = (positionOffset + currentPosition)
+				Vector3 point = currentPosition
 					+ (u * Mathf.Cos (angle) + v * Mathf.Sin (angle)) * radius * radiusOverAngle.Evaluate((float)j / nbOfSides);
+
+				if (offsetTangents)
+					point += positionOffset;
 
 				int index = i * nbOfSides + j;
 				points[index] = point;
