@@ -11,13 +11,14 @@ public class MultiplayerMenu : MonoBehaviour {
 	[SerializeField] private GameObject multiplayerMenuPanel;
 
 	[SerializeField] private GameObject mainMenu;
-	[SerializeField] private GameObject worldSelectionPanel;
+	[SerializeField] private WorldSelectionPanel worldSelectionPanel;
 
 	public TMP_InputField ipAddressInputField;
 
 	[SerializeField] private GameObject loadingScreen;
 	[SerializeField] private Slider loadingScreenLoadingBar;
 
+	[SerializeField] private MainMainMenu mainMainMenu;
 
 	private bool tryToConnectToServer = false;
 	private bool hasLaunched = false;
@@ -49,26 +50,41 @@ public class MultiplayerMenu : MonoBehaviour {
 
 
 
-
-
 	public void BackToMainMenu()
+	{
+		mainMainMenu.transition = VoidBackToMainMenu;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidBackToMainMenu()
 	{
 		mainMenu.SetActive (true);
 		gameObject.SetActive (false);
 	}
 
-
 	public void LaunchHost()
 	{
+		mainMainMenu.transition = VoidLaunchHost;
+		mainMainMenu.Transit ();
+	}
+
+	public void VoidLaunchHost()
+	{
 		GameManager.gm.PrepareLaunching (true);
-
-
-		worldSelectionPanel.SetActive (true);
-
+		worldSelectionPanel.gameObject.SetActive (true);
+		//worldSelectionPanel.ResetVerticalScrollBar ();
 		gameObject.SetActive (false);
 	}
 
+
+
 	public void LaunchClient()
+	{
+		mainMainMenu.transition = VoidLaunchClient;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidLaunchClient()
 	{
 		tryToConnectToServer = true;
 		multiplayerMenuPanel.SetActive (false);
@@ -78,7 +94,6 @@ public class MultiplayerMenu : MonoBehaviour {
 		GameManager.gm.PrepareLaunching (false);
 		GameManager.gm.Launch ();
 	}
-
 
 
 	public void CancelLauchClient()

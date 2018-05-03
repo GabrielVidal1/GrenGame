@@ -17,6 +17,8 @@ public class optionsMenu : MonoBehaviour {
     public GameObject menu;
     public GameObject parent;
 
+	[SerializeField] private MainMainMenu mainMainMenu;
+
     // Use this for initialization
 	void Start () {
 
@@ -62,7 +64,13 @@ public class optionsMenu : MonoBehaviour {
         SceneManager.LoadScene("Menu");
     }
 
-    public void Back()
+	public void Back()
+	{
+		mainMainMenu.transition = VoidBack;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidBack()
     {
         menu.SetActive(false);
         parent.SetActive(true);

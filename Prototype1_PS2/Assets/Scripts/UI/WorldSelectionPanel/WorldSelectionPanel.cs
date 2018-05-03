@@ -24,6 +24,13 @@ public class WorldSelectionPanel : MonoBehaviour {
 	[SerializeField] private GameObject loadingScreen;
 	[SerializeField] private Slider loadingScreenLoadingBar;
 
+	[SerializeField] private MainMainMenu mainMainMenu;
+
+	//[SerializeField] private Scrollbar verticalScrollbar;
+	[SerializeField] private ScrollRect scrollRect;
+
+	string worldAboutToBeLoaded;
+
 
 	void Start () 
 	{
@@ -63,10 +70,17 @@ public class WorldSelectionPanel : MonoBehaviour {
 		}
 		worldListContent.SetHeight (validWorlds, worldButtonPrefab.GetComponent<RectTransform> ().rect.height);
 
+		scrollRect.verticalNormalizedPosition = 1f;
+
 	}
 
-
 	public void NewWorldPanel()
+	{
+		mainMainMenu.transition = VoidNewWorldPanel;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidNewWorldPanel()
 	{
 		worldListPanel.SetActive (false);
 		newWorldPanel.SetActive (true);
@@ -74,39 +88,59 @@ public class WorldSelectionPanel : MonoBehaviour {
 
 	public void FromNewWorldPanelToWorldListPanel()
 	{
+		mainMainMenu.transition = VoidFromNewWorldPanelToWorldListPanel;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidFromNewWorldPanelToWorldListPanel()
+	{
 		worldListPanel.SetActive (true);
 		newWorldPanel.SetActive (false);
 	}
 
 	public void CreateNewWorld()
 	{
+		mainMainMenu.transition = VoidCreateNewWorld;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidCreateNewWorld()
+	{
 		Debug.Log ("clicked on create new world button");
+		newWorldPanel.SetActive (false);
 		loadingScreen.SetActive (true);
 		GameManager.gm.LaunchNewWorld (worldNameInputField.text, loadingScreenLoadingBar);
 	}
 
 	public void BackToMultiplayerMenu()
 	{
+		mainMainMenu.transition = VoidBackToMultiplayerMenu;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidBackToMultiplayerMenu()
+	{
 		multiplayerMenu.SetActive (true);
 		gameObject.SetActive (false);
 	}
 
-
 	public void Launch(string worldName)
 	{
-		Debug.Log (gameObject.activeSelf);
-		GameManager.gm.SetWorld (worldName);
+		worldAboutToBeLoaded = worldName;
 
+		mainMainMenu.transition = VoidLaunch;
+		mainMainMenu.Transit ();
+
+
+	}
+
+	void VoidLaunch()
+	{
 		loadingScreen.SetActive (true);
 		worldListPanel.SetActive (false);
 
-		gameObject.SetActive (true);
-
-		Debug.DebugBreak ();
-
+		GameManager.gm.SetWorld (worldAboutToBeLoaded);
 		GameManager.gm.LoadScene (loadingScreenLoadingBar, GameManager.gm.mainSceneName);
-
-
 
 	}
 	/*

@@ -8,6 +8,9 @@ public class MainMenu : MonoBehaviour {
 
 	[SerializeField] private GameObject worldSelectionPanel;
 	[SerializeField] private GameObject multiplayerPanel;
+	[SerializeField] private GameObject optionPanel;
+
+	[SerializeField] private MainMainMenu mainMainMenu;
 
 	void Start () {
 
@@ -26,7 +29,26 @@ public class MainMenu : MonoBehaviour {
 
 	public void PlayGame()
 	{
+		mainMainMenu.transition = VoidPlayGame;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidPlayGame()
+	{
 		multiplayerPanel.SetActive (true);
+		gameObject.SetActive (false);
+	}
+
+
+	public void Option()
+	{
+		mainMainMenu.transition = VoidOption;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidOption()
+	{
+		optionPanel.SetActive (true);
 		gameObject.SetActive (false);
 	}
 }
