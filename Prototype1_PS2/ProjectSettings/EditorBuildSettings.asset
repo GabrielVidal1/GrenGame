@@ -44,9 +44,12 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/__DELETED_GUID_Trash/63aef9471c3f904499043070ea03d53d
+    guid: 63aef9471c3f904499043070ea03d53d
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
-    guid: 63aef9471c3f904499043070ea03d53d
+    guid: 57475203efaa36c40b74a0feab616520
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: c0e4bfe57bf19704ab8931fec2e3c4bb

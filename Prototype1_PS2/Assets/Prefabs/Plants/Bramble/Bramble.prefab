@@ -512,4 +512,4 @@ MonoBehaviour:
   growthSpeed: 0.2
   updateRate: 0
   hasMoss: 1
-  mossRadius: 0.41
+  mossRadius: 0.74

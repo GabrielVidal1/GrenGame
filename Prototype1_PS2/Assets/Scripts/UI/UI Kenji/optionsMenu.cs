@@ -10,6 +10,8 @@ public class optionsMenu : MonoBehaviour {
 
     public static float musicVolume = 0.5F;
 
+	public bool noTransition;
+
     public Slider volumeSlider;
     public GameObject textMusicON;
     public GameObject textMusicOFF;
@@ -66,8 +68,12 @@ public class optionsMenu : MonoBehaviour {
 
 	public void Back()
 	{
-		mainMainMenu.transition = VoidBack;
-		mainMainMenu.Transit ();
+		if (!noTransition) {
+			mainMainMenu.transition = VoidBack;
+			mainMainMenu.Transit ();
+		} else {
+			VoidBack ();
+		}
 	}
 
 	void VoidBack()

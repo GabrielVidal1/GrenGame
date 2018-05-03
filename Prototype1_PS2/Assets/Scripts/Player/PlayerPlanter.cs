@@ -79,7 +79,8 @@ public class PlayerPlanter : NetworkBehaviour {
 			return;
 
 
-		if (!CanvasManager.cm.inGameMenu.isPaused) {
+		if (!CanvasManager.cm.inGameMenu.isPaused &&
+			!CanvasManager.cm.playerInventoryGrid.Opened) {
 
 			//PLANT SEED
 			if (Input.GetMouseButtonDown (0)) {

@@ -22,17 +22,18 @@ public class PlantSeedEditor : Editor {
 		if (pm == null)
 			pm = GameObject.FindGameObjectWithTag ("GameController").GetComponent<PlantManager> ();
 
-		PlantSeed myObject = (PlantSeed)target; 
+		//PlantSeed myObject = (PlantSeed)target; 
 
 		base.OnInspectorGUI ();
 
-		myObject.indexInPlantManager = EditorGUILayout.IntSlider ("Index in Plant Array", myObject.indexInPlantManager,
+
+		serializedObject.FindProperty("indexInPlantManager").intValue = EditorGUILayout.IntSlider ("Index in Plant Array", serializedObject.FindProperty("indexInPlantManager").intValue,
 			0, pm.plantsPrefabs.Length - 1);
 
 
+		serializedObject.ApplyModifiedProperties ();
 
-
-		EditorGUILayout.LabelField ("Plant Type", pm.plantsPrefabs [myObject.indexInPlantManager].name);
+		EditorGUILayout.LabelField ("Plant Type", pm.plantsPrefabs [serializedObject.FindProperty("indexInPlantManager").intValue].name);
 
 	}
 }

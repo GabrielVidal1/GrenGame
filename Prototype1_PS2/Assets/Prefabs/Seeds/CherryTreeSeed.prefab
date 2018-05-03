@@ -169,8 +169,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6732221e1ab0c22418f61a506ef09b1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupSpeed: 0.151
-  indexInPlantManager: 4
+  pickupSpeed: 0.166
+  indexInPlantManager: 8
   seedTexture: {fileID: 2800000, guid: 46344b5821ac6ea47bcd99023b6c7ec1, type: 3}
 --- !u!136 &136637162651167936
 CapsuleCollider:

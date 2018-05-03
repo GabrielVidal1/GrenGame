@@ -4422,8 +4422,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 6
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 361c3bdc432dfa34eba95641ecb09f95, type: 2}
-  m_sharedMaterial: {fileID: 21548992797335160, guid: 361c3bdc432dfa34eba95641ecb09f95,
+  m_fontAsset: {fileID: 11400000, guid: 8ceafc604b2cc8845834d85404298de0, type: 2}
+  m_sharedMaterial: {fileID: 21208872045478510, guid: 8ceafc604b2cc8845834d85404298de0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6003,8 +6003,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Plant Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 97b0692282d6bfd4699a9045d4ebdca4, type: 2}
-  m_sharedMaterial: {fileID: 21157165337715024, guid: 97b0692282d6bfd4699a9045d4ebdca4,
+  m_fontAsset: {fileID: 11400000, guid: 8ceafc604b2cc8845834d85404298de0, type: 2}
+  m_sharedMaterial: {fileID: 21208872045478510, guid: 8ceafc604b2cc8845834d85404298de0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6040,7 +6040,7 @@ MonoBehaviour:
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: -36.6
+  m_lineSpacing: -21.37
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -6399,8 +6399,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000014436444, y: -0.0000020905763}
-  m_SizeDelta: {x: -15.693483, y: -14.626801}
+  m_AnchoredPosition: {x: -0.000012957352, y: 0.000018594896}
+  m_SizeDelta: {x: -7.846697, y: -7.313409}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1559737937
 MonoBehaviour:
@@ -6414,7 +6414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.39885455, g: 0.44852942, b: 0.3792712, a: 0.709}
+  m_Color: {r: 0.52205884, g: 0.52205884, b: 0.52205884, a: 0.709}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7580,8 +7580,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Plant Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 97b0692282d6bfd4699a9045d4ebdca4, type: 2}
-  m_sharedMaterial: {fileID: 21157165337715024, guid: 97b0692282d6bfd4699a9045d4ebdca4,
+  m_fontAsset: {fileID: 11400000, guid: 8ceafc604b2cc8845834d85404298de0, type: 2}
+  m_sharedMaterial: {fileID: 21208872045478510, guid: 8ceafc604b2cc8845834d85404298de0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -7617,7 +7617,7 @@ MonoBehaviour:
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: -36.6
+  m_lineSpacing: -21.37
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -7827,7 +7827,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -60, y: -200}
+  m_SizeDelta: {x: -40, y: -60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1849724423
 MonoBehaviour:
@@ -8278,8 +8278,8 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 6
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 361c3bdc432dfa34eba95641ecb09f95, type: 2}
-  m_sharedMaterial: {fileID: 21548992797335160, guid: 361c3bdc432dfa34eba95641ecb09f95,
+  m_fontAsset: {fileID: 11400000, guid: 8ceafc604b2cc8845834d85404298de0, type: 2}
+  m_sharedMaterial: {fileID: 21208872045478510, guid: 8ceafc604b2cc8845834d85404298de0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -9080,11 +9080,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee364ffe9df48d43a03a8c47610c34b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noTransition: 1
   volumeSlider: {fileID: 1028719629}
   textMusicON: {fileID: 2050817259}
   textMusicOFF: {fileID: 226454107}
   menu: {fileID: 2143697450}
   parent: {fileID: 659660083}
+  mainMainMenu: {fileID: 0}
 --- !u!114 &2143697453
 MonoBehaviour:
   m_ObjectHideFlags: 0

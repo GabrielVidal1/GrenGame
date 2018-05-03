@@ -444,5 +444,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthSpeed: 0.05
   updateRate: 2
-  hasMoss: 0
-  mossRadius: 0
+  hasMoss: 1
+  mossRadius: 1
