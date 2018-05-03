@@ -38,34 +38,33 @@ public class PlayerPlanter : NetworkBehaviour {
 		Ray ray = new Ray (origin, direction);
 		RaycastHit hit;
 
-		if (Physics.Raycast (ray, out hit, 100f, layerMask)) {
+		if (Physics.Raycast (ray, out hit, 100f)) {
+			if (hit.collider.tag == "Zone") {
 
-			Plant plant = Instantiate (GameManager.gm.pm.plantsPrefabs [index], hit.point + 0.1f * hit.normal, Quaternion.identity);
-			plant.initialDirection = hit.normal;
-			plant.SetSeed (Plant.plantNumber);
+
+				Plant plant = Instantiate (GameManager.gm.pm.plantsPrefabs [index], hit.point + 0.1f * hit.normal, Quaternion.identity);
+				plant.initialDirection = hit.normal;
+				plant.SetSeed (Plant.plantNumber);
 			
-			plant.time = 0f;
-			plant.InitializePlant ();
+				plant.time = 0f;
+				plant.InitializePlant ();
 			
-			playerInventory.UseSeed ();
+				playerInventory.UseSeed ();
 
 
-			Zone touchedZone = hit.collider.GetComponent<Zone> ();
+				Zone touchedZone = hit.collider.GetComponent<Zone> ();
 
-			int plantIndex = GameManager.gm.pm.AddPlantAndGetIndex (plant);
+				int plantIndex = GameManager.gm.pm.AddPlantAndGetIndex (plant);
 
+				if (touchedZone) {
+					touchedZone.AddPlant (plantIndex);
+				}
 
-			if (touchedZone) {
-
-
-				touchedZone.AddPlant (plantIndex);
-
-
-			} else {
-				Debug.LogError ("This zone is impossible to plant on !!");
+				return;
 			}
 
 			
+			Debug.LogError ("This zone is impossible to plant on !!");
 
 
 
@@ -96,8 +95,9 @@ public class PlayerPlanter : NetworkBehaviour {
 						Ray ray = new Ray (origin, direction);
 						RaycastHit hit;
 
-						if (Physics.Raycast (ray, out hit, 100f, layerMask)) {
-							CmdPlant (playerInventory.PlantIndex,origin, direction);
+						if (Physics.Raycast (ray, out hit, 100f)) {
+							if (hit.collider.tag == "Zone")
+								CmdPlant (playerInventory.PlantIndex,origin, direction);
 						}
 
 

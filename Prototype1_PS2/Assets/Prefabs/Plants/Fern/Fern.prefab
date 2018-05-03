@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthSpeed: 0.05
   updateRate: 2
+  hasMoss: 1
   mossRadius: 0
 --- !u!114 &114938343243396726
 MonoBehaviour:
@@ -109,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 0
+  pointValue: 8
   plantTypeIndex: 2
   plantSeed: 1
   time: 1
@@ -444,6 +445,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  branchesDistributionOverLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   branchGrowthDuration:
     min: 0
     max: 0
@@ -471,6 +478,7 @@ MonoBehaviour:
   hasFlowers: 0
   uniqueEndFlower: 0
   flowerPrefab: {fileID: 0}
+  hasFixedDirection: 0
   flowerGrowthOverTime:
     serializedVersion: 2
     m_Curve: []

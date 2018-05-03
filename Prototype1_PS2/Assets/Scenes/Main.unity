@@ -5445,6 +5445,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114366868199223274, guid: b9f75950018c01942bb936d3a9c92c5f,
+        type: 2}
+      propertyPath: associatedZones.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4559476967211180, guid: b9f75950018c01942bb936d3a9c92c5f, type: 2}
       propertyPath: m_LocalPosition.x
       value: -19.6
@@ -5562,9 +5567,25 @@ Prefab:
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114366868199223274, guid: b9f75950018c01942bb936d3a9c92c5f,
+        type: 2}
+      propertyPath: associatedZones.Array.data[1]
+      value: 
+      objectReference: {fileID: 1444947428}
+    - target: {fileID: 114366868199223274, guid: b9f75950018c01942bb936d3a9c92c5f,
+        type: 2}
+      propertyPath: associatedZones.Array.data[0]
+      value: 
+      objectReference: {fileID: 1444947428}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b9f75950018c01942bb936d3a9c92c5f, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1444947428 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114945252243574598, guid: b9f75950018c01942bb936d3a9c92c5f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1444947427}
+  m_Script: {fileID: 11500000, guid: 187bd6a385fcce443b89841dba57bca6, type: 3}
 --- !u!1 &1460619338
 GameObject:
   m_ObjectHideFlags: 0
@@ -6210,7 +6231,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000013131513, y: -0.000004343427}
+  m_AnchoredPosition: {x: -0.000013131513, y: -0.000032553322}
   m_SizeDelta: {x: -15.693483, y: -14.626801}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1559737937

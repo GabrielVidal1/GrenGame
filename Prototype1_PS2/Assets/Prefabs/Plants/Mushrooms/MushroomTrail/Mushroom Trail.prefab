@@ -62,6 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthSpeed: 0.05
   updateRate: 2
+  hasMoss: 0
   mossRadius: 0
 --- !u!114 &114626937825601152
 MonoBehaviour:
@@ -74,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 0
+  pointValue: 30
   plantTypeIndex: 5
   plantSeed: 0
   time: 1

@@ -95,11 +95,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 0
+  pointValue: 9
   plantTypeIndex: 0
-  plantSeed: 0
+  plantSeed: 243
   time: 1
-  maxDuration: 6.5339756
+  maxDuration: 8.603838
   trunkGrowthDuration:
     min: 4
     max: 6
@@ -227,7 +227,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   hasGravity: 1
-  gravityForce: 1.04
+  gravityForce: 1.87
   gravityOverLength:
     serializedVersion: 2
     m_Curve:
@@ -247,8 +247,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   hasNoise: 1
-  noiseForce: 2.62
-  noiseSize: 0.067
+  noiseForce: 3.58
+  noiseSize: 0.034
   noiseOverLength:
     serializedVersion: 2
     m_Curve:
@@ -272,8 +272,8 @@ MonoBehaviour:
   leafPrefab: {fileID: 114297230689991988, guid: 6bbbad84c81a8fe4caf7ff58737aaea9,
     type: 2}
   leafSize:
-    min: 1
-    max: 1
+    min: 0.5
+    max: 1.2
   leavesOnlyOnSections: 0
   leavesDensity: 1.26
   leavesNumber: 0
@@ -321,8 +321,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   leafGrowthDuration:
-    min: 1
-    max: 1
+    min: 2
+    max: 3.5
   sunOrientationIntensity: 1
   sunOrientationIntensityOverTime:
     serializedVersion: 2
@@ -376,6 +376,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  branchesDistributionOverLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   branchGrowthDuration:
     min: 0
     max: 0
@@ -403,6 +409,7 @@ MonoBehaviour:
   hasFlowers: 0
   uniqueEndFlower: 0
   flowerPrefab: {fileID: 0}
+  hasFixedDirection: 0
   flowerGrowthOverTime:
     serializedVersion: 2
     m_Curve: []
@@ -437,4 +444,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthSpeed: 0.05
   updateRate: 2
+  hasMoss: 0
   mossRadius: 0
