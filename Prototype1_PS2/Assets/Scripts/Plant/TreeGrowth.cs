@@ -34,7 +34,11 @@ public class TreeGrowth : MonoBehaviour {
 
 		if (hasMoss) {
 			moss = (Moss)Instantiate (GameManager.gm.pm.mossPrefab, transform);
+			moss.transform.localPosition = Vector3.zero;
 			moss.finalRadius = mossRadius;
+
+			moss.time = pg.time;
+			moss.UpdateMoss ();
 		}
 	}
 

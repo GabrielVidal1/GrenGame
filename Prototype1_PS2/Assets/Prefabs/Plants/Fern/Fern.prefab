@@ -98,7 +98,7 @@ MonoBehaviour:
   growthSpeed: 0.05
   updateRate: 2
   hasMoss: 1
-  mossRadius: 0
+  mossRadius: 2.24
 --- !u!114 &114938343243396726
 MonoBehaviour:
   m_ObjectHideFlags: 1
