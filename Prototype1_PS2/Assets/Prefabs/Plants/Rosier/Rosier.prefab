@@ -358,6 +358,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  branchesDistributionOverLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   branchGrowthDuration:
     min: 0
     max: 0
@@ -386,6 +392,7 @@ MonoBehaviour:
   uniqueEndFlower: 0
   flowerPrefab: {fileID: 114835100355466322, guid: dda49ecabb8f26f4097e2332d01aa80c,
     type: 2}
+  hasFixedDirection: 0
   flowerGrowthOverTime:
     serializedVersion: 2
     m_Curve:
@@ -432,3 +439,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthSpeed: 0
   updateRate: 0
+  hasMoss: 1
+  mossRadius: 1.49
