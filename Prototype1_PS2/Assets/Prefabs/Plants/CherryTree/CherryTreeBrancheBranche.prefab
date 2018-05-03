@@ -346,7 +346,8 @@ MonoBehaviour:
     max: 0
   hasFlowers: 1
   uniqueEndFlower: 0
-  flowerPrefab: {fileID: 0}
+  flowerPrefab: {fileID: 114414445027773778, guid: 271c066e05dc41d4d94c8ae2bc7218bd,
+    type: 2}
   hasFixedDirection: 0
   flowerGrowthOverTime:
     serializedVersion: 2

@@ -5,15 +5,17 @@ using UnityEngine;
 public class TreeGrowth : MonoBehaviour {
 
 	[Range(0f, 1f)]
-	public float growthSpeed;
+	public float growthSpeed = 0.05f;
 
 	[Range(1, 24)]
-	public int updateRate;
+	public int updateRate = 1;
 
 	//public bool canGrow;
 
+	public bool hasMoss = true;
+
 	[Range(0.01f, 5f)]
-	public float mossRadius;
+	public float mossRadius = 1f;
 
 	Plant pg;
 	private float lastUpdate;
@@ -30,9 +32,10 @@ public class TreeGrowth : MonoBehaviour {
 		growthSpeed = 1f / pg.maxDuration;
 		lastUpdate = Time.time;
 
-		moss = (Moss)Instantiate (GameManager.gm.pm.mossPrefab, transform);
-
-		moss.finalRadius = mossRadius;
+		if (hasMoss) {
+			moss = (Moss)Instantiate (GameManager.gm.pm.mossPrefab, transform);
+			moss.finalRadius = mossRadius;
+		}
 	}
 
 	void Update () 
@@ -46,8 +49,11 @@ public class TreeGrowth : MonoBehaviour {
 
 			if (updateRate * Time.deltaTime + lastUpdate <= Time.time) {
 
-				moss.time = pg.time;
-				moss.UpdateMoss ();
+				if (hasMoss) {
+					moss.time = pg.time;
+					moss.UpdateMoss ();
+				}
+
 				//GameManager.SavePlantTime (pg.indexInGameData, pg.time);
 
 				pg.UpdatePlant ();

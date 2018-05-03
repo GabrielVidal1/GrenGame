@@ -44,6 +44,10 @@ public class PlantEditor : Editor {
 	}
 	public override void OnInspectorGUI ()
 	{
+
+		updateOnChange = EditorGUILayout.Toggle ("Update On Change", updateOnChange);
+		EditorGUILayout.Space ();
+
 		EditorGUI.BeginChangeCheck ();
 
 
@@ -105,7 +109,7 @@ public class PlantEditor : Editor {
 			myObject.brancheIndependentLength = EditorGUILayout.Toggle ("Independent length", myObject.brancheIndependentLength);
 		}
 		EditorGUI.BeginDisabledGroup (myObject.isBranch && !myObject.brancheIndependentLength);
-		myObject.nbOfSegments = EditorGUILayout.IntSlider ("Number Of Segments", myObject.nbOfSegments, 1, 500);
+		myObject.nbOfSegments = EditorGUILayout.IntSlider ("Number Of Segments", myObject.nbOfSegments, 2, 500);
 		EditorGUI.EndDisabledGroup ();
 
 		myObject.nbOfSides = EditorGUILayout.IntSlider ("Number Of Sides", myObject.nbOfSides, 3, 64);
@@ -233,7 +237,9 @@ public class PlantEditor : Editor {
 		
 		if (myObject.hasLeaves) {
 
-			myObject.leafPrefab = EditorGUILayout.ObjectField ("Leaf Prefab", myObject.leafPrefab, typeof(Leaf), true) as Leaf;
+			EditorGUILayout.PropertyField (serializedObject.FindProperty ("leafPrefab"), true);
+			//myObject.leafPrefab = EditorGUILayout.ObjectField ("Leaf Prefab", myObject.leafPrefab, typeof(Leaf), true) as Leaf;
+
 
 			if (myObject.leafPrefab != null) {
 
@@ -290,7 +296,8 @@ public class PlantEditor : Editor {
 
 		if (myObject.hasFlowers) {
 
-			myObject.flowerPrefab = EditorGUILayout.ObjectField ("Flower Prefab", myObject.flowerPrefab, typeof(Flower), true) as Flower;
+			EditorGUILayout.PropertyField (serializedObject.FindProperty ("flowerPrefab"), true);
+			//myObject.flowerPrefab = EditorGUILayout.ObjectField ("Flower Prefab", myObject.flowerPrefab, typeof(Flower), true) as Flower;
 
 
 
@@ -356,79 +363,69 @@ public class PlantEditor : Editor {
 		myObject.hasRecursions = EditorGUILayout.Toggle ("Has Recursions", myObject.hasRecursions);
 		if (myObject.hasRecursions) {
 
-			myObject.branchPrefab = EditorGUILayout.ObjectField ("Branch Prefab", myObject.branchPrefab, typeof(Plant), true) as Plant;
-
-			myObject.nbOfBranches = EditorGUILayout.IntSlider ("Branches Number", myObject.nbOfBranches, 0, 300);
-
-			myObject.branchesDistribution = EditorGUILayout.CurveField ("Branches Distribution Over Length", myObject.branchesDistribution, Color.green, new Rect (0, 0, 1, 1));
-
-			myObject.brancheAngleDelta = EditorGUILayout.Slider ("Topinal Branche Angulation", myObject.brancheAngleDelta, -2 * Mathf.PI, 2 * Mathf.PI);
-
-			myObject.branchBirthDateDistribution = EditorGUILayout.CurveField ("Branches Birth Distribution Over Time", myObject.branchBirthDateDistribution, Color.green, new Rect (0, 0, 1, 1));
-
-			EditorGUILayout.PropertyField (branchGrowthDuration, new GUIContent ("Branch Growth Duration"));
-
-			//myObject.brancheIndependentRadius = EditorGUILayout.Toggle ("Branche Independent Radius", myObject.brancheIndependentRadius);
-			//if (!myObject.brancheIndependentRadius)
-			EditorGUILayout.PropertyField (branchInitialRadiusMultiplier, new GUIContent ("Branch Radius Multiplier"));
-
-			EditorGUILayout.Space ();
-
-			myObject.branchesTangencityOverLength = EditorGUILayout.CurveField ("Branches Tangency Over Length", myObject.branchesTangencityOverLength, Color.green, new Rect (0, 0, 1, 1));
-
-			//myObject.brancheIndependentLength = EditorGUILayout.Toggle ("Branche Independent Length", myObject.brancheIndependentLength);
-			//if (!myObject.brancheIndependentLength)
-			EditorGUILayout.PropertyField (brancheLengthRatio, new GUIContent ("Branch Length Ratio"));
-
-			myObject.branchLengthOverTrunkLength = EditorGUILayout.CurveField ("Branches Length Over Trunk Length", myObject.branchLengthOverTrunkLength, Color.green, new Rect (0, 0, 1, 1));
-
-
-
-
-
-
-
-
-
-
-
-
-
+			EditorGUILayout.PropertyField (serializedObject.FindProperty ("branchPrefab"), true);
+			//myObject.branchPrefab = EditorGUILayout.ObjectField ("Branch Prefab", myObject.branchPrefab, typeof(Plant), true) as Plant;
 
 			if (myObject.branchPrefab != null) {
-				
-				if (myObject.branchPrefab == myObject) {
-					myObject.branchPrefab = null;
-					Debug.LogError ("The Branche can't be the trunk!");
 
+				myObject.nbOfBranches = EditorGUILayout.IntSlider ("Branches Number", myObject.nbOfBranches, 0, 300);
+
+				myObject.branchesDistribution = EditorGUILayout.CurveField ("Branches Distribution", myObject.branchesDistribution, Color.green, new Rect (0, 0, 1, 1));
+				serializedObject.FindProperty ("branchesDistributionOverLength").animationCurveValue = EditorGUILayout.CurveField ("Branches Distribution Over Length", serializedObject.FindProperty ("branchesDistributionOverLength").animationCurveValue, Color.green, new Rect (0, 0, 1, 1));
+				if (serializedObject.FindProperty ("branchesDistributionOverLength").animationCurveValue.keys.Length == 0) {
+					serializedObject.FindProperty ("branchesDistributionOverLength").animationCurveValue = AnimationCurve.Linear (0f, 0f, 1f, 1f);
 				}
+				myObject.brancheAngleDelta = EditorGUILayout.Slider ("Topinal Branche Angulation", myObject.brancheAngleDelta, -2 * Mathf.PI, 2 * Mathf.PI);
 
-				myObject.branchPrefab.isBranch = true;
-				//displayBranchParameters = EditorGUILayout.Foldout (displayBranchParameters, "Branch Prefab Informations");
-				displayBranchParameters = true;
-				if (displayBranchParameters) {
+				myObject.branchBirthDateDistribution = EditorGUILayout.CurveField ("Branches Birth Distribution Over Time", myObject.branchBirthDateDistribution, Color.green, new Rect (0, 0, 1, 1));
+
+				EditorGUILayout.PropertyField (branchGrowthDuration, new GUIContent ("Branch Growth Duration"));
+
+				EditorGUILayout.PropertyField (branchInitialRadiusMultiplier, new GUIContent ("Branch Radius Multiplier"));
+
+				EditorGUILayout.Space ();
+
+				myObject.branchesTangencityOverLength = EditorGUILayout.CurveField ("Branches Tangency Over Length", myObject.branchesTangencityOverLength, Color.green, new Rect (0, 0, 1, 1));
+
+				EditorGUILayout.PropertyField (brancheLengthRatio, new GUIContent ("Branch Length Ratio"));
+
+				if (!myObject.branchPrefab.brancheIndependentLength)
+					myObject.branchLengthOverTrunkLength = EditorGUILayout.CurveField ("Branches Length Over Trunk Length", myObject.branchLengthOverTrunkLength, Color.green, new Rect (0, 0, 1, 1));
+
+				if (myObject.branchPrefab != null) {
+				
+					if (myObject.branchPrefab == myObject) {
+						myObject.branchPrefab = null;
+						Debug.LogError ("The Branche can't be the trunk!");
+
+					}
+
+					myObject.branchPrefab.isBranch = true;
+					//displayBranchParameters = EditorGUILayout.Foldout (displayBranchParameters, "Branch Prefab Informations");
+					displayBranchParameters = true;
+					if (displayBranchParameters) {
 
 
-					if (branchEditor == null)
-						branchEditor = CreateEditor (myObject.branchPrefab);
+						if (branchEditor == null)
+							branchEditor = CreateEditor (myObject.branchPrefab);
 
 					
-					brancheRect = EditorGUILayout.GetControlRect ();
+						brancheRect = EditorGUILayout.GetControlRect ();
 
-					EditorGUI.indentLevel++;
-					branchEditor.OnInspectorGUI ();
+						EditorGUI.indentLevel++;
+						branchEditor.OnInspectorGUI ();
 
-					brancheRect.yMax = EditorGUILayout.GetControlRect ().yMax;
-					brancheRect.xMax = brancheRect.x + 10f * EditorGUI.indentLevel;
-					EditorGUI.indentLevel--;
+						brancheRect.yMax = EditorGUILayout.GetControlRect ().yMax;
+						brancheRect.xMax = brancheRect.x + 10f * EditorGUI.indentLevel;
+						EditorGUI.indentLevel--;
 
-					EditorGUI.DrawRect (brancheRect, Color.grey);
-					branchEditor.serializedObject.ApplyModifiedProperties ();
+						EditorGUI.DrawRect (brancheRect, Color.grey);
+						branchEditor.serializedObject.ApplyModifiedProperties ();
 
+					}
+					EditorGUILayout.Space ();
 				}
-				EditorGUILayout.Space ();
 			}
-
 
 
 
@@ -443,14 +440,15 @@ public class PlantEditor : Editor {
 
 			EditorGUILayout.Separator ();
 
-			if (updateOnChange && update)
+			if (updateOnChange && update) {
+				Debug.Log ("Update Plant");
 				myObject.InitializePlant ();
+			}
 
-
-			if (GUILayout.Button ("Initialize", GUILayout.Height (32f)))
+			if (GUILayout.Button ("Initialize", GUILayout.Height (32f))) {
+				Debug.Log ("Update Plant");
 				myObject.InitializePlant ();
-
-			updateOnChange = EditorGUILayout.Toggle ("Update On Change", updateOnChange);
+			}
 
 			if (GUILayout.Button ("Update", GUILayout.Height (32f)))
 				myObject.UpdatePlant ();

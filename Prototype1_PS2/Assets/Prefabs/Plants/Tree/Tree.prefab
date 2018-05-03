@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthSpeed: 0.071431786
   updateRate: 2
+  mossRadius: 0
 --- !u!114 &114986533861210988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,6 +117,7 @@ MonoBehaviour:
   trunkGrowthDuration:
     min: 4.95
     max: 6.37
+  offsetTangents: 0
   smooth: 1
   smoothCoef: 0.498
   noise: 1
@@ -443,6 +445,24 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  branchesDistributionOverLength:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   branchGrowthDuration:
     min: 9
     max: 10
@@ -494,6 +514,7 @@ MonoBehaviour:
   hasFlowers: 0
   uniqueEndFlower: 0
   flowerPrefab: {fileID: 0}
+  hasFixedDirection: 0
   flowerGrowthOverTime:
     serializedVersion: 2
     m_Curve: []

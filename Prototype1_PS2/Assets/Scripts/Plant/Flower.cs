@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
 public class Flower : MonoBehaviour {
 
 	[Range(0f, 1f)]
@@ -16,6 +18,9 @@ public class Flower : MonoBehaviour {
 	public int nbOfSegments;
 
 	public AnimationCurve segmentPointDistribution;
+
+	public AnimationCurve radiusOverAngle;
+
 
 	public float length;
 
@@ -118,10 +123,11 @@ public class Flower : MonoBehaviour {
 				Vector3 dir = (Mathf.Cos (angleRatio) * u +
 					Mathf.Sin (angleRatio) * v).normalized;
 
+				dir *= radiusOverAngle.Evaluate (angleRatio / (2f * Mathf.PI));
 
 				Vector3 point = dir * radius * segmentPointDistribution.Evaluate (ratio) * radiusOverTime.Evaluate(time);
 
-				point -= dir * radius * closureForce.Evaluate(ratio) * closureForceCoef;
+				point -=   dir * radius * closureForce.Evaluate(ratio) * closureForceCoef;
 
 				point += w * sideShape.Evaluate (ratio) * sideShapeCoef * sideShapeOverTime.Evaluate(time);
 					

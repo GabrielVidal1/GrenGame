@@ -102,7 +102,10 @@ public class Plant : MonoBehaviour{
 
 	public int nbOfBranches;
 	public AnimationCurve branchesDistribution;
+
 	public AnimationCurve branchBirthDateDistribution;
+
+	public AnimationCurve branchesDistributionOverLength;
 
 	public Interval branchGrowthDuration;
 
@@ -206,7 +209,7 @@ public class Plant : MonoBehaviour{
 				maxDuration += branchPrefab.flowerGrowthDuration.max;
 			if (branchPrefab.hasRecursions)
 				maxDuration += branchPrefab.branchGrowthDuration.max;
-			if (branchPrefab.hasRecursions) {
+			if (branchPrefab.hasRecursions && branchPrefab.branchPrefab != null) {
 				if (branchPrefab.branchPrefab.hasLeaves)
 					maxDuration += branchPrefab.branchPrefab.leafGrowthDuration.max;
 				if (branchPrefab.branchPrefab.hasFlowers)
@@ -331,6 +334,11 @@ public class Plant : MonoBehaviour{
 		for(int i = 0 ; i < nbOfBranches ; i++){
 
 			float lengthRatio = (float)i / (float)nbOfBranches;
+
+			lengthRatio = branchesDistributionOverLength.Evaluate (lengthRatio);
+			if (lengthRatio == 1f)
+				lengthRatio = (nbOfSegments - 1f) / (float)nbOfSegments;
+			
 			float proba = branchesDistribution.Evaluate (lengthRatio);
 
 
@@ -367,11 +375,10 @@ public class Plant : MonoBehaviour{
 				//INITIAL RADIUS
 				float initialBrancheRadiusBranch = actualTrunkRadius * 0.8f;
 
-				
-				Vector3 normal = positionsAndNormals.nor [segment];
-
-				position += normal * actualTrunkRadius;
-
+				if (offsetTangents) {
+					Vector3 normal = positionsAndNormals.nor [segment];
+					position += normal * actualTrunkRadius;
+				}
 				Vector3 tangentDirection = (points [pointIndex1+ nbOfSides] - points [pointIndex1 ]).normalized;
 				//INITIAL DIRECTION
 				Vector3 u = (points[pointIndex1] - points[pointIndex2]).normalized;
@@ -411,8 +418,10 @@ public class Plant : MonoBehaviour{
 
 				branche.isBranch = true;
 				branche.initialDirection = direction;
-				if (!brancheIndependentRadius)
+				if (!branche.brancheIndependentRadius)
 					branche.initialRadius = initialBrancheRadiusBranch * branchInitialRadiusMultiplier.RandomValue();
+				else
+					branche.initialRadius *= branchInitialRadiusMultiplier.RandomValue();
 
 				branche.initialNormal = tangentDirection;
 
@@ -420,9 +429,15 @@ public class Plant : MonoBehaviour{
 				//branche.finalSegmentLength = finalSegmentLength;
 
 				//branche.nbOfSides = Mathf.Max (3, nbOfSides - 1);
-				if (!brancheIndependentLength) {
-					float nbOfS = branchLengthOverTrunkLength.Evaluate (lengthRatio) * nbOfSegments * brancheLengthRatio.RandomValue() + 1;
+				if (!branche.brancheIndependentLength) {
+					float nbOfS = branchLengthOverTrunkLength.Evaluate (lengthRatio) * nbOfSegments * brancheLengthRatio.RandomValue () + 1;
 					branche.nbOfSegments = (int)nbOfS;
+				} else {
+
+					float mult = brancheLengthRatio.RandomValue ();
+					branche.finalSegmentLength *= mult;
+					branche.initialSegmentLength *= mult;
+
 				}
 
 				//BRANCH CREATION
