@@ -116,7 +116,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 89a8b808acd814e4b9feec45d23dc3d1, type: 2}
+  - {fileID: 2100000, guid: f884c8e045056bc41a884a88b704c5d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -172,7 +172,6 @@ MonoBehaviour:
   pickupSpeed: 0.151
   indexInPlantManager: 4
   seedTexture: {fileID: 2800000, guid: 733fa435dca6be14ebbc9dbfc0253929, type: 3}
-  indexInPlantManagerSeedArray: 0
 --- !u!136 &136513181078238806
 CapsuleCollider:
   m_ObjectHideFlags: 1
