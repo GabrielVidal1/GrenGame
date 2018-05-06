@@ -114,6 +114,11 @@ public class WorldSelectionPanel : MonoBehaviour {
 		renameWorldPanelText.text = renameWorldPanelTextTemplate + worldName + "' into...";
 	}
 
+	public void OpenWorldsFolder()
+	{
+		Application.OpenURL (Application.persistentDataPath + "/Worlds/");
+	}
+
 	public void ActuallyRenameWorld()
 	{
 		string path = Application.persistentDataPath;
