@@ -11,7 +11,7 @@ public class WorldListContent : MonoBehaviour {
 
 		RectTransform rTransform = GetComponent<RectTransform> ();
 
-		float heigth = (10f + worldHeigth) * nbOfWorlds + 20f;
+		float heigth = (10f + worldHeigth) * nbOfWorlds + 20f + 70f;
 
 		print ("heigth : " + heigth);
 

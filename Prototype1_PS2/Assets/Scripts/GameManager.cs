@@ -60,8 +60,6 @@ public class GameManager : NetworkBehaviour {
 
 	public string GetPlayerName()
 	{
-		//Debug.Log (clientConnection.address + "         " + clientConnection.connectionId + "           " + clientConnection.hostId);
-
 		localPlayerName = clientConnection.address;
 		return localPlayerName;
 

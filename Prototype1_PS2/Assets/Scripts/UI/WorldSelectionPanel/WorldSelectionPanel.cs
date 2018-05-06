@@ -28,18 +28,38 @@ public class WorldSelectionPanel : MonoBehaviour {
 
 	//[SerializeField] private Scrollbar verticalScrollbar;
 	[SerializeField] private ScrollRect scrollRect;
+	[SerializeField] private Animator deleteWorldConfirmationPanelAnimator;
+	[SerializeField] private TMP_Text deleteWorldPanelText;
+	[SerializeField] private string deleteWorldPanelTextTemplate;
+
+	[SerializeField] private Animator renameWorldPanelAnimator;
+	[SerializeField] private TMP_Text renameWorldPanelText;
+	[SerializeField] private string renameWorldPanelTextTemplate;
+	[SerializeField] private TMP_InputField newWorldNameInputField;
 
 	string worldAboutToBeLoaded;
 
+	string worldAboutToBeDeleted;
+	string worldAboutToBeRenamed;
+
+	WorldButton lastSelectedWorldSettings;
 
 	void Start () 
 	{
 		FindWorlds ();
-		
+		deleteWorldConfirmationPanelAnimator.gameObject.SetActive (true);
+		renameWorldPanelAnimator.gameObject.SetActive (true);
 	}
 
 	void FindWorlds()
 	{
+		if (worldListContent.transform.childCount > 0) {
+			for (int i = 0; i < worldListContent.transform.childCount; i++) {
+				Destroy (worldListContent.transform.GetChild (i).gameObject);
+			}
+		}
+
+
 		string path = Application.persistentDataPath;
 
 		if (!Directory.Exists (path + "/Worlds")) {
@@ -63,7 +83,7 @@ public class WorldSelectionPanel : MonoBehaviour {
 				string worldName = worldFilePath.Substring (worldFilePath.LastIndexOf ("/") + 1, worldFilePath.LastIndexOf (".") - worldFilePath.LastIndexOf ("/") - 1);
 				//Debug.Log (worldName);
 
-				wb.Initialize (worldName);
+				wb.Initialize (worldName, this);
 
 				validWorlds++;
 			}
@@ -73,6 +93,69 @@ public class WorldSelectionPanel : MonoBehaviour {
 		scrollRect.verticalNormalizedPosition = 1f;
 
 	}
+
+	public void SetLastSelectedWorldSettings(WorldButton wb)
+	{
+		lastSelectedWorldSettings = wb;
+	}
+
+	public void ResetLastSelectedWorldSettings()
+	{
+		if (lastSelectedWorldSettings != null)
+			lastSelectedWorldSettings.Reset ();
+	}
+
+	public void RenameWorld(string worldName)
+	{
+		worldAboutToBeRenamed = worldName;
+		newWorldNameInputField.text = worldName;
+
+		renameWorldPanelAnimator.SetBool ("Open", true);
+		renameWorldPanelText.text = renameWorldPanelTextTemplate + worldName + "' into...";
+	}
+
+	public void ActuallyRenameWorld()
+	{
+		string path = Application.persistentDataPath;
+
+		string oldName = path + "/Worlds/" + worldAboutToBeRenamed + ".grenworld";
+		string newName = path + "/Worlds/" + newWorldNameInputField.text + ".grenworld";
+		File.Move (oldName, newName);
+		FindWorlds ();
+
+		renameWorldPanelAnimator.SetBool ("Open", false);
+	}
+
+	public void CancelRenamingWorld()
+	{
+		renameWorldPanelAnimator.SetBool ("Open", false);
+	}
+
+	public void DeleteWorld(string worldName)
+	{
+		deleteWorldConfirmationPanelAnimator.SetBool ("Open", true);
+		deleteWorldPanelText.text = deleteWorldPanelTextTemplate + worldName + "' ?";
+
+		worldAboutToBeDeleted = worldName;
+	}
+
+	public void ActuallyDeleteWorld()
+	{
+		string path = Application.persistentDataPath;
+		File.Delete (path + "/Worlds/" + worldAboutToBeDeleted + ".grenworld");
+		worldAboutToBeDeleted = null;
+		FindWorlds ();
+
+		deleteWorldConfirmationPanelAnimator.SetBool ("Open", false);
+
+	}
+
+	public void DontDeleteWorld()
+	{
+		deleteWorldConfirmationPanelAnimator.SetBool ("Open", false);
+		worldAboutToBeDeleted = null;
+	}
+
 
 	public void NewWorldPanel()
 	{
@@ -122,6 +205,7 @@ public class WorldSelectionPanel : MonoBehaviour {
 	{
 		multiplayerMenu.SetActive (true);
 		gameObject.SetActive (false);
+		ResetLastSelectedWorldSettings ();
 	}
 
 	public void Launch(string worldName)
