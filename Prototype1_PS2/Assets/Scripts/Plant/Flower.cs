@@ -38,21 +38,59 @@ public class Flower : MonoBehaviour {
 	[Range(0f, 2f)]
 	public float textureSize;
 
+	public bool hasAFruit;
+	public Fruit fruit;
+
+	public float fruitGrowthDuration;
+	public float thisGrowthDuration;
+
+	private float fruitTimeDelay;
+
 	private MeshFilter mf;
 	private Vector3[] points;
 	private int[] triangles;
 	private Vector2[] uvs;
 
+	private AnimationCurve localTimeOverTime;
 
-	void Start () 
+	private float totalGrowthTime;
+
+	private AnimationCurve fruitTimeOverTime;
+
+	private Plant trunk;
+
+	public void SetPlantRoot(Plant trunk)
 	{
-		
+		this.trunk = trunk;
+	}
+
+	public void LoseFruit()
+	{
+		trunk.fruitSequence = trunk.fruitSequence & ~(1 << fruit.fruitIndex);
+		hasAFruit = false;
+
 	}
 
 
 	//INITIALIZE THE TAB OF TRIANGLES AND POINTS
 	public void Initialize()
 	{
+		totalGrowthTime = thisGrowthDuration + fruitGrowthDuration;
+
+		fruitTimeDelay = fruitGrowthDuration / totalGrowthTime;
+
+		fruitTimeOverTime = new AnimationCurve (new Keyframe[] {
+			new Keyframe (0, 0),
+			new Keyframe (1f - fruitTimeDelay, 0f),
+			new Keyframe (1, 1)
+		});
+
+		localTimeOverTime = new AnimationCurve (new Keyframe[] {
+			new Keyframe (0, 0),
+			new Keyframe (1f - fruitTimeDelay, 1f),
+			new Keyframe (1, 1)
+		});
+
 		mf = GetComponent<MeshFilter> ();
 
 		//TRIANGLES
@@ -68,13 +106,13 @@ public class Flower : MonoBehaviour {
 		uvs = new Vector2[points.Length];
 		GenerateUVMap(uvs);
 
+		if (hasAFruit) {
+			fruit.flowerMother = this;
+			fruit.time = fruitTimeOverTime.Evaluate (time);
+			fruit.Initialize ();
+		}
 
 		UpdateMesh ();
-	}
-
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
 	public void UpdateMesh()
@@ -93,6 +131,11 @@ public class Flower : MonoBehaviour {
 
 		m.RecalculateNormals ();
 
+		if (hasAFruit) {
+			fruit.time = fruitTimeOverTime.Evaluate (time);
+			if (fruit.time > 0f)
+				fruit.UpdateMesh();
+		}
 	}
 
 	void GeneratePoints(Vector3[] points)
@@ -107,6 +150,8 @@ public class Flower : MonoBehaviour {
 		Vector3 directionNorm = initialDirection.normalized;
 
 		float constant = 2f * Mathf.PI / (float)nbOfPetals; 
+
+		float localTime = localTimeOverTime.Evaluate (time);
 
 		for (int i = 0; i < nbOfPetals + 1; i++) 
 		{
@@ -125,18 +170,15 @@ public class Flower : MonoBehaviour {
 
 				dir *= radiusOverAngle.Evaluate (angleRatio / (2f * Mathf.PI));
 
-				Vector3 point = dir * radius * segmentPointDistribution.Evaluate (ratio) * radiusOverTime.Evaluate(time);
+				Vector3 point = dir * radius * segmentPointDistribution.Evaluate (ratio) * radiusOverTime.Evaluate(localTime);
 
 				point -=   dir * radius * closureForce.Evaluate(ratio) * closureForceCoef;
 
-				point += w * sideShape.Evaluate (ratio) * sideShapeCoef * sideShapeOverTime.Evaluate(time);
+				point += w * sideShape.Evaluate (ratio) * sideShapeCoef * sideShapeOverTime.Evaluate(localTime);
 					
 
 
 				int index = 1 + j + i * nbOfSegments;
-
-				//Debug.Log ("p_" + index + " : " + point);
-				//Debug.DrawRay (transform.position + point, Vector3.up * 0.1f, Color.red, 10f);
 
 				points [2 * index] = point;
 				points [2 * index + 1] = point;

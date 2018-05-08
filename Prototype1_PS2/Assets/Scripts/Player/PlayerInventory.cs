@@ -200,6 +200,8 @@ public class PlayerInventory : NetworkBehaviour {
 
 		if (Physics.Raycast (ray, out hit, reachDistance, layerMask)) {
 
+			Debug.Log (hit.collider.tag);
+
 			if (hit.collider.tag == "Pickup") {
 
 				Pickup p = hit.collider.GetComponent<Pickup> ();

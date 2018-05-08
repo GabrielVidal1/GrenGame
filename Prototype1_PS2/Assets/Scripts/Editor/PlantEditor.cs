@@ -25,6 +25,12 @@ public class PlantEditor : Editor {
 	SerializedProperty leafSize;
 	SerializedProperty flowerSize;
 
+	SerializedProperty fruitSize;
+	SerializedProperty fruitGrowthDuration;
+
+	SerializedProperty fruitPrefab;
+
+
 	Rect brancheRect;
 
 	Vector2 scrollZone;
@@ -41,11 +47,15 @@ public class PlantEditor : Editor {
 		trunkGrowthDuration = serializedObject.FindProperty ("trunkGrowthDuration");
 		leafSize = serializedObject.FindProperty ("leafSize");
 		flowerSize = serializedObject.FindProperty ("flowerSize");
+
+		fruitSize = serializedObject.FindProperty ("fruitSize");
+		fruitGrowthDuration = serializedObject.FindProperty ("fruitGrowthDuration");
+		fruitPrefab = serializedObject.FindProperty ("fruitPrefab");
 	}
+
 	public override void OnInspectorGUI ()
 	{
 
-		updateOnChange = EditorGUILayout.Toggle ("Update On Change", updateOnChange);
 		EditorGUILayout.Space ();
 
 		EditorGUI.BeginChangeCheck ();
@@ -53,7 +63,12 @@ public class PlantEditor : Editor {
 
 		Plant myObject = (Plant)target;
 
+
+
 		if (!myObject.isBranch) {
+
+			EditorGUILayout.LabelField ("Index In Plant Manager", myObject.plantTypeIndex.ToString());
+
 			//scrollZone = EditorGUILayout.BeginScrollView (scrollZone);
 			myObject.pointValue = EditorGUILayout.IntField ("Point Value", myObject.pointValue);
 		}
@@ -357,6 +372,39 @@ public class PlantEditor : Editor {
 			}
 		}
 
+		EditorGUILayout.LabelField ("Fruits", EditorStyles.toolbarButton);
+
+		myObject.hasFruits = EditorGUILayout.Toggle ("Has Fruits", myObject.hasFruits);
+
+		if (myObject.hasFruits) {
+
+			//myObject.Trunk.hasFruits = true;
+
+
+			EditorGUILayout.PropertyField (fruitPrefab, true);
+
+			myObject.fruitPrefab = (Fruit)EditorGUILayout.ObjectField ("Fruit Prefab", myObject.fruitPrefab, typeof(Fruit));
+
+			//Debug.Log (serializedObject.FindProperty ("fruitPrefab").exposedReferenceValue);
+
+			if (myObject.fruitNumber != null) {
+
+				if (myObject.isBranch)
+					EditorGUILayout.HelpBox ("Fruit number and repartition is controlled by the trunk", MessageType.Info);
+
+				EditorGUI.BeginDisabledGroup (myObject.isBranch);
+				myObject.fruitRepartitionMode = (LeavesRepartitionMode)EditorGUILayout.EnumPopup ("Fruits Repartition Mode", myObject.fruitRepartitionMode);
+				if (myObject.fruitRepartitionMode == LeavesRepartitionMode.Density) {
+					myObject.fruttiFlowersRatio = EditorGUILayout.Slider ("Flowers With Fruit Ratio", myObject.fruttiFlowersRatio, 0f, 1f);
+				} else {
+					myObject.fruitNumber = EditorGUILayout.IntSlider ("Fruit Number", myObject.fruitNumber, 0, 20);
+				}
+
+				EditorGUILayout.PropertyField (fruitSize);
+				EditorGUILayout.PropertyField (fruitGrowthDuration);
+				EditorGUI.EndDisabledGroup ();
+			}
+		}
 
 		EditorGUILayout.LabelField ("Recursion", EditorStyles.toolbarButton);
 
@@ -444,6 +492,7 @@ public class PlantEditor : Editor {
 				Debug.Log ("Update Plant");
 				myObject.InitializePlant ();
 			}
+			updateOnChange = EditorGUILayout.Toggle ("Update On Change", updateOnChange);
 
 			if (GUILayout.Button ("Initialize", GUILayout.Height (32f))) {
 				Debug.Log ("Update Plant");

@@ -138,9 +138,45 @@ public class Plant : MonoBehaviour{
 
 	public float leafChanceOfBeingFlower;
 
+	//FRUITS
+
+	public bool hasFruits;
+	public Fruit fruitPrefab;
+
+	public LeavesRepartitionMode fruitRepartitionMode;
+	public int fruitNumber;
+	public float fruttiFlowersRatio;
+
+	public Interval fruitSize;
+	public Interval fruitGrowthDuration;
+
+	public int fruitSequence;
+
+
+	public Plant parent;
+	public Plant Trunk {
+		get {
+			if (!isBranch) {
+				return this;
+			} else {
+				if (isBranch && parent == null) {
+					parent = transform.parent.parent.GetComponent<Plant> ();
+				}
+				return parent.Trunk;
+			}
+		}
+	}
+
+
+
 	#endregion
 
 	#region PrivateVariables
+
+	[HideInInspector]
+	public int placedFruits;
+
+
 	[HideInInspector]
 	public bool isBranch;
 	
@@ -187,6 +223,10 @@ public class Plant : MonoBehaviour{
 	public void InitializePlant()
 	{
 		//RANDOM INITIALISATION
+		if (isBranch)
+			parent = transform.parent.parent.GetComponent<Plant> ();
+
+
 		
 		if (!hasSetSeed) {
 			SetSeed (plantNumber);
@@ -199,6 +239,8 @@ public class Plant : MonoBehaviour{
 		maxDuration = actualTrunkGrowthDuration;
 		if (hasFlowers)
 			maxDuration += flowerGrowthDuration.max;
+		if (hasFruits)
+			maxDuration += fruitGrowthDuration.max;
 		if (hasLeaves)
 			maxDuration += leafGrowthDuration.max;
 		if (hasRecursions) {
@@ -207,6 +249,8 @@ public class Plant : MonoBehaviour{
 				maxDuration += branchPrefab.leafGrowthDuration.max;
 			if (branchPrefab.hasFlowers)
 				maxDuration += branchPrefab.flowerGrowthDuration.max;
+			if (branchPrefab.hasFruits)
+				maxDuration += branchPrefab.fruitGrowthDuration.max;
 			if (branchPrefab.hasRecursions)
 				maxDuration += branchPrefab.branchGrowthDuration.max;
 			if (branchPrefab.hasRecursions && branchPrefab.branchPrefab != null) {
@@ -214,6 +258,8 @@ public class Plant : MonoBehaviour{
 					maxDuration += branchPrefab.branchPrefab.leafGrowthDuration.max;
 				if (branchPrefab.branchPrefab.hasFlowers)
 					maxDuration += branchPrefab.branchPrefab.flowerGrowthDuration.max;
+				if (branchPrefab.branchPrefab.hasFruits)
+					maxDuration += branchPrefab.branchPrefab.fruitGrowthDuration.max;
 				if (branchPrefab.branchPrefab.hasRecursions)
 					maxDuration += branchPrefab.branchPrefab.branchGrowthDuration.max;
 
@@ -224,6 +270,13 @@ public class Plant : MonoBehaviour{
 
 
 		InitializeMesh ();
+
+
+		if (hasFruits) {
+			placedFruits = 0;
+			if (time == 0f)
+				fruitSequence = 0;
+		}
 
 		if (hasLeaves || hasFlowers)
 			GenerateLeavesAndFLowers ();
@@ -517,7 +570,9 @@ public class Plant : MonoBehaviour{
 
 	//USED TO FIRST GENERATE THE LEAVES ON THE PLANT
 	public void GenerateLeavesAndFLowers()
-	{ 
+	{
+		
+		
 		actualLeavesNumber = 0;
 
 		Vector3 randomVector = new Vector3 (0.132354f, 1.98654f, -1.5646f).normalized;
@@ -541,8 +596,7 @@ public class Plant : MonoBehaviour{
 			leavesIteration += 1;
 
 		leaves = new LeafInfo[leavesIteration];
-		
-		
+
 		int iteration = 0;
 
 		while (iteration < leavesIteration) {
@@ -633,21 +687,79 @@ public class Plant : MonoBehaviour{
 					leaf.time = 0f;
 				} else {
 
+
+
+
+
 					Flower flower = Instantiate (flowerPrefab, position, Quaternion.identity);
 					thing = flower.gameObject;
+
+					growthDuration = flowerGrowthDuration.RandomValue ();
+
 					flower.name = "Flower_" + actualLeavesNumber.ToString ();
 					if (!hasFixedDirection)
 						flower.initialDirection = direction;
+
+					//Debug.Log ("at time " + time + " : " + (Trunk.fruitSequence & (1 << Trunk.placedFruits)));
+
+					if ((
+					        Trunk.time == 0f && (Trunk.fruitRepartitionMode == LeavesRepartitionMode.Number &&
+					        Trunk.placedFruits < Trunk.fruitNumber) ||
+					        (Trunk.fruitRepartitionMode == LeavesRepartitionMode.Density &&
+					        Random.value < Trunk.fruttiFlowersRatio))
+					    || ((Trunk.fruitSequence & (1 << Trunk.placedFruits)) > 0)) {
+
+						//Debug.Log ("j'arrive ICI");
+
+						Fruit fruit = (Fruit)Instantiate (fruitPrefab, flower.transform);
+
+						fruit.transform.localPosition = Vector3.zero;
+						fruit.initialDirection = flower.initialDirection;
+
+
+						float sizeMult = fruitSize.RandomValue ();
+
+						fruit.length *= sizeMult;
+						fruit.radius *= sizeMult;
+
+
+						flower.fruitGrowthDuration = fruitGrowthDuration.RandomValue ();
+						flower.hasAFruit = true;
+						flower.fruit = fruit;
+
+						fruit.fruitIndex = Trunk.placedFruits;
+						fruit.indexInPlantManager = Trunk.plantTypeIndex;
+
+						growthDuration += flower.fruitGrowthDuration;
+
+						//Debug.Log ("je met un fruit  " + Trunk.placedFruits + "/" + Trunk.fruitNumber);
+
+						if (time == 0f) {
+
+							Trunk.fruitSequence = Trunk.fruitSequence | (1 << Trunk.placedFruits);
+
+						}
+
+						Trunk.placedFruits++;
+					} else {
+						Trunk.placedFruits++;
+
+					}
+
+
+					flower.thisGrowthDuration = growthDuration;
+
 						
 					//flower.upDirection = up;
 
-					growthDuration = flowerGrowthDuration.RandomValue ();
 
 					birthDate = Mathf.Lerp (ValueAt (trunkTimeOverTime, lengthRatio) * maxDuration, maxDuration - growthDuration, flowersBirthdateDistribution.Evaluate (Random.value));
 
 					flower.transform.localScale *= flowerSize.RandomValue ();
 
 					flower.time = 0f;
+
+					flower.SetPlantRoot (Trunk);
 
 				}
 
@@ -1169,6 +1281,8 @@ struct LeafInfo
 		this.growthDuration = growthDuration;
 
 		this.normalDirection = normalDirection;
+
+
 
 		grownOnce = false;
 

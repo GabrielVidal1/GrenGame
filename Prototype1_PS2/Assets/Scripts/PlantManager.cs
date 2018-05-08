@@ -19,6 +19,15 @@ public class PlantManager : MonoBehaviour {
 
 	private bool[] plantDiscovered;
 
+	public void AttributePlantIndexes()
+	{
+		for (int i = 0; i < plantsPrefabs.Length; i++) {
+			plantsPrefabs [i].plantTypeIndex = i;
+			seedsPrefab [i].indexInPlantManager = i;
+		}
+	}
+
+
 	public void DestroyPlants()
 	{
 		foreach (var item in plants) {
@@ -67,6 +76,7 @@ public class PlantManager : MonoBehaviour {
 					plants[i].time, 
 					plants[i].transform.position, 
 					plants[i].initialDirection, 
+					plants[i].fruitSequence,
 					plants[i].plantSeed, 
 					i);
 			wd.plants [i] = sPlant;

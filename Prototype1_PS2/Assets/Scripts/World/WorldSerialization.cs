@@ -184,6 +184,8 @@ public class WorldSerialization : MonoBehaviour{
 
 			plant.SetSeed (serializedPlant.seed);
 			plant.time = serializedPlant.plantTime;
+
+			plant.fruitSequence = serializedPlant.fruitSequence;
 			//plant.indexInGameData = serializedPlant.indexInGameData;
 			plant.InitializePlant ();
 
@@ -196,7 +198,7 @@ public class WorldSerialization : MonoBehaviour{
 		//SEEDS
 		GameManager.gm.pm.plantSeeds.Clear ();
 		GameManager.gm.pm.plantSeeds = new List<PlantSeed> ();
-
+		/*
 		for (int i = 0; i < worldData.seeds.Length; i++) {
 
 			PlantSeed s = Instantiate (GameManager.gm.pm.seedsPrefab[worldData.seeds [i].plantTypeIndex], worldData.seeds [i].position.Deserialize(), Quaternion.identity).GetComponent<PlantSeed> ();
@@ -204,7 +206,7 @@ public class WorldSerialization : MonoBehaviour{
 			s.name = "RELOADED_SEED_" + i.ToString();			
 			GameManager.gm.pm.plantSeeds.Add (s);
 		}
-
+*/
 
 		GameManager.gm.zd.Init ();
 		GameManager.gm.zd.DeserializeZones (worldData);
@@ -319,16 +321,19 @@ public struct SerializedPlant
 	public SerializedVector3 initialPosition;
 	public SerializedVector3 initialDirection;
 
+	public int fruitSequence;
+
 	public int seed;
 
 	public int indexInGameData;
 
-	public SerializedPlant(int plantTypeIndex, float plantTime, Vector3 initialPosition, Vector3 initialDirection, int seed, int indexInGameData)
+	public SerializedPlant(int plantTypeIndex, float plantTime, Vector3 initialPosition, Vector3 initialDirection, int fruitSequence, int seed, int indexInGameData)
 	{
 		this.plantTypeIndex = plantTypeIndex;
 		this.plantTime = plantTime;
 		this.initialPosition = new SerializedVector3(initialPosition);
 		this.initialDirection = new SerializedVector3 (initialDirection);
+		this.fruitSequence = fruitSequence;
 		this.seed = seed;
 		this.indexInGameData = indexInGameData;
 	}
