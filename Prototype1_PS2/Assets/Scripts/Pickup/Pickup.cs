@@ -7,7 +7,7 @@ public class Pickup : MonoBehaviour {
 
 	[SerializeField]
 	[Range(0.01f, 1f)]
-	protected float pickupSpeed;
+	protected float pickupSpeed = 0.15f;
 
 
 	protected Collider col;

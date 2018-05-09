@@ -27,12 +27,13 @@ public class optionsMenu : MonoBehaviour {
     }
 	
 	// Update is called once per frame
+	/*
 	void Update () {
         if (isActiveAndEnabled && Input.GetKeyDown(KeyCode.Escape))
         {
             Back();
         }
-    }
+    }*/
 
     public void ToggleMusic()
     {

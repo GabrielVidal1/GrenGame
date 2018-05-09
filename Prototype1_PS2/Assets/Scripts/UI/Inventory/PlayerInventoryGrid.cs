@@ -1,14 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerInventoryGrid : MonoBehaviour {
 
-	[SerializeField] private GameObject inventoryParent;
+	[SerializeField] private CanvasGroup inventoryParent;
 
 	[SerializeField] private GameObject inventoryContent;
 
 	[SerializeField] private PlayerInventorySlot playerInventorySlotPrefab;
+
+
+
+	[SerializeField] private Animator inventoryAnimator;
+
+
+
+	[Header("Info Panel")]
+
+	[SerializeField] private TMP_Text plantName;
+	[SerializeField] private TMP_Text plantLatinName;
+	[SerializeField] private TMP_Text plantDescription;
+
+
+
+
+
+	private bool isInfoPanelOpened;
+
+
+	private PlayerInventorySlot selectedSlot;
 
 	private bool opened;
 	public bool Opened
@@ -32,10 +54,12 @@ public class PlayerInventoryGrid : MonoBehaviour {
 		if (!ready)
 			return;
 
-		inventoryParent.SetActive (true);
-
+		inventoryParent.alpha = 1f;
+		inventoryParent.interactable = true;
 
 		opened = true;
+
+		//Debug.Log (playerInventory.SelectedIndexInInventory);
 
 		for (int i = 0; i < playerInventory.inventory.Count; i++) {
 
@@ -47,6 +71,13 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 			p.SetInventoryGrid (this);
 			p.SetPlant (index, number, i);
+
+			if (i == playerInventory.SelectedIndexInInventory) {
+				selectedSlot = p;
+				p.SetSelected ();
+				GetInfos (selectedSlot.PlantIndex);
+			}
+
 		}
 
 		Cursor.lockState = CursorLockMode.None;
@@ -54,9 +85,24 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 	}
 
-	public void SetIndex(int index)
+	public void SetSelectedSlot(PlayerInventorySlot slot)
 	{
-		playerInventory.SetIndex (index);
+		if (selectedSlot != null)
+			selectedSlot.Unselect ();
+
+		selectedSlot = slot;
+		selectedSlot.SetSelected ();
+
+		GetInfos (selectedSlot.InInventoryIndex);
+
+		playerInventory.SetIndex (selectedSlot.InInventoryIndex);
+	}
+
+	public void GetInfos(int index)
+	{
+		plantName.text = GameManager.gm.pm.plantInformations [index].plantName;
+		plantLatinName.text = GameManager.gm.pm.plantInformations [index].plantLatinName;
+		plantDescription.text = GameManager.gm.pm.plantInformations [index].plantDescription;
 	}
 
 
@@ -71,12 +117,34 @@ public class PlayerInventoryGrid : MonoBehaviour {
 			Destroy (inventoryContent.transform.GetChild (i).gameObject);
 		}
 
-		inventoryParent.SetActive (false);
+		inventoryParent.alpha = 0f;
+		inventoryParent.interactable = false;
 
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 
 
+	}
+
+	public void ToggleInfoPanel()
+	{
+		if (isInfoPanelOpened)
+			CloseInfoPanel ();
+		else
+			OpenInfoPanel ();
+	}
+
+
+	public void OpenInfoPanel()
+	{
+		inventoryAnimator.SetBool ("InfoPanelOpened", true);
+		isInfoPanelOpened = true;
+	}
+
+	public void CloseInfoPanel()
+	{
+		inventoryAnimator.SetBool ("InfoPanelOpened", false);
+		isInfoPanelOpened = false;
 	}
 
 }

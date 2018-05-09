@@ -2895,7 +2895,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionDuration: 0.1
+  canvasGroupOrFadePanel: 0
   fadePanel: {fileID: 264430178}
+  canvasGroup: {fileID: 0}
 --- !u!1 &514931422
 GameObject:
   m_ObjectHideFlags: 0

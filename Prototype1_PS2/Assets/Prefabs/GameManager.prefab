@@ -232,9 +232,9 @@ MonoBehaviour:
   mossPrefab: {fileID: 114303279763951084, guid: 978580513a88fe74295693487fa00b1b,
     type: 2}
   plantsPrefabs:
-  - {fileID: 114473160277983610, guid: 76d0550e3ef41a44a9325b2e75911a26, type: 2}
-  - {fileID: 114986533861210988, guid: b15911916e5137f4bbf3db3720b259ce, type: 2}
   - {fileID: 114938343243396726, guid: f6d341fbcf8451840b4f70743a76f267, type: 2}
+  - {fileID: 114986533861210988, guid: b15911916e5137f4bbf3db3720b259ce, type: 2}
+  - {fileID: 114473160277983610, guid: 76d0550e3ef41a44a9325b2e75911a26, type: 2}
   - {fileID: 114189666501486812, guid: 5261e8d246bed2146962dde6f926e89f, type: 2}
   - {fileID: 114406117644882906, guid: 97c7dae98d59c324083c6b02cd5e534c, type: 2}
   - {fileID: 114626937825601152, guid: eec4ad4a7533ae14a8607c00f41983ff, type: 2}
@@ -243,10 +243,53 @@ MonoBehaviour:
   - {fileID: 114370906160678954, guid: 9abcd32f5ea875543ab30de5cc1119a6, type: 2}
   - {fileID: 114587679126244500, guid: ab18b56ec93849f448d994718f20d003, type: 2}
   - {fileID: 114685551962566146, guid: 718bad2f2ac236a41a6b22dc6fda7e77, type: 2}
+  plantInformations:
+  - plantName: Fern
+    plantLatinName: Calochlaena
+    plantDescription: Calochlaena is a genus of ferns within the Dicksoniaceae family.
+      Although these ground ferns resemble bracken, they are only distantly related.
+      Five species are known from Melanesia, Polynesia and eastern Australia. Calochlaena
+      dubia, is a common fern of the east coast of Australia. The name is derived
+      from the Ancient Greek kalos "beautiful" and chlaina "cloak", and refers to
+      the soft hairs on the species.The genus was originally described by William
+      Ralph Maxon as a subgenus of the fern genus Culcita, but the differences were
+      such that its members were raised to genus level, and are now considered to
+      be in separate families. Culcita was restricted to two species, one from Mediterranean
+      Europe and one from North America.
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
+  - plantName: 
+    plantLatinName: 
+    plantDescription: 
   seedsPrefab:
-  - {fileID: 114655151406520926, guid: 6a8509a3a81927e43a344ada5d44dbf3, type: 2}
-  - {fileID: 114808792705863548, guid: 83625e75a091882449a31fccdeee2e3f, type: 2}
   - {fileID: 114090067058809932, guid: 34d8eae75d27fdf4b824afdabf901e9a, type: 2}
+  - {fileID: 114808792705863548, guid: 83625e75a091882449a31fccdeee2e3f, type: 2}
+  - {fileID: 114655151406520926, guid: 6a8509a3a81927e43a344ada5d44dbf3, type: 2}
   - {fileID: 114100204185448604, guid: 5e7f2d37ec355b74c8c3ae93f2554e3b, type: 2}
   - {fileID: 114512436202559392, guid: 160c85f30e80f804487d910c30699a0a, type: 2}
   - {fileID: 114468586396913158, guid: 42269370a94f7ee40aa2574c4f553ff3, type: 2}

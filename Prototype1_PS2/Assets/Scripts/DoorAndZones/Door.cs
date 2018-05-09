@@ -70,7 +70,7 @@ public class Door : MonoBehaviour {
 	{
 		int tot = TotalPoint ();
 
-		Debug.Log (tot);
+		//Debug.Log (tot);
 
 		if (tot > neededPointsToOpen)
 			slider.value = 1f;

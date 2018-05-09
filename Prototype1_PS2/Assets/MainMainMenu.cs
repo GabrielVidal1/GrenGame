@@ -8,7 +8,10 @@ public class MainMainMenu : MonoBehaviour {
 
 	[SerializeField] private float transitionDuration;
 
+	[SerializeField] private bool canvasGroupOrFadePanel;
+
 	[SerializeField] private RawImage fadePanel;
+	[SerializeField] private CanvasGroup canvasGroup;
 
 	public delegate void Transition();
 	public Transition transition;
@@ -17,21 +20,31 @@ public class MainMainMenu : MonoBehaviour {
 	public IEnumerator FadeOn()
 	{
 		for (float i = 0f; i <= 1f; i += Time.deltaTime / transitionDuration) {
-			fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, i);
+			if (canvasGroupOrFadePanel)
+				canvasGroup.alpha = 1f - i;
+			else 
+				fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, i);
 			yield return null;
 		}
-
-		fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, 1f);
+		if (canvasGroupOrFadePanel)
+			canvasGroup.alpha = 0f;
+		else
+			fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, 1f);
 	}
 
 	public IEnumerator FadeOff()
 	{
 		for (float i = 0f; i <= 1f; i += Time.deltaTime / transitionDuration) {
-			fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, 1f - i);
+			if (canvasGroupOrFadePanel)
+				canvasGroup.alpha = i;
+			else
+				fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, 1f - i);
 			yield return null;
 		}
-
-		fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, 0f);
+		if (canvasGroupOrFadePanel)
+			canvasGroup.alpha = 1f;
+		else
+			fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, 0f);
 	}
 
 	public void Transit()

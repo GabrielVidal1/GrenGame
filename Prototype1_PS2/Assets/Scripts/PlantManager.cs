@@ -12,6 +12,9 @@ public class PlantManager : MonoBehaviour {
 	public Moss mossPrefab;
 
 	public Plant[] plantsPrefabs;
+
+	public PlantInformation[] plantInformations;
+
 	public PlantSeed[] seedsPrefab;
 
 	public List<Plant> plants;

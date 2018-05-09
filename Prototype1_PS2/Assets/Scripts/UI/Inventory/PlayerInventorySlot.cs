@@ -10,9 +10,20 @@ public class PlayerInventorySlot : MonoBehaviour {
 	[SerializeField] private TMP_Text plantNumber;
 	[SerializeField] private RawImage plantTexture;
 
+	[SerializeField] private RawImage selectionMark;
+
 	PlayerInventoryGrid playerInventoryGrid;
 
 	int inInventoryIndex;
+
+	public int InInventoryIndex {
+		get { return inInventoryIndex; }
+	}
+
+	int plantIndex;
+
+	public int PlantIndex
+	{ get { return plantIndex; } }
 
 	public void SetPlant(int plantIndex, int number, int inInventoryIndex)
 	{
@@ -29,9 +40,19 @@ public class PlayerInventorySlot : MonoBehaviour {
 		this.playerInventoryGrid = playerInventoryGrid;
 	}
 
+	public void SetSelected()
+	{
+		selectionMark.gameObject.SetActive (true);
+	}
+
+	public void Unselect()
+	{
+		selectionMark.gameObject.SetActive (false);
+	}
+
 	public void OnClick()
 	{
-		playerInventoryGrid.SetIndex (inInventoryIndex);
+		playerInventoryGrid.SetSelectedSlot (this);
 	}
 
 			

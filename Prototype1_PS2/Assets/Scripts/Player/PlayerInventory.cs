@@ -16,6 +16,9 @@ public class PlayerInventory : NetworkBehaviour {
 
 
 	private int selectedIndexInInventory = 0;
+	public int SelectedIndexInInventory
+	{ get { return selectedIndexInInventory; } }
+
 
 	private int layerMask;
 
@@ -116,17 +119,18 @@ public class PlayerInventory : NetworkBehaviour {
 						CanvasManager.cm.playerInventoryGrid.OpenInventory ();
 				}
 			}
-
-			float mouseScroll = Input.mouseScrollDelta.y;
-			if (mouseScroll != 0) {
-				if (NbOfSeeds > 1) {
-					if (CanvasManager.cm.seedSelectionWheel.canClick) {
-						if (mouseScroll < 0) {
-							selectedIndexInInventory = (selectedIndexInInventory + 1) % NbOfSeeds; 
-						} else {
-							selectedIndexInInventory = ((selectedIndexInInventory - 1) + NbOfSeeds) % NbOfSeeds;
+			if (!CanvasManager.cm.playerInventoryGrid.Opened) {
+				float mouseScroll = Input.mouseScrollDelta.y;
+				if (mouseScroll != 0) {
+					if (NbOfSeeds > 1) {
+						if (CanvasManager.cm.seedSelectionWheel.canClick) {
+							if (mouseScroll < 0) {
+								selectedIndexInInventory = (selectedIndexInInventory + 1) % NbOfSeeds; 
+							} else {
+								selectedIndexInInventory = ((selectedIndexInInventory - 1) + NbOfSeeds) % NbOfSeeds;
+							}
+							CanvasManager.cm.seedSelectionWheel.SetNewSelectedPlantIndex (selectedIndexInInventory);
 						}
-						CanvasManager.cm.seedSelectionWheel.SetNewSelectedPlantIndex (selectedIndexInInventory);
 					}
 				}
 			}

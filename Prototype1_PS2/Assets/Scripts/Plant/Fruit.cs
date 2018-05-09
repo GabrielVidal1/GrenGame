@@ -27,6 +27,9 @@ public class Fruit : PlantSeed {
 	public AnimationCurve segmentPointDistribution;
 	public Vector3 initialDirection;
 
+	[Range(0f, 1f)]
+	public float textureOffset = 1f;
+
 	private MeshFilter mf;
 	private Vector3[] points;
 	private int[] triangles;
@@ -113,7 +116,9 @@ public class Fruit : PlantSeed {
 		for (int i = 0; i < nbOfSections - 1; i++) 
 		{
 
-			float lengthRatio = (float)(i+1) / (float)nbOfSections;
+			float lengthRatio = segmentPointDistribution.Evaluate ((float)(i + 1) / (float)nbOfSections);
+
+
 
 			Vector3 advance = previousAdvance * length * lengthOverTime.Evaluate (time) * lengthRatio;
 
@@ -236,52 +241,40 @@ public class Fruit : PlantSeed {
 
 	void GenerateUVMap(Vector2[] uvs)
 	{
-		/*
-		float constant = 2f * Mathf.PI / (float)nbOfSides; 
+		
 
-		Vector2 p1 = new Vector2 (0.5f, 0.25f);
-		Vector2 p2 = new Vector2 (0.5f, 0.75f);
+		Vector2 p1 = new Vector2 (0.5f, 0f);
+		Vector2 p2 = new Vector2 (0.5f, textureOffset);
 
 
 		uvs [0] = p1;
-		uvs [1] = p2;
+		uvs [points.Length - 1] = p2;
 
-		for (int i = 0; i < nbOfPetals + 1; i++) 
-		{
+		//Debug.Log ("point.length = " + points.Length);
 
-			float angleRatio = i * constant;
+		for (int i = 0; i < nbOfSections - 1; i++) {
 
-			for (int j = 0; j < nbOfSegments; j++) 
-			{
+			float ratioSection = (float)(i + 1) / (float)(nbOfSections + 1) * textureOffset;
 
-
-				float ratio = (j + 1) / (float)nbOfSegments ;
+			for (int j = 0; j < nbOfSides; j++) {
 
 
-
-				Vector2 dir = Mathf.Cos (angleRatio) * new Vector2 (0f, 0.25f) +
-					Mathf.Sin (angleRatio) * new Vector2 (0.5f, 0f);
+				float ratioSides = (j + 1) / (float)nbOfSides;
 
 
-				Vector2 point = dir * segmentPointDistribution.Evaluate (ratio) * textureSize;
+				Vector2 point = ratioSection * Vector2.up
+				                + ratioSides * Vector2.right;
 
-				//point -= dir * radius * closureForce.Evaluate(ratio) * closureForceCoef;
-
-				//point += w * sideShape.Evaluate (ratio) * sideShapeCoef;
-
-
-
-				int index = 1 + j + i * nbOfSegments;
-
+				int index = 1 + j + i * nbOfSides;
+				//Debug.Log ("index : " + index);
 				//Debug.Log ("p_" + index + " : " + point);
 				//Debug.DrawRay (transform.position + point, Vector3.up * 0.1f, Color.red, 10f);
 
-				uvs [2 * index ] = p1 + point;
-				uvs [2 * index + 1] = p2 + point;
+				uvs [index] = point;
 			}
 		}
 
 
-		*/
 	}
+	
 }

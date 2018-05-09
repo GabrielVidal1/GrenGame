@@ -6,31 +6,59 @@ using TMPro;
 
 public class InGameMenu : MonoBehaviour {
 
-	public GameObject pauseMenuUI;
 
 	public GameObject inGameOverlay;
 
+
+	[SerializeField] private GameObject optionMenu;
+
+	[SerializeField] private GameObject pauseMenu;
+
+
+	[SerializeField] private MainMainMenu mainMainMenu;
+
+
+	[SerializeField] private RawImage darkBack;
+
 	public bool isPaused = false;
 
+	bool inOptionMenu;
 
 	void Start () 
 	{
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.Escape)) {
+		if (Input.GetKeyDown (KeyCode.Escape) && !inOptionMenu) {
 			TogglePause (!isPaused);
         }
+	}
+
+	public void GoToOptions()
+	{
+		mainMainMenu.transition = VoidGoToOptions;
+		mainMainMenu.Transit ();
+	}
+
+	void VoidGoToOptions()
+	{
+		optionMenu.SetActive (true);
+		pauseMenu.SetActive (false);
+		inOptionMenu = true;
+	}
+
+	public void FromOptionMenuToPauseMenu()
+	{
+		inOptionMenu = false;
 	}
 
 	public void TogglePause(bool toggle)
 	{
 		isPaused = toggle;
-		pauseMenuUI.SetActive (isPaused);
+		pauseMenu.SetActive (isPaused);
 		inGameOverlay.SetActive (!isPaused);
-
+		darkBack.gameObject.SetActive (toggle);
 		if (isPaused) {
 
 			CanvasManager.cm.playerInventoryGrid.CloseInventory ();

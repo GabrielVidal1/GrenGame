@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1674943593991568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7801447, y: 0.66, z: -9.368622}
+  m_LocalPosition: {x: -6.5819464, y: 2.15, z: -5.8961277}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -111,10 +111,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 8
-  plantTypeIndex: 2
-  plantSeed: 1
+  plantTypeIndex: 0
+  plantSeed: 29
   time: 1
-  maxDuration: 6
+  maxDuration: 22
   trunkGrowthDuration:
     min: 1
     max: 1
@@ -475,28 +475,68 @@ MonoBehaviour:
   brancheLengthRatio:
     min: 0
     max: 0
-  hasFlowers: 0
-  uniqueEndFlower: 0
-  flowerPrefab: {fileID: 0}
+  hasFlowers: 1
+  uniqueEndFlower: 1
+  flowerPrefab: {fileID: 114626975765151236, guid: c88bbdfb3ae7cbc4d8bb845efe3c5798,
+    type: 2}
   hasFixedDirection: 0
   flowerGrowthOverTime:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   flowersBirthdateDistribution:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   flowerGrowthDuration:
-    min: 0
-    max: 0
+    min: 5
+    max: 9
   flowerSize:
-    min: 0
-    max: 0
+    min: 0.9
+    max: 1.1
   leafChanceOfBeingFlower: 0
+  hasFruits: 1
+  fruitPrefab: {fileID: 114419167654870456, guid: e341922525461b246ba5cf377d61dcc4,
+    type: 2}
+  fruitRepartitionMode: 0
+  fruitNumber: 0
+  fruttiFlowersRatio: 0.606
+  fruitSize:
+    min: 0.9
+    max: 1.1
+  fruitGrowthDuration:
+    min: 5
+    max: 7
+  fruitSequence: 0
+  parent: {fileID: 0}
+  placedFruits: 1
   isBranch: 0
   indexInGameData: 0
