@@ -37,9 +37,9 @@ public class FloatSlot : DisplayParameter {
 		return floatValue;
 	}
 
-	public override void Initialize (PlantEditorGUI PEGUI, int index)
+	public override void Initialize (ParameterListManager parameterListManager, int index)
 	{
-		base.Initialize (PEGUI, index);
+		base.Initialize (parameterListManager, index);
 
 		floatValue = defaultValue;
 		slider.value = floatValue;

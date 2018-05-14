@@ -6,7 +6,6 @@ using System;
 public class PlantEditorGUI : MonoBehaviour {
 
 
-	[SerializeField] private float leftMargin;
 
 	[SerializeField] private Plant targetedPlant;
 	[SerializeField] private Plant targetedBranch;
@@ -15,11 +14,11 @@ public class PlantEditorGUI : MonoBehaviour {
 	[SerializeField] private Flower targetedFlower;
 	[SerializeField] private Fruit targetedFruit;
 
-	[SerializeField] private Transform propertyList;
+	//[SerializeField] private Transform propertyList;
 
 	[SerializeField] private RectTransform parametersSlotsParent;
 
-
+	/*
 	[Header("Slot Prefabs")]
 
 	[SerializeField] private IntSlot intSlotPrefab;
@@ -28,8 +27,8 @@ public class PlantEditorGUI : MonoBehaviour {
 	[SerializeField] private IntervalSlot intervalSlotPrefab;
 	[SerializeField] private Vector3Slot vector3SlotPrefab;
 	[SerializeField] private BoolSlot boolSlotPrefab;
-
-
+*/
+	/*
 	[Header("Slots")]
 
 	private DisplayParameter[] parametersSlots;
@@ -80,69 +79,6 @@ public class PlantEditorGUI : MonoBehaviour {
 
 	public void InitializeParameterList()
 	{
-		/*
-		DisplayParameter[] parametersSlots = new DisplayParameter[slots.Length];
-
-		for (int i = 0; i < slots.Length; i++) {
-
-			SlotsInfo s = slots [i];
-
-			string pType = typeof(Plant).GetProperty (s.propertyName).PropertyType.ToString();
-
-			DisplayParameter d = null;
-
-			Debug.Log (pType);
-
-			switch (pType) {
-
-			case "int":
-
-				IntSlot intS = (IntSlot)Instantiate (intSlotPrefab, propertyList);
-				intS.SetDefaultValue (s.defaultIntValue);
-				d = intS;
-				break;
-
-
-			case "System.Single":
-				FloatSlot floatS = (FloatSlot)Instantiate (floatSlotPrefab, propertyList);
-				floatS.SetDefaultValue (s.defaultFloatValue);
-				d = floatS;
-				break;
-
-
-			case "bool":
-				BoolSlot boolS = (BoolSlot)Instantiate (boolSlotPrefab, propertyList);
-				boolS.SetDefaultValue (s.defaultBoolValue);
-				d = boolS;
-				break;
-
-
-			case "Vector3":
-				Vector3Slot vector3S = (Vector3Slot)Instantiate (vector3SlotPrefab, propertyList);
-				vector3S.SetDefaultValue (s.defaultVector3Value);
-				d = vector3S;
-				break;
-
-
-			case "AnimationCurve":
-				CurveSlot curveS = (CurveSlot)Instantiate (curveSlotPrefab, propertyList);
-				curveS.SetDefaultValue (s.defaultAnimationCurveValue);
-				d = curveS;
-				break;
-
-
-			case "Interval":
-				IntervalSlot intervalS = (IntervalSlot)Instantiate (intervalSlotPrefab, propertyList);
-				intervalS.SetDefaultValue (s.defaultIntervalValue);
-				d = intervalS;
-				break;
-			}
-
-			d.parameterName = s.propertyName;
-
-			parametersSlots [i] = d;
-		}
-			*/
 		parametersSlots = new DisplayParameter[parametersSlotsParent.childCount];
 
 		int index = 0;
@@ -159,7 +95,7 @@ public class PlantEditorGUI : MonoBehaviour {
 			parametersSlots [i].Initialize(this, i);
 		}
 	}
-
+	*/
 }
 
 public enum PlantPart

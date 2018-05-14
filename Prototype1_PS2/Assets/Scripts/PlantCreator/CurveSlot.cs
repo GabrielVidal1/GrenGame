@@ -53,9 +53,9 @@ public class CurveSlot : DisplayParameter {
 	}
 
 
-	public override void Initialize (PlantEditorGUI PEGUI, int index)
+	public override void Initialize (ParameterListManager parameterListManager, int index)
 	{
-		base.Initialize (PEGUI, index);
+		base.Initialize (parameterListManager, index);
 		rectTransform = GetComponent<RectTransform> ();
 
 		curveBox.SetActive (true);

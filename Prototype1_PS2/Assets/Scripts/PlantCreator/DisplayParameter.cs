@@ -16,7 +16,7 @@ public class DisplayParameter : MonoBehaviour {
 
 	private int indexInPlantEditorManager;
 
-	private PlantEditorGUI PEGUI;
+	private ParameterListManager parameterListManager;
 
 	[SerializeField] private PlantPart concernedPart;
 
@@ -38,9 +38,9 @@ public class DisplayParameter : MonoBehaviour {
 		return null;
 	}
 
-	public virtual void Initialize(PlantEditorGUI PEGUI, int index)
+	public virtual void Initialize(ParameterListManager parameterListManager, int index)
 	{
-		this.PEGUI = PEGUI;
+		this.parameterListManager = parameterListManager;
 		indexInPlantEditorManager = index;
 
 
@@ -49,8 +49,8 @@ public class DisplayParameter : MonoBehaviour {
 
 	public void OnValueChange()
 	{
-		if (PEGUI != null) {
-			PEGUI.UpdatePlant (indexInPlantEditorManager, concernedPart);
+		if (parameterListManager != null) {
+			parameterListManager.UpdatePlant (indexInPlantEditorManager, concernedPart);
 
 		}
 	}

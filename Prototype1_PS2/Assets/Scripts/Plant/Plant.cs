@@ -256,14 +256,31 @@ public class Plant : MonoBehaviour{
 	//FRUITS
 
 	public bool hasFruits;
+	public bool HasFruits
+	{ get { return hasFruits; } set { hasFruits = value; } }
+
 	public Fruit fruitPrefab;
 
 	public LeavesRepartitionMode fruitRepartitionMode;
+	public LeavesRepartitionMode FruitRepartitionMode
+	{ get { return fruitRepartitionMode; } set { fruitRepartitionMode = value; } }
+
 	public int fruitNumber;
+	public int FruitNumber
+	{ get { return fruitNumber; } set { fruitNumber = value; } }
+
 	public float fruttiFlowersRatio;
+	public float FruttiFlowersRatio
+	{ get { return fruttiFlowersRatio; } set { fruttiFlowersRatio = value; } }
 
 	public Interval fruitSize;
+	public Interval FruitSize
+	{ get { return fruitSize; } set { fruitSize = value; } }
+
 	public Interval fruitGrowthDuration;
+	public Interval FruitGrowthDuration
+	{ get { return fruitGrowthDuration; } set { fruitGrowthDuration = value; } }
+
 
 	public int fruitSequence;
 
@@ -934,6 +951,8 @@ public class Plant : MonoBehaviour{
 						//Debug.Log (localTime);
 						thing.flower.time = flowerGrowthOverTime.Evaluate (localTime);
 					}
+
+					Debug.Log ("growth duration : " + thing.growthDuration);
 
 					//INTIAL DIRECTION
 					Vector3 initialDirection = (mf.sharedMesh.vertices [thing.pointIndex1] - mf.sharedMesh.vertices [thing.pointIndex2]).normalized;

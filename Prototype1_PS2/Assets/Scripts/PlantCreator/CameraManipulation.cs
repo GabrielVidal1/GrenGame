@@ -12,6 +12,9 @@ public class CameraManipulation : MonoBehaviour {
 	private Vector2 camRotation;
 	private Vector2 actualCamRotation;
 
+	public float minHeight;
+	public float maxHeight;
+	public float ascendingSpeed;
 
 	public float maxZoom = 10f;
 	public float minZoom = 1f;
@@ -31,6 +34,8 @@ public class CameraManipulation : MonoBehaviour {
 
 	private bool holdRightClick;
 
+	private float yOrigin;
+	private float targetY;
 	void Start () 
 	{
 		actualZValueOfCam = Camera.main.transform.position.z;
@@ -44,7 +49,23 @@ public class CameraManipulation : MonoBehaviour {
 		previewCamera.targetTexture = rt;
 
 		targetTexture.texture = rt;
+
+		yOrigin = transform.position.y;
 	}
+
+	public void GoUp()
+	{
+		targetY += Time.deltaTime * ascendingSpeed;
+		targetY = Mathf.Min (targetY, maxHeight);
+	}
+
+	public void GoDown()
+	{
+		targetY -= Time.deltaTime * ascendingSpeed;
+		targetY = Mathf.Max (targetY, minHeight);
+
+	}
+
 
 	void Update () 
 	{
@@ -90,7 +111,10 @@ public class CameraManipulation : MonoBehaviour {
 
 		actualCamRotation = Vector2.Lerp (actualCamRotation, camRotation, smoothCoef);
 		transform.rotation = Quaternion.Euler (actualCamRotation.x, actualCamRotation.y, 0f);
-		
+
+
+		transform.position = Vector3.Lerp (transform.position, 
+			new Vector3 (transform.position.x, yOrigin + targetY, transform.position.z), smoothCoef);
 	}
 }
 

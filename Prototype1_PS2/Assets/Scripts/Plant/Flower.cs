@@ -10,25 +10,39 @@ public class Flower : MonoBehaviour {
 	public float time;
 
 	public float radius;
+	public float Radius
+	{ get { return radius; } set { radius = value; } }
+
 	public AnimationCurve radiusOverTime;
 
 	[Range(3, 20)]
 	public int nbOfPetals;
+	public int NbOfPetals
+	{ get { return nbOfPetals; } set { nbOfPetals = value; } }
 
 	public int nbOfSegments;
+	public int NbOfSegments
+	{ get { return nbOfSegments; } set { nbOfSegments = value; } }
 
 	public AnimationCurve segmentPointDistribution;
-
 	public AnimationCurve radiusOverAngle;
 
 
 	public float length;
 
 	public Vector3 initialDirection;
+	public Vector3 InitialDirection
+	{ get { return initialDirection; } set { initialDirection = value; } }
 
 	public AnimationCurve sideShape;
-	public AnimationCurve sideShapeOverTime;
+	public AnimationCurve SideShape
+	{ get { return sideShape; } set { sideShape = value; } }
+
 	public float sideShapeCoef;
+	public float SideShapeCoef
+	{ get { return sideShapeCoef; } set { sideShapeCoef = value; } }
+
+	public AnimationCurve sideShapeOverTime;
 
 	public AnimationCurve closureForce;
 	public float closureForceCoef;

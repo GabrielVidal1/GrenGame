@@ -9,12 +9,16 @@ public class PlantSeed : Pickup {
 
 	public Texture seedTexture;
 
+	public bool inPlantCreator;
+
 	protected override void Init ()
 	{
 		base.Init ();
 
-		Debug.Log ("je suis une graine !    " + name);
-		GameManager.gm.pm.plantSeeds.Add (this);
+		if (!inPlantCreator) {
+			Debug.Log ("je suis une graine !    " + name);
+			GameManager.gm.pm.plantSeeds.Add (this);
+		}
 	}
 
 	void Start()

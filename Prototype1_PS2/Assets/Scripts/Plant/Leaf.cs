@@ -8,7 +8,13 @@ public class Leaf : MonoBehaviour {
 	public float time;
 
 	[Range(1, 20)] public int nbOfTangentSegments;
+	public int NbOfTangentSegments
+	{ get { return nbOfTangentSegments; } set { nbOfTangentSegments = value; } }
+
 	[Range(1, 20)] public int nbOfNormalSegments;
+	public int NbOfNormalSegments
+	{ get { return nbOfNormalSegments; } set { nbOfNormalSegments = value; } }
+
 
 
 	public Vector3 initialDirection;
@@ -17,7 +23,12 @@ public class Leaf : MonoBehaviour {
 	[Header("Dimensions")]
 
 	public float width;
+	public float Width
+	{ get { return width; } set { width = value; } }
+
 	public float length;
+	public float Length
+	{ get { return length; } set { length = value; } }
 
 
 	public AnimationCurve widthOverTime;
@@ -33,18 +44,46 @@ public class Leaf : MonoBehaviour {
 
 	[Header("Coronal Plane")]
 	public bool coronalVariations;
+	public bool CoronalVariations
+	{ get { return coronalVariations; } set { coronalVariations = value; } }
+
 	public float coronalCurvatureIntensity;
+	public float CoronalCurvatureIntensity
+	{ get { return coronalCurvatureIntensity; } set { coronalCurvatureIntensity = value; } }
+
 	public AnimationCurve coronalCurvature;
+	public AnimationCurve CoronalCurvature
+	{ get { return coronalCurvature; } set { coronalCurvature = value; } }
+
 	public AnimationCurve coronalCurvatureIntensityOverLength;
+	public AnimationCurve CoronalCurvatureIntensityOverLength
+	{ get { return coronalCurvatureIntensityOverLength; } set { coronalCurvatureIntensityOverLength = value; } }
+
 	public AnimationCurve coronalCurvatureIntensityOverTime;
+	public AnimationCurve CoronalCurvatureIntensityOverTime
+	{ get { return coronalCurvatureIntensityOverTime; } set { coronalCurvatureIntensityOverTime = value; } }
 
 
 	[Header("Sagittal Plane")]
 	public bool sagittalVariations;
+	public bool SagittalVariations
+	{ get { return sagittalVariations; } set { sagittalVariations = value; } }
+
 	public float sagittalCurvatureIntensity;
+	public float SagittalCurvatureIntensity
+	{ get { return sagittalCurvatureIntensity; } set { sagittalCurvatureIntensity = value; } }
+
 	public AnimationCurve sagittalCurvature;
+	public AnimationCurve SagittalCurvature
+	{ get { return sagittalCurvature; } set { sagittalCurvature = value; } }
+
 	public AnimationCurve sagittalCurvatureIntensityOverLength;
+	public AnimationCurve SagittalCurvatureIntensityOverLength
+	{ get { return sagittalCurvatureIntensityOverLength; } set { sagittalCurvatureIntensityOverLength = value; } }
+
 	public AnimationCurve sagittalCurvatureIntensityOverTime;
+	public AnimationCurve SagittalCurvatureIntensityOverTime
+	{ get { return sagittalCurvatureIntensityOverTime; } set { sagittalCurvatureIntensityOverTime = value; } }
 
 	private MeshFilter mf;
 	private Vector3[] points;

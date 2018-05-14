@@ -23,11 +23,12 @@ public class IntervalSlot : DisplayParameter {
 		return intervalValue;
 	}
 
-	public override void Initialize (PlantEditorGUI PEGUI, int index)
+	public override void Initialize (ParameterListManager parameterListManager, int index)
 	{
-		base.Initialize (PEGUI, index);
+		base.Initialize (parameterListManager, index);
 
 		intervalValue = defaultValue;
+		OnValueChange ();
 
 		inputFieldmin.text = intervalValue.min.ToString ();
 		inputFieldmax.text = intervalValue.max.ToString ();;

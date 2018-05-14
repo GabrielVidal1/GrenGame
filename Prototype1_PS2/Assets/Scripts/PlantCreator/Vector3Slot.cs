@@ -26,9 +26,9 @@ public class Vector3Slot : DisplayParameter {
 		return vector3Value;
 	}
 
-	public override void Initialize (PlantEditorGUI PEGUI, int index)
+	public override void Initialize (ParameterListManager parameterListManager, int index)
 	{
-		base.Initialize (PEGUI, index);
+		base.Initialize (parameterListManager, index);
 
 		inputFieldX.text = vector3Value.x.ToString ();
 		inputFieldY.text = vector3Value.y.ToString ();
