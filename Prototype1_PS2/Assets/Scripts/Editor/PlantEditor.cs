@@ -37,6 +37,8 @@ public class PlantEditor : Editor {
 
 	bool updateOnChange;
 
+	bool debug = false;
+
 	void OnEnable()
 	{
 		leafGrowthDuration = serializedObject.FindProperty ("leafGrowthDuration");
@@ -55,6 +57,12 @@ public class PlantEditor : Editor {
 
 	public override void OnInspectorGUI ()
 	{
+		debug = EditorGUILayout.Toggle ("Debug mode", debug);
+		if (debug) {
+			DrawDefaultInspector ();
+			return;
+		}
+
 
 		EditorGUILayout.Space ();
 
@@ -70,7 +78,7 @@ public class PlantEditor : Editor {
 			EditorGUILayout.LabelField ("Index In Plant Manager", myObject.plantTypeIndex.ToString());
 
 			//scrollZone = EditorGUILayout.BeginScrollView (scrollZone);
-			myObject.pointValue = EditorGUILayout.IntField ("Point Value", myObject.pointValue);
+			myObject.PointValue = EditorGUILayout.IntField ("Point Value", myObject.PointValue);
 		}
 
 		EditorGUILayout.LabelField ("Seed", myObject.plantSeed.ToString ());
@@ -94,9 +102,9 @@ public class PlantEditor : Editor {
 		serializedObject.FindProperty("offsetTangents").boolValue = EditorGUILayout.Toggle("Offset Tangents", serializedObject.FindProperty("offsetTangents").boolValue);
 
 		//SMOOTH
-		myObject.smooth = EditorGUILayout.Toggle ("Smoothing", myObject.smooth);
-		if (myObject.smooth) {
-			myObject.smoothCoef = EditorGUILayout.Slider ("Smooth Coef", myObject.smoothCoef, 0f, 1f);
+		myObject.Smooth = EditorGUILayout.Toggle ("Smoothing", myObject.Smooth);
+		if (myObject.Smooth) {
+			myObject.SmoothCoef = EditorGUILayout.Slider ("Smooth Coef", myObject.SmoothCoef, 0f, 1f);
 			//EditorGUILayout.Separator ();
 		}
 
@@ -138,17 +146,17 @@ public class PlantEditor : Editor {
 		}
 		EditorGUI.BeginDisabledGroup (myObject.isBranch && !myObject.brancheIndependentRadius);
 
-		myObject.initialRadius = EditorGUILayout.FloatField ("Initial Radius", myObject.initialRadius);
-		if (myObject.initialRadius <= 0f) {
+		myObject.InitialRadius = EditorGUILayout.FloatField ("Initial Radius", myObject.InitialRadius);
+		if (myObject.InitialRadius <= 0f) {
 			Debug.LogError ("The Radius Can't Be Null Or Negative!");
-			myObject.initialRadius = 0.01f;
+			myObject.InitialRadius = 0.01f;
 		}
 
-		myObject.initialDirection = EditorGUILayout.Vector3Field ("Initial Direction", myObject.initialDirection);
+		myObject.InitialDirection = EditorGUILayout.Vector3Field ("Initial Direction", myObject.InitialDirection);
 
-		if (myObject.initialDirection == Vector3.zero) {
+		if (myObject.InitialDirection == Vector3.zero) {
 			Debug.LogError ("The Initial Direction Can't Be Vector3.zero!");
-			myObject.initialDirection = Vector3.up;
+			myObject.InitialDirection = Vector3.up;
 		}
 
 		EditorGUI.EndDisabledGroup ();
@@ -168,9 +176,9 @@ public class PlantEditor : Editor {
 			myObject.initialShapeOverLength = AnimationCurve.Linear (0f, 1f, 1f, 0f);
 		}
 
-		myObject.finalShapeOverLength = EditorGUILayout.CurveField ("Final Shape Over Length", myObject.finalShapeOverLength, Color.green, new Rect (0, 0, 1, 2));
-		if (myObject.finalShapeOverLength == null) {
-			myObject.finalShapeOverLength = AnimationCurve.Linear (0f, 1f, 1f, 0f);
+		myObject.FinalShapeOverLength = EditorGUILayout.CurveField ("Final Shape Over Length", myObject.FinalShapeOverLength, Color.green, new Rect (0, 0, 1, 2));
+		if (myObject.FinalShapeOverLength == null) {
+			myObject.FinalShapeOverLength = AnimationCurve.Linear (0f, 1f, 1f, 0f);
 		}
 
 		myObject.shapeOverTime = EditorGUILayout.CurveField ("Shape Transition Over Length", myObject.shapeOverTime, Color.green, new Rect (0, 0, 1, 1));
@@ -508,9 +516,10 @@ public class PlantEditor : Editor {
 					DestroyImmediate (myObject.transform.GetChild (i).gameObject);
 				}
 			}
-
+			/*
 			if (GUILayout.Button ("Save plant as a file"))
 				PlantSerializer.SavePlant (myObject);
+				*/
 		}
 
 		serializedObject.ApplyModifiedProperties ();

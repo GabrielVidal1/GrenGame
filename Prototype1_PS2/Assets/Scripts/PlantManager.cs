@@ -78,7 +78,7 @@ public class PlantManager : MonoBehaviour {
 				new SerializedPlant (plants[i].plantTypeIndex, 
 					plants[i].time, 
 					plants[i].transform.position, 
-					plants[i].initialDirection, 
+					plants[i].InitialDirection, 
 					plants[i].fruitSequence,
 					plants[i].plantSeed, 
 					i);

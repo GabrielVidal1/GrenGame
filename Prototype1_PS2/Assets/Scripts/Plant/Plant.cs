@@ -15,9 +15,29 @@ public class Plant : MonoBehaviour{
 
 	#endregion
 
+
+	#region EDITOR VARIABLES
+
+	private float plantLength;
+	public float PlantLenght
+	{
+		get {return plantLength;}
+		set{ 
+			plantLength = value;
+			finalSegmentLength = plantLength / (float)nbOfSegments;
+			segmentLengthOverLength = AnimationCurve.Linear (0f, 1f, 1f, 1f);
+		}
+	}
+
+
+
+
+	#endregion
+
 	#region PUBLIC VARIABLES
 
-	public int pointValue;
+	private int pointValue;
+	public int PointValue { get; set; }
 
 	public int plantTypeIndex;
 
@@ -27,29 +47,64 @@ public class Plant : MonoBehaviour{
 	public float maxDuration;
 
 	public Interval trunkGrowthDuration;
+	public Interval TrunkGrowthDuration 
+	{ get {return trunkGrowthDuration;} set{trunkGrowthDuration = value;} }
 
 	public bool offsetTangents;
 
 	public bool smooth;
+	public bool Smooth 
+	{ get { return smooth; } set { smooth = value; } }
+
 	public float smoothCoef;
+	public float SmoothCoef 
+	{ get { return smoothCoef; } set { smoothCoef = value; } }
+
 
 	public bool noise;
+	public bool Noise
+	{ get { return noise; } set { noise = value; } }
+
 	public float noiseCoef;
+	public float NoiseCoef
+	{ get { return noiseCoef; } set { noiseCoef = value; } }
 
 	public bool initialForce;
+	public bool InitialForce
+	{ get { return initialForce; } set { initialForce = value; } }
+
 	public float initialForceCoef;
+	public float InitialForceCoef
+	{ get { return initialForceCoef; } set { initialForceCoef = value; } }
 
 	public int nbOfSides;
-	public int nbOfSegments;
+	public int NbOfSides
+	{ get { return nbOfSides; } set { nbOfSides = value; } }
 
-	public float initialRadius;
+	public int nbOfSegments;
+	public int NbOfSegments
+	{ get { return nbOfSegments; } 
+		set { nbOfSegments = value;
+			finalSegmentLength = plantLength / (float)nbOfSegments;} }
+
+	private float initialRadius;
+	public float InitialRadius 
+	{ get { return initialRadius; } set { initialRadius = value; } }
+
 	public Vector3 initialDirection;
+	public Vector3 InitialDirection 
+	{ get { return initialDirection; } set { initialDirection = value; } }
+
 	public Vector3 initialNormal;
 
 	public int sectionsPerUvUnit;
 
 	public AnimationCurve initialShapeOverLength;
+
 	public AnimationCurve finalShapeOverLength;
+	public AnimationCurve FinalShapeOverLength
+	{ get { return finalShapeOverLength; } set { finalShapeOverLength = value; } }
+
 	public AnimationCurve shapeOverTime;
 
 	public AnimationCurve radiusOverAngle;
@@ -61,35 +116,80 @@ public class Plant : MonoBehaviour{
 
 
 	public bool hasGravity;
-	public float gravityForce;
-	public AnimationCurve gravityOverLength;
+	public bool HasGravity
+	{ get { return hasGravity;} set { hasGravity = value; } }
 
+	public float gravityForce;
+	public float GravityForce
+	{ get { return gravityForce; } set { gravityForce = value; } }
+
+	public AnimationCurve gravityOverLength;
+	public AnimationCurve GravityOverLength
+	{ get { return gravityOverLength; } set { gravityOverLength = value; } }
 
 	public bool hasNoise;
+	public bool HasNoise
+	{ get { return hasNoise; } set { hasNoise = value; } }
+
 	public float noiseForce;
+	public float NoiseForce
+	{ get { return noiseForce; } set { noiseForce = value; } }
+
 	public float noiseSize;
+	public float NoiseSize
+	{ get { return noiseSize; } set { noiseSize = value; } }
+
 	public AnimationCurve noiseOverLength;
+	public AnimationCurve NoiseOverLength
+	{ get { return noiseOverLength; } set { noiseOverLength = value; } }
 
 	public bool hasCollisions;
+	public bool HasCollisions
+	{ get { return hasCollisions; } set { hasCollisions = value; } }
 
 	//LEAVES
 	public bool hasLeaves;
+	public bool HasLeaves
+	{ get { return hasLeaves; } set { hasLeaves = value; } }
+
 	public Leaf leafPrefab;
 
 	public Interval leafSize;
+	public Interval LeafSize
+	{ get { return leafSize; } set { leafSize = value; } }
 
 	public bool leavesOnlyOnSections;
 
 	public float leavesDensity;
+	public float LeavesDensity
+	{ get { return leavesDensity; } set { leavesDensity = value; } }
+
 	public int leavesNumber;
+	public int LeavesNumber
+	{ get { return leavesNumber; } set { leavesNumber = value;
+			leavesRepartitionMode = LeavesRepartitionMode.Number;} }
 
 	public LeavesRepartitionMode leavesRepartitionMode;
+	public LeavesRepartitionMode LeavesRepartitionMode
+	{ get { return leavesRepartitionMode; } set { leavesRepartitionMode = value; } }
 
 	public AnimationCurve leavesDistribution;
+	public AnimationCurve LeavesDistribution
+	{ get { return leavesDistribution; } set { leavesDistribution = value; } }
+
 	public AnimationCurve leavesBirthdateDistribution;
+
+
 	public Interval leafGrowthDuration;
+	public Interval LeafGrowthDuration
+	{ get { return leafGrowthDuration; } set { leafGrowthDuration = value; } }
+
 
 	public float sunOrientationIntensity;
+	public float SunOrientationIntensity
+	{ get { return sunOrientationIntensity; } set { sunOrientationIntensity = value; } }
+
+
 	public AnimationCurve sunOrientationIntensityOverTime;
 	public AnimationCurve leafGrowthOverTime;
 
@@ -122,21 +222,36 @@ public class Plant : MonoBehaviour{
 
 	//FLOWERS
 	public bool hasFlowers;
+	public bool HasFlowers
+	{ get { return hasFlowers; } set { hasFlowers = value; } }
 
 	public bool uniqueEndFlower;
+	public bool UniqueEndFlower
+	{ get { return uniqueEndFlower; } set { uniqueEndFlower = value; } }
 
 	public Flower flowerPrefab;
 
 	public bool hasFixedDirection;
+	public bool HasFixedDirection
+	{ get { return hasFixedDirection; } set { hasFixedDirection = value; } }
+
 
 	public AnimationCurve flowerGrowthOverTime;
 	public AnimationCurve flowersBirthdateDistribution;
 
 
 	public Interval flowerGrowthDuration;
+	public Interval FlowerGrowthDuration
+	{ get { return flowerGrowthDuration; } set { flowerGrowthDuration = value; } }
+
 	public Interval flowerSize;
+	public Interval FlowerSize
+	{ get { return flowerSize; } set { flowerSize = value; } }
 
 	public float leafChanceOfBeingFlower;
+	public float LeafChanceOfBeingFlower
+	{ get { return leafChanceOfBeingFlower; } set { leafChanceOfBeingFlower = value; } }
+
 
 	//FRUITS
 
@@ -177,7 +292,7 @@ public class Plant : MonoBehaviour{
 	public int placedFruits;
 
 
-	[HideInInspector]
+	//[HideInInspector]
 	public bool isBranch;
 	
 	[HideInInspector]
@@ -222,6 +337,8 @@ public class Plant : MonoBehaviour{
 
 	public void InitializePlant()
 	{
+		//Debug.Log ("radius : " + initialRadius);
+
 		//RANDOM INITIALISATION
 		if (isBranch)
 			parent = transform.parent.parent.GetComponent<Plant> ();
@@ -234,7 +351,7 @@ public class Plant : MonoBehaviour{
 
 		lastUpdateTime = 0f;
 
-		actualTrunkGrowthDuration = trunkGrowthDuration.RandomValue();
+		actualTrunkGrowthDuration = TrunkGrowthDuration.RandomValue();
 			
 		maxDuration = actualTrunkGrowthDuration;
 		if (hasFlowers)
@@ -311,7 +428,7 @@ public class Plant : MonoBehaviour{
 			new Keyframe (actualTrunkGrowthDuration / maxDuration, 1f),
 			new Keyframe (1, 1)
 		});
-		positionsAndNormals = GenerateTrajectory (transform.position, initialDirection, nbOfSegments + 1);
+		positionsAndNormals = GenerateTrajectory (transform.position, InitialDirection, nbOfSegments + 1);
 
 		mf = GetComponent<MeshFilter> ();
 
@@ -324,8 +441,9 @@ public class Plant : MonoBehaviour{
 		uvs = new Vector2[points.Length];
 		GenerateUVs (uvs);
 
-		Mesh m = new Mesh ();
 
+		Mesh m = mf.mesh;
+		m.Clear ();
 
 		m.vertices = points;
 		m.triangles = triangles;
@@ -465,12 +583,12 @@ public class Plant : MonoBehaviour{
 
 				//PARAMETERS SETTINGS
 
-				branche.trunkGrowthDuration = branchGrowthDuration;
+				branche.TrunkGrowthDuration = branchGrowthDuration;
 
 				//branche.leafGrowthDuration = leafGrowthDuration;
 
 				branche.isBranch = true;
-				branche.initialDirection = direction;
+				branche.InitialDirection = direction;
 				if (!branche.brancheIndependentRadius)
 					branche.initialRadius = initialBrancheRadiusBranch * branchInitialRadiusMultiplier.RandomValue();
 				else
@@ -553,7 +671,7 @@ public class Plant : MonoBehaviour{
 
 					float radius = Mathf.Lerp (
 						               initialShapeOverLength.Evaluate (branch.lengthRatio),
-						               finalShapeOverLength.Evaluate (branch.lengthRatio),
+									   finalShapeOverLength.Evaluate (branch.lengthRatio),
 						               shapeOverTime.Evaluate (time));
 
 					//Debug.DrawRay (branch.finalPosition, -positionsAndNormals.nor [branch.normalIndex] * radius, Color.red, 10f);
@@ -904,7 +1022,7 @@ public class Plant : MonoBehaviour{
 
 			//DIRECTION DETERMINATION
 			if (i == 0)
-				direction = initialDirection;
+				direction = InitialDirection;
 			else if (i < nbOfSegments)
 				direction = (positionsAndNormals.pos [i + 1] - transform.position - currentPosition).normalized;
 			else
@@ -973,18 +1091,18 @@ public class Plant : MonoBehaviour{
 
 		//SMOOTHING
 		if (smooth) {
-			Smooth (points, smoothCoef);
-			Smooth (points, smoothCoef);
+			SmoothPoints (points, smoothCoef);
+			SmoothPoints (points, smoothCoef);
 		}
 
 		//NOISING
 		if (noise) {
-			Noise (points, noiseCoef);
+			NoisePoints (points, noiseCoef);
 		}
 	}
 
 	//USED TO SMOOTH THE POINTS OF THE 3D MESH
-	private void Smooth(Vector3[] pointsArrayRef, float coef)
+	private void SmoothPoints(Vector3[] pointsArrayRef, float coef)
 	{
 		int np = pointsArrayRef.Length;
 		//List<Vector3> nTempPoints = new List<Vector3>();
@@ -1001,7 +1119,7 @@ public class Plant : MonoBehaviour{
 
 	//USED TO NOISE THE POINTS OF THE 3D MESH
 	//USES REF OF POINTS ARRAY
-	private void Noise(Vector3[] refPoints, float coef)
+	private void NoisePoints(Vector3[] refPoints, float coef)
 	{
 		for (int i = 0; i < refPoints.Length; i++) {
 

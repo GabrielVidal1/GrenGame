@@ -28,7 +28,7 @@ public class Zone : MonoBehaviour {
 	{
 		int sum = 0;
 		foreach (int index in plantIndexesInPlantArray) {
-			sum += GameManager.gm.pm.plants[index].pointValue;
+			sum += GameManager.gm.pm.plants[index].PointValue;
 		}
 		return sum + nbOfPoints;
 	}

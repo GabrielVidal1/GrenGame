@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlantModifier : MonoBehaviour {
-
+	/*
 	[SerializeField] private Plant plant;
 
 
@@ -16,7 +16,7 @@ public class PlantModifier : MonoBehaviour {
 	void Start () {
 
 		radiusNode.Initialize ();
-		radiusNode.xValue = plant.initialRadius;
+		radiusNode.xValue = plant.InitialRadius;
 		radiusNode.xRange = new Vector2 (0.01f, 3f);
 
 		lengthNode.Initialize ();
@@ -36,7 +36,7 @@ public class PlantModifier : MonoBehaviour {
 
 			shapeNodes [i].Initialize ();
 			shapeNodes [i].yRatio = plant.nbOfSegments * plant.initialSegmentLength;
-			shapeNodes [i].zRatio = plant.initialRadius;
+			shapeNodes [i].zRatio = plant.InitialRadius;
 
 			//shapeNodes [i].SetValueY (ratio * (plant.nbOfSegments * plant.initialSegmentLength));
 			shapeNodes [i].zValue = plant.finalShapeOverLength.Evaluate (shapeNodes [i].yValue);
@@ -101,6 +101,6 @@ public class PlantModifier : MonoBehaviour {
 		plant.finalShapeOverLength = new AnimationCurve (keys);
 		plant.InitializePlant ();
 	}
-
+*/
 
 }

@@ -107,7 +107,7 @@ public class Player : NetworkBehaviour {
 		GameManager.gm.wd.SerializeWorld();
 		pm.wd = GameManager.gm.wd.worldData;
 
-		(new GameObject ("TEST WORLDATA DEFORE SENDING")).AddComponent<Test> ().wd = pm.wd;
+		//(new GameObject ("TEST WORLDATA DEFORE SENDING")).AddComponent<Test> ().wd = pm.wd;
 
 
 		//SET THE MESSAGE TYPE TO SYNC THE PLANTS
@@ -124,7 +124,7 @@ public class Player : NetworkBehaviour {
 		//IF NEED TO SYNC World
 		if (msg.pma == PlayerMessageAction.LoadWorld) {
 
-			(new GameObject ("TEST WORLDATA AFTER RECEIVING")).AddComponent<Test> ().wd = msg.wd;
+			//(new GameObject ("TEST WORLDATA AFTER RECEIVING")).AddComponent<Test> ().wd = msg.wd;
 
 			//GameManager.gm.wd.worldData = msg.wd;
 

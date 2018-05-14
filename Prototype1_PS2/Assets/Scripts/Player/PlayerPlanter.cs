@@ -43,7 +43,7 @@ public class PlayerPlanter : NetworkBehaviour {
 
 
 				Plant plant = Instantiate (GameManager.gm.pm.plantsPrefabs [index], hit.point + 0.1f * hit.normal, Quaternion.identity);
-				plant.initialDirection = hit.normal;
+				plant.InitialDirection = hit.normal;
 				plant.SetSeed (Plant.plantNumber);
 			
 				plant.time = 0f;

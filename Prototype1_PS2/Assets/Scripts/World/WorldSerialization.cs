@@ -63,7 +63,7 @@ public class WorldSerialization : MonoBehaviour{
 
 	public void SerializeWorld()
 	{
-		(new GameObject ("Before serilisation")).AddComponent<Test> ().wd = new WorldData(worldData);
+		//(new GameObject ("Before serilisation")).AddComponent<Test> ().wd = new WorldData(worldData);
 
 
 		//Debug.Log ("je serialise le monde");
@@ -119,7 +119,7 @@ public class WorldSerialization : MonoBehaviour{
 		GameManager.gm.zd.SerializeZones(worldData);
 		GameManager.gm.zd.SerializeDoors(worldData);
 
-		(new GameObject ("After serilisation")).AddComponent<Test> ().wd = new WorldData(worldData);
+		//(new GameObject ("After serilisation")).AddComponent<Test> ().wd = new WorldData(worldData);
 
 		//(new GameObject ()).AddComponent<Test> ().wd = worldData;
 
@@ -180,7 +180,7 @@ public class WorldSerialization : MonoBehaviour{
 				serializedPlant.initialPosition.Deserialize(), 
 				Quaternion.identity).GetComponent<Plant> ();
 			
-			plant.initialDirection = serializedPlant.initialDirection.Deserialize();
+			plant.InitialDirection = serializedPlant.initialDirection.Deserialize();
 
 			plant.SetSeed (serializedPlant.seed);
 			plant.time = serializedPlant.plantTime;

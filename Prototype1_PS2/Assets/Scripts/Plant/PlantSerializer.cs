@@ -6,7 +6,7 @@ using System.IO;
 
 public class PlantSerializer {
 
-	
+	/*
 	public static void SavePlant(Plant plant)
 	{
 		
@@ -25,9 +25,10 @@ public class PlantSerializer {
 
 
 	}
+	*/
 
 }
-
+/*
 [System.Serializable]
 class SerializedPlantData
 {
@@ -163,7 +164,7 @@ class SerializedPlantData
 		nbOfSegments = plant.nbOfSegments;
 
 		
-		initialRadius = plant.initialRadius;
+		initialRadius = plant.InitialRadius;
 		
 		initialDirection = new SerializedVector3(plant.initialDirection);
 		
@@ -431,7 +432,7 @@ class SerializedPlantData
 		plant.branchForceParameters = branchForceParameters;
 
 	}
-*/
+
 
 
 }
@@ -522,47 +523,6 @@ class SerializedLeaf
 		sagittalCurvatureIntensityOverTime = new SerializedAnimationCurve(leaf.sagittalCurvatureIntensityOverTime);
 		
 	}
-	/*
-	public void DeserializedLeaf(Leaf leaf)
-	{
-		leaf.time = time;
-
-		leaf.nbOfTangentSegments = nbOfTangentSegments;
-		leaf.nbOfNormalSegments = nbOfNormalSegments;
-
-
-		leaf.initialDirection = initialDirection;
-		leaf.upDirection = upDirection;
-
-		leaf.width = width;
-		leaf.length = length;
-
-
-		leaf.widthOverTime = widthOverTime;
-		leaf.lengthOverTime = lengthOverTime;
-
-
-		leaf.pointsDistributionOverLength = pointsDistributionOverLength;
-		leaf.pointsDistributionOverTime = pointsDistributionOverTime;
-
-		leaf.topDownShape = topDownShape;
-
-		leaf.coronalVariations = coronalVariations;
-		leaf.coronalCurvatureIntensity = coronalCurvatureIntensity;
-		leaf.coronalCurvature = coronalCurvature;
-		leaf.coronalCurvatureIntensityOverLength = coronalCurvatureIntensityOverLength;
-		leaf.coronalCurvatureIntensityOverTime = coronalCurvatureIntensityOverTime;
-
-
-		leaf.sagittalVariations = sagittalVariations;
-		leaf.sagittalCurvatureIntensity = sagittalCurvatureIntensity;
-		leaf.sagittalCurvature = sagittalCurvature;
-		leaf.sagittalCurvatureIntensityOverLength = sagittalCurvatureIntensityOverLength;
-		leaf.sagittalCurvatureIntensityOverTime = sagittalCurvatureIntensityOverTime;
-		
-	}
-	*/
-
 }
 
- 
+ */
