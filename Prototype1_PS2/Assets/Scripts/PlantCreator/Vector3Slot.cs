@@ -10,8 +10,11 @@ public class Vector3Slot : DisplayParameter {
 	[SerializeField] private TMP_InputField inputFieldY;
 	[SerializeField] private TMP_InputField inputFieldZ;
 
+	[SerializeField] private bool cantBeZero;
 
 	[SerializeField] private Vector3 vector3Value;
+
+	[SerializeField] private Vector3 defaultValue;
 
 	//[SerializeField] private Vector3 defaultValue;
 
@@ -30,6 +33,8 @@ public class Vector3Slot : DisplayParameter {
 	{
 		base.Initialize (parameterListManager, index);
 
+		vector3Value = defaultValue;
+
 		inputFieldX.text = vector3Value.x.ToString ();
 		inputFieldY.text = vector3Value.y.ToString ();
 		inputFieldZ.text = vector3Value.z.ToString ();
@@ -43,6 +48,14 @@ public class Vector3Slot : DisplayParameter {
 		float z = float.Parse (inputFieldZ.text);
 
 		vector3Value = new Vector3 (x, y, z);
+
+		if (vector3Value == Vector3.zero && cantBeZero) {
+			vector3Value = defaultValue;
+
+			inputFieldX.text = vector3Value.x.ToString ();
+			inputFieldY.text = vector3Value.y.ToString ();
+			inputFieldZ.text = vector3Value.z.ToString ();
+		}
 
 		OnValueChange ();
 

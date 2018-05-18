@@ -706,7 +706,8 @@ public class Plant : MonoBehaviour{
 	//USED TO FIRST GENERATE THE LEAVES ON THE PLANT
 	public void GenerateLeavesAndFLowers()
 	{
-		
+
+		GeneratePoints (1f, points);
 		
 		actualLeavesNumber = 0;
 
@@ -764,12 +765,14 @@ public class Plant : MonoBehaviour{
 
 
 				Vector3 position = Vector3.zero;
-
-				if (branchesOnlyOnSections)
-					position = mf.sharedMesh.vertices [pointIndex1];
-				else
-					position = (1f-lerpValue) * mf.sharedMesh.vertices [pointIndex1] + lerpValue * mf.sharedMesh.vertices [pointIndex1 + nbOfSides];
-
+				if (uniqueEndFlower && iteration == 0) {
+					position = mf.sharedMesh.vertices [mf.sharedMesh.vertices.Length - 1];
+				} else {
+					if (branchesOnlyOnSections)
+						position = mf.sharedMesh.vertices [pointIndex1];
+					else
+						position = (1f - lerpValue) * mf.sharedMesh.vertices [pointIndex1] + lerpValue * mf.sharedMesh.vertices [pointIndex1 + nbOfSides];
+				}
 				//INITIAL DIRECTION
 				Vector3 direction = mf.sharedMesh.normals[pointIndex1] - mf.sharedMesh.normals[pointIndex2];
 
@@ -836,51 +839,51 @@ public class Plant : MonoBehaviour{
 						flower.initialDirection = direction;
 
 					//Debug.Log ("at time " + time + " : " + (Trunk.fruitSequence & (1 << Trunk.placedFruits)));
+					if (hasFruits) {
+						if ((
+						       Trunk.time == 0f && (Trunk.fruitRepartitionMode == LeavesRepartitionMode.Number &&
+						       Trunk.placedFruits < Trunk.fruitNumber) ||
+						       (Trunk.fruitRepartitionMode == LeavesRepartitionMode.Density &&
+						       Random.value < Trunk.fruttiFlowersRatio))
+						   || ((Trunk.fruitSequence & (1 << Trunk.placedFruits)) > 0)) {
 
-					if ((
-					        Trunk.time == 0f && (Trunk.fruitRepartitionMode == LeavesRepartitionMode.Number &&
-					        Trunk.placedFruits < Trunk.fruitNumber) ||
-					        (Trunk.fruitRepartitionMode == LeavesRepartitionMode.Density &&
-					        Random.value < Trunk.fruttiFlowersRatio))
-					    || ((Trunk.fruitSequence & (1 << Trunk.placedFruits)) > 0)) {
+							//Debug.Log ("j'arrive ICI");
 
-						//Debug.Log ("j'arrive ICI");
+							Fruit fruit = (Fruit)Instantiate (fruitPrefab, flower.transform);
 
-						Fruit fruit = (Fruit)Instantiate (fruitPrefab, flower.transform);
-
-						fruit.transform.localPosition = Vector3.zero;
-						fruit.initialDirection = flower.initialDirection;
-
-
-						float sizeMult = fruitSize.RandomValue ();
-
-						fruit.length *= sizeMult;
-						fruit.radius *= sizeMult;
+							fruit.transform.localPosition = Vector3.zero;
+							fruit.initialDirection = flower.initialDirection;
 
 
-						flower.fruitGrowthDuration = fruitGrowthDuration.RandomValue ();
-						flower.hasAFruit = true;
-						flower.fruit = fruit;
+							float sizeMult = fruitSize.RandomValue ();
 
-						fruit.fruitIndex = Trunk.placedFruits;
-						fruit.indexInPlantManager = Trunk.plantTypeIndex;
+							fruit.length *= sizeMult;
+							fruit.radius *= sizeMult;
 
-						growthDuration += flower.fruitGrowthDuration;
 
-						//Debug.Log ("je met un fruit  " + Trunk.placedFruits + "/" + Trunk.fruitNumber);
+							flower.fruitGrowthDuration = fruitGrowthDuration.RandomValue ();
+							flower.hasAFruit = true;
+							flower.fruit = fruit;
 
-						if (time == 0f) {
+							fruit.fruitIndex = Trunk.placedFruits;
+							fruit.indexInPlantManager = Trunk.plantTypeIndex;
 
-							Trunk.fruitSequence = Trunk.fruitSequence | (1 << Trunk.placedFruits);
+							growthDuration += flower.fruitGrowthDuration;
+
+							//Debug.Log ("je met un fruit  " + Trunk.placedFruits + "/" + Trunk.fruitNumber);
+
+							if (time == 0f) {
+
+								Trunk.fruitSequence = Trunk.fruitSequence | (1 << Trunk.placedFruits);
+
+							}
+
+							Trunk.placedFruits++;
+						} else {
+							Trunk.placedFruits++;
 
 						}
-
-						Trunk.placedFruits++;
-					} else {
-						Trunk.placedFruits++;
-
 					}
-
 
 					flower.thisGrowthDuration = growthDuration;
 

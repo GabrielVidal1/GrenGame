@@ -27,12 +27,13 @@ public class Flower : MonoBehaviour {
 	public AnimationCurve segmentPointDistribution;
 	public AnimationCurve radiusOverAngle;
 
-
-	public float length;
-
 	public Vector3 initialDirection;
 	public Vector3 InitialDirection
 	{ get { return initialDirection; } set { initialDirection = value; } }
+
+	public bool hasSideShape;
+	public bool HasSideShape
+	{ get { return hasSideShape; } set { hasSideShape = value; } }
 
 	public AnimationCurve sideShape;
 	public AnimationCurve SideShape
@@ -42,10 +43,21 @@ public class Flower : MonoBehaviour {
 	public float SideShapeCoef
 	{ get { return sideShapeCoef; } set { sideShapeCoef = value; } }
 
+
+
 	public AnimationCurve sideShapeOverTime;
 
+	public bool hasClosure;
+	public bool HasClosure
+	{ get { return hasClosure; } set { hasClosure = value; } }
+
 	public AnimationCurve closureForce;
+	public AnimationCurve ClosureForce
+	{ get { return closureForce; } set { closureForce = value; } }
+
 	public float closureForceCoef;
+	public float ClosureForceCoef
+	{ get { return closureForceCoef; } set { closureForceCoef = value; } }
 
 	public bool flipTexture;
 
@@ -109,7 +121,6 @@ public class Flower : MonoBehaviour {
 
 		//TRIANGLES
 		triangles = new int[6*nbOfPetals*(1+(nbOfSegments-1)*2)];
-		//Debug.Log ("t Length : " + triangles.Length);
 		GenerateTriangles (triangles);
 
 		//POINTS
@@ -186,9 +197,11 @@ public class Flower : MonoBehaviour {
 
 				Vector3 point = dir * radius * segmentPointDistribution.Evaluate (ratio) * radiusOverTime.Evaluate(localTime);
 
-				point -=   dir * radius * closureForce.Evaluate(ratio) * closureForceCoef;
+				if (hasClosure)
+					point -=   dir * radius * closureForce.Evaluate(ratio) * closureForceCoef;
 
-				point += w * sideShape.Evaluate (ratio) * sideShapeCoef * sideShapeOverTime.Evaluate(localTime);
+				if (hasSideShape)
+					point += w * sideShape.Evaluate (ratio) * sideShapeCoef * sideShapeOverTime.Evaluate(localTime);
 					
 
 

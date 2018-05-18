@@ -30,6 +30,20 @@ public class PlantPartPanelManager : MonoBehaviour {
 		lastSelected = leaf.gameObject;
 	}
 
+	public void ToggleFlower()
+	{
+		lastSelected.SetActive (false);
+		flower.gameObject.SetActive (true);
+		lastSelected = flower.gameObject;
+	}
+
+	public void ToggleFruit()
+	{
+		lastSelected.SetActive (false);
+		fruit.gameObject.SetActive (true);
+		lastSelected = fruit.gameObject;
+	}
+
 
 	public void Initialize()
 	{

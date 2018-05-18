@@ -43,7 +43,7 @@ public class ParameterListManager : MonoBehaviour {
 			typeof(Leaf).GetProperty (propertyName).SetValue (plantPartPanelManager.targetedLeaf, value, null);
 			break;
 
-		case PlantPart.FLower:
+		case PlantPart.Flower:
 			typeof(Flower).GetProperty (propertyName).SetValue (plantPartPanelManager.targetedFlower, value, null);
 			break;
 

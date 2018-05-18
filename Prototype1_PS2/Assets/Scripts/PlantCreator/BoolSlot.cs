@@ -42,8 +42,27 @@ public class BoolSlot : DisplayParameter {
 		boolValue = toggle.isOn;
 		OnValueChange ();
 
-		for (int i = 0; i < dependentSlots.Length; i++) {
-			dependentSlots [i].gameObject.SetActive (boolValue);
+		if (boolValue) {
+			for (int i = 0; i < dependentSlots.Length; i++) {
+				dependentSlots [i].gameObject.SetActive (true);
+
+				RepartitionModeSlot rms = dependentSlots [i].GetComponent<RepartitionModeSlot> ();
+				if (rms) {
+					rms.TurnOn ();
+				}
+
+			}
+		} else {
+
+			for (int i = 0; i < dependentSlots.Length; i++) {
+
+				RepartitionModeSlot rms = dependentSlots [i].GetComponent<RepartitionModeSlot> ();
+				if (rms) {
+					rms.TurnOff ();
+				}
+
+				dependentSlots [i].gameObject.SetActive (false);
+			}
 		}
 
 	}

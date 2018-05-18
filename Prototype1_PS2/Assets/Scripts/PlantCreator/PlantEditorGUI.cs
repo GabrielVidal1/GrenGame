@@ -104,6 +104,6 @@ public enum PlantPart
 	Branch,
 	SubBranch,
 	Leaf,
-	FLower,
+	Flower,
 	Fruit
 }

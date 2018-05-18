@@ -18,6 +18,12 @@ public class RepartitionModeSlot : DisplayParameter {
 		base.Initialize (parameterListManager, index);
 
 		repartitionModeValue = defaultValue;
+		TurnOff ();
+
+	}
+
+	public void TurnOn()
+	{
 		if (repartitionModeValue == LeavesRepartitionMode.Number) {
 			numberButton.interactable = false;
 			densityButton.interactable = true;
@@ -37,7 +43,16 @@ public class RepartitionModeSlot : DisplayParameter {
 				numberSlots [i].gameObject.SetActive (false);
 			}
 		}
+	}
 
+	public void TurnOff()
+	{
+		for (int i = 0; i < densitySlots.Length; i++) {
+			densitySlots [i].gameObject.SetActive (false);
+		}
+		for (int i = 0; i < numberSlots.Length; i++) {
+			numberSlots [i].gameObject.SetActive (false);
+		}
 	}
 
 	public override object GetValue ()
