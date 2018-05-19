@@ -152,8 +152,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  length: 1
   initialDirection: {x: 0, y: 1, z: 0}
+  hasSideShape: 1
   sideShape:
     serializedVersion: 2
     m_Curve:
@@ -178,6 +178,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  sideShapeCoef: 1.51
   sideShapeOverTime:
     serializedVersion: 2
     m_Curve:
@@ -202,7 +203,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  sideShapeCoef: 1.51
+  hasClosure: 0
   closureForce:
     serializedVersion: 2
     m_Curve:

@@ -10,12 +10,10 @@ public class PlantCreatorMaterialManager : MonoBehaviour {
 
 	[SerializeField] private TextureSlot textureSlotPrefab;
 
-	[SerializeField] private PlantPartMat[] trunkMaterials;
-	[SerializeField] private PlantPartMat[] branchMaterials;
-	[SerializeField] private PlantPartMat[] subBranchMaterials;
-	[SerializeField] private PlantPartMat[] leafMaterials;
-	[SerializeField] private PlantPartMat[] flowerMaterials;
-	[SerializeField] private PlantPartMat[] fruitMaterials;
+	public PlantPartMat[] plantMaterials;
+	public PlantPartMat[] leafMaterials;
+	public PlantPartMat[] flowerMaterials;
+	public PlantPartMat[] fruitMaterials;
 
 	[SerializeField] private Transform trunkParameterList;
 	[SerializeField] private Transform branchParameterList;
@@ -59,9 +57,9 @@ public class PlantCreatorMaterialManager : MonoBehaviour {
 
 	public void InitializeMaterialLists()
 	{
-		for (int i = 0; i < trunkMaterials.Length; i++) {
+		for (int i = 0; i < plantMaterials.Length; i++) {
 
-			PlantPartMat p = trunkMaterials [i];
+			PlantPartMat p = plantMaterials [i];
 			TextureSlot ts = (TextureSlot)Instantiate (textureSlotPrefab, trunkParameterList);
 			ts.Initialize (p.textureName, p.albedo, PlantPart.Trunk, this, i);
 		}
@@ -80,18 +78,18 @@ public class PlantCreatorMaterialManager : MonoBehaviour {
 		switch (pp) {
 
 		case PlantPart.Trunk:
-			plantMat.mainTexture = trunkMaterials [index].albedo;
-			plantMat.SetTexture ("_BumpMap", trunkMaterials [index].albedo);
+			plantMat.mainTexture = plantMaterials [index].albedo;
+			plantMat.SetTexture ("_BumpMap", plantMaterials [index].albedo);
 			break;
 
 		case PlantPart.Branch:
-			branchMat.mainTexture = branchMaterials [index].albedo;
-			branchMat.SetTexture ("_BumpMap", branchMaterials [index].albedo);
+			branchMat.mainTexture = plantMaterials [index].albedo;
+			branchMat.SetTexture ("_BumpMap", plantMaterials [index].albedo);
 			break;
 
 		case PlantPart.SubBranch:
-			subBranchMat.mainTexture = subBranchMaterials [index].albedo;
-			subBranchMat.SetTexture ("_BumpMap", subBranchMaterials [index].albedo);
+			subBranchMat.mainTexture = plantMaterials [index].albedo;
+			subBranchMat.SetTexture ("_BumpMap", plantMaterials [index].albedo);
 			break;
 
 		case PlantPart.Leaf:
@@ -112,9 +110,17 @@ public class PlantCreatorMaterialManager : MonoBehaviour {
 	}
 }
 
+[System.Serializable]
 public struct PlantPartMat
 {
 	public string textureName;
 	public Texture albedo;
 	public Texture normal;
+
+	public PlantPartMat(string textureName, Texture albedo, Texture normal)
+	{
+		this.textureName = textureName;
+		this.normal = normal;
+		this.albedo = albedo;
+	}
 }

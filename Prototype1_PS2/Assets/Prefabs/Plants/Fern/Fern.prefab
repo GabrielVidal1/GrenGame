@@ -110,9 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 8
   plantTypeIndex: 0
-  plantSeed: 29
+  plantSeed: 0
   time: 1
   maxDuration: 22
   trunkGrowthDuration:
@@ -127,7 +126,6 @@ MonoBehaviour:
   initialForceCoef: 0
   nbOfSides: 12
   nbOfSegments: 3
-  initialRadius: 0.6
   initialDirection: {x: 0, y: 1, z: 0}
   initialNormal: {x: 0, y: 0, z: 0}
   sectionsPerUvUnit: 2

@@ -152,8 +152,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  length: 0
   initialDirection: {x: 0, y: 1, z: 0}
+  hasSideShape: 1
   sideShape:
     serializedVersion: 2
     m_Curve:
@@ -178,6 +178,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  sideShapeCoef: 0.09
   sideShapeOverTime:
     serializedVersion: 2
     m_Curve:
@@ -202,7 +203,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  sideShapeCoef: 0.09
+  hasClosure: 0
   closureForce:
     serializedVersion: 2
     m_Curve:
@@ -224,3 +225,7 @@ MonoBehaviour:
   closureForceCoef: 0
   flipTexture: 1
   textureSize: 1.015
+  hasAFruit: 0
+  fruit: {fileID: 0}
+  fruitGrowthDuration: 0
+  thisGrowthDuration: 0

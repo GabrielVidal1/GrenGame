@@ -95,15 +95,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 5
   plantTypeIndex: 3
-  plantSeed: 240
+  plantSeed: 2
   time: 1
-  maxDuration: 6.299224
+  maxDuration: 7.2933526
   trunkGrowthDuration:
     min: 1
     max: 3
-  offsetTangents: 0
+  offsetTangents: 1
   smooth: 1
   smoothCoef: 0.426
   noise: 1
@@ -112,7 +111,6 @@ MonoBehaviour:
   initialForceCoef: 0
   nbOfSides: 5
   nbOfSegments: 10
-  initialRadius: 0.05
   initialDirection: {x: 0, y: 1, z: 0}
   initialNormal: {x: 0, y: 0, z: 0}
   sectionsPerUvUnit: 1
@@ -496,6 +494,20 @@ MonoBehaviour:
     min: 0
     max: 0
   leafChanceOfBeingFlower: 0
+  hasFruits: 0
+  fruitPrefab: {fileID: 0}
+  fruitRepartitionMode: 0
+  fruitNumber: 0
+  fruttiFlowersRatio: 0
+  fruitSize:
+    min: 0
+    max: 0
+  fruitGrowthDuration:
+    min: 0
+    max: 0
+  fruitSequence: 0
+  parent: {fileID: 0}
+  placedFruits: 0
   isBranch: 0
   indexInGameData: 0
 --- !u!114 &114519267123252776

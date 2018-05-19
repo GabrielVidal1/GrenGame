@@ -23,12 +23,9 @@ public class TextureSlot : MonoBehaviour {
 		plantCreatorMaterialManager = PCMM;
 	}
 
-	void OnClick()
+	public void OnClick()
 	{
-
-
-
-
+		plantCreatorMaterialManager.ChangeTexture (index, plantPart);
 	}
 
 
