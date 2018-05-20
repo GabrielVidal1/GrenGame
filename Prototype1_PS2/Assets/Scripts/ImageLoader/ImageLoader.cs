@@ -6,13 +6,22 @@ public class ImageLoader : MonoBehaviour {
 
 	[SerializeField] private PlantCreatorMaterialManager plantCreatorMaterialManager;
 
-	void Start () 
+	[SerializeField] private Vector2 plantsTextureSize;
+	[SerializeField] private Vector2 leavesTextureSize;
+	[SerializeField] private Vector2 flowersTextureSize;
+	[SerializeField] private Vector2 fruitsTextureSize;
+
+
+
+	public void LoadTextures()
 	{
-		StartCoroutine (LoadTextures());
+		StartCoroutine (_LoadTextures ());
 	}
 
-	public IEnumerator LoadTextures()
+
+	IEnumerator _LoadTextures()
 	{
+		Vector2[] textureSizes = new [] { plantsTextureSize, leavesTextureSize, flowersTextureSize, fruitsTextureSize };
 
 		string mainPath = Application.persistentDataPath + "/Textures/";
 
@@ -45,7 +54,8 @@ public class ImageLoader : MonoBehaviour {
 			for (int j = 0; j < paths.Length; j++) 
 			{
 
-				string textureName = paths [i].Substring (paths [i].LastIndexOf ("_") + 1, paths [i].Length - paths [i].LastIndexOf ("_") - 5);
+				Debug.Log ("Loading '" + paths [j] + "'");
+				string textureName = paths [j].Substring (paths [j].LastIndexOf ("_") + 1, paths [j].Length - paths [j].LastIndexOf ("_") - 5);
 				Debug.Log (textureName);
 
 				string normalPath = path + folderNames [i] + "Texture_normal_" + textureName + ".png";
@@ -58,16 +68,17 @@ public class ImageLoader : MonoBehaviour {
 					hasNormalMap = true;
 				}
 
-				WWW w = new WWW (paths[i]);
+				WWW w = new WWW (paths[j]);
 
 				yield return w;
 
-				Texture2D texture = new Texture2D (512, 512);
+				Texture2D texture = new Texture2D ((int)textureSizes[i].x, (int)textureSizes[i].y, TextureFormat.ARGB32, true);
 				Texture2D normal = null;
 
-				if (hasNormalMap)
+				if (hasNormalMap) {
+					normal = new Texture2D ((int)textureSizes[i].x, (int)textureSizes[i].y, TextureFormat.ARGB32, true);
 					normalW.LoadImageIntoTexture (normal);
-
+				}
 				w.LoadImageIntoTexture (texture);
 				switch (folderNames [i]) {
 				case "Flowers":
@@ -88,11 +99,12 @@ public class ImageLoader : MonoBehaviour {
 					break;
 				}
 
-				Debug.Log ("Loaded Texture " + paths [i]);
+				Debug.Log ("Loaded Texture " + paths [j]);
 			}
 		}
 
 		Debug.Log ("Done Loading Textures");
+		plantCreatorMaterialManager.Initialize ();
 	}
 
 

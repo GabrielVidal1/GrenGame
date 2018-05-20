@@ -19,8 +19,17 @@ public class TextureSlot : MonoBehaviour {
 		this.plantPart = plantPart;
 		rawImage.texture = texture;
 
-		this.textureName.text = textureName;
+		this.textureName.text = DisplayParameter.NicifyName(textureName);
 		plantCreatorMaterialManager = PCMM;
+
+		if (plantPart == PlantPart.Leaf) {
+			rawImage.rectTransform.rotation = Quaternion.Euler (0f, 0f, 90f);
+		}
+
+		if (plantPart == PlantPart.Flower) {
+			rawImage.rectTransform.sizeDelta = new Vector2 (rawImage.rectTransform.sizeDelta.x, rawImage.rectTransform.sizeDelta.y * 2f);
+			rawImage.rectTransform.localPosition = new Vector3 (0f, 107f, 0f);
+		}
 	}
 
 	public void OnClick()

@@ -16,6 +16,8 @@ public class PlantPartPanelManager : MonoBehaviour {
 
 	private GameObject lastSelected;
 
+	public PlantCreatorMaterialManager plantCreatorMaterialManager;
+
 	public void TogglePlant()
 	{
 		lastSelected.SetActive (false);
@@ -44,9 +46,27 @@ public class PlantPartPanelManager : MonoBehaviour {
 		lastSelected = fruit.gameObject;
 	}
 
+	public void RemakeLinks()
+	{
+		targetedPlant.branchPrefab = targetedBranch;
+		targetedPlant.leafPrefab = targetedLeaf;
+		targetedPlant.flowerPrefab = targetedFlower;
+		targetedPlant.fruitPrefab = targetedFruit;
+
+		targetedBranch.branchPrefab = targetedSubBranch;
+		targetedBranch.leafPrefab = targetedLeaf;
+		targetedBranch.flowerPrefab = targetedFlower;
+		targetedBranch.fruitPrefab = targetedFruit;
+
+		targetedSubBranch.leafPrefab = targetedLeaf;
+		targetedSubBranch.flowerPrefab = targetedFlower;
+		targetedSubBranch.fruitPrefab = targetedFruit;
+
+	}
 
 	public void Initialize()
 	{
+		RemakeLinks ();
 
 		plant.Initialize (this);
 		leaf.Initialize (this);

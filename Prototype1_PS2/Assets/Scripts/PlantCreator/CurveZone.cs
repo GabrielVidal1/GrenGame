@@ -59,7 +59,7 @@ public class CurveZone : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDra
 
 	public void UpdateCurve()
 	{
-		Debug.Log ("Update curve");
+		//Debug.Log ("Update curve");
 		int height = (int)(rHeight / 4f);
 		int width = (int)(rWidth / 4f);
 

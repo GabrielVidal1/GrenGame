@@ -18,7 +18,7 @@ public class Plant : MonoBehaviour{
 
 	#region EDITOR VARIABLES
 
-	private float plantLength;
+	public float plantLength;
 	public float PlantLenght
 	{
 		get {return plantLength;}
@@ -36,7 +36,7 @@ public class Plant : MonoBehaviour{
 
 	#region PUBLIC VARIABLES
 
-	private int pointValue;
+	public int pointValue;
 	public int PointValue { get; set; }
 
 	public int plantTypeIndex;
@@ -87,7 +87,7 @@ public class Plant : MonoBehaviour{
 		set { nbOfSegments = value;
 			finalSegmentLength = plantLength / (float)nbOfSegments;} }
 
-	private float initialRadius;
+	public float initialRadius;
 	public float InitialRadius 
 	{ get { return initialRadius; } set { initialRadius = value; } }
 
@@ -949,7 +949,7 @@ public class Plant : MonoBehaviour{
 
 						thing.leaf.time = leafGrowthOverTime.Evaluate (localTime);
 					} else {
-						//Debug.Log (absolutTime + "    " + thing.birthDate + "      " + thing.growthDuration);
+						Debug.Log (absolutTime + "    " + thing.birthDate + "      " + thing.growthDuration);
 						localTime = Mathf.Min(1f, flowerGrowthOverTime.Evaluate ((absolutTime - thing.birthDate) / thing.growthDuration));
 						//Debug.Log (localTime);
 						thing.flower.time = flowerGrowthOverTime.Evaluate (localTime);

@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\gvida\.Rider2017.2\system\resharper-host\local\Transient\ReSharperHost\v10\SolutionCaches\_Prototype1_PS2.-1558763701.00" t="ExcludeRecursive" />
-    <e p="D:\PROJET S2\PROJET-S2\Prototype1_PS2" t="IncludeRecursive">
+    <e p="C:\Users\gvida\.Rider2017.2\system\resharper-host\local\Transient\ReSharperHost\v10\SolutionCaches\_Prototype1_PS2.-1943629494.00" t="ExcludeRecursive" />
+    <e p="D:\PROJET_S2\PROJET-S2\Prototype1_PS2" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="MainMainMenu.cs" t="Include" />
+        <e p="Plant Editor" t="Include">
+          <e p="Scripts" t="Include">
+            <e p="Editor" t="Include">
+              <e p="ManipulationNodeEditor.cs" t="Include" />
+            </e>
+            <e p="ManipulationNode.cs" t="Include" />
+            <e p="PlantModifier.cs" t="Include" />
+            <e p="ShapeEditionMode.cs" t="Include" />
+          </e>
+        </e>
         <e p="Plugins" t="Include">
           <e p="Editor" t="Include">
             <e p="JetBrains" t="Include">
@@ -435,20 +446,39 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
+          <e p="DayNight realtime cycle" t="Include">
+            <e p="Daynight.cs" t="Include" />
+          </e>
+          <e p="DoorAndZones" t="Include">
+            <e p="Door.cs" t="Include" />
+            <e p="Zone.cs" t="Include" />
+            <e p="ZoneAndDoorManager.cs" t="Include" />
+          </e>
           <e p="Editor" t="Include">
+            <e p="DoorAndZonesEditor.cs" t="Include" />
+            <e p="FlowerEditor.cs" t="Include" />
+            <e p="FruitEditor.cs" t="Include" />
             <e p="Instant Screenshot" t="Include">
               <e p="ScreenshotTaker.cs" t="Include" />
             </e>
             <e p="IntervalPropertyDrawer.cs" t="Include" />
             <e p="LeafEditor.cs" t="Include" />
+            <e p="MossEditor.cs" t="Include" />
             <e p="OLD" t="Include">
               <e p="CollisionCurveEditor.cs" t="Include" />
               <e p="ExampleClass.cs" t="Include" />
               <e p="PlantGenerationEditor.cs" t="Include" />
             </e>
             <e p="PlantEditor.cs" t="Include" />
+            <e p="PlantEditorGUIEditor.cs" t="Include" />
+            <e p="PlantManagerEditor.cs" t="Include" />
+            <e p="PlantSeedEditor.cs" t="Include" />
           </e>
           <e p="GameManager.cs" t="Include" />
+          <e p="ImageLoader" t="Include">
+            <e p="ImageLoader.cs" t="Include" />
+          </e>
+          <e p="InputManager.cs" t="Include" />
           <e p="Misc" t="Include">
             <e p="Interval.cs" t="Include" />
             <e p="Noise3D.cs" t="Include" />
@@ -456,16 +486,48 @@
           <e p="Multiplayer" t="Include">
             <e p="CustomNetworkManager.cs" t="Include" />
           </e>
+          <e p="Pickup" t="Include">
+            <e p="Pickup.cs" t="Include" />
+            <e p="PlantSeed.cs" t="Include" />
+          </e>
           <e p="Plant" t="Include">
+            <e p="Flower.cs" t="Include" />
+            <e p="Fruit.cs" t="Include" />
             <e p="Leaf.cs" t="Include" />
+            <e p="Moss.cs" t="Include" />
             <e p="OLD" t="Include">
               <e p="CollisionCurve.cs" t="Include" />
               <e p="PlantGeneration.cs" t="Include" />
               <e p="SplinePath.cs" t="Include" />
             </e>
             <e p="Plant.cs" t="Include" />
+            <e p="PlantInformation.cs" t="Include" />
             <e p="PlantSerializer.cs" t="Include" />
             <e p="TreeGrowth.cs" t="Include" />
+          </e>
+          <e p="PlantCreator" t="Include">
+            <e p="BoolSlot.cs" t="Include" />
+            <e p="CameraManipulation.cs" t="Include" />
+            <e p="ClickAndHoldButton.cs" t="Include" />
+            <e p="CurvePresetButton.cs" t="Include" />
+            <e p="CurveSlot.cs" t="Include" />
+            <e p="CurveZone.cs" t="Include" />
+            <e p="CurveZoneEditor.cs" t="Include" />
+            <e p="DisplayedCurve.cs" t="Include" />
+            <e p="DisplayParameter.cs" t="Include" />
+            <e p="FileMenu.cs" t="Include" />
+            <e p="FloatSlot.cs" t="Include" />
+            <e p="IntervalSlot.cs" t="Include" />
+            <e p="IntSlot.cs" t="Include" />
+            <e p="MasterPanelsManager.cs" t="Include" />
+            <e p="ParameterListManager.cs" t="Include" />
+            <e p="PlantCreatorMaterialManager.cs" t="Include" />
+            <e p="PlantEditorGUI.cs" t="Include" />
+            <e p="PlantPartPanelManager.cs" t="Include" />
+            <e p="PlantPartSelector.cs" t="Include" />
+            <e p="RepartitionModeSlot.cs" t="Include" />
+            <e p="TextureSlot.cs" t="Include" />
+            <e p="Vector3Slot.cs" t="Include" />
           </e>
           <e p="PlantManager.cs" t="Include" />
           <e p="Player" t="Include">
@@ -478,17 +540,41 @@
               </e>
             </e>
             <e p="Player.cs" t="Include" />
+            <e p="PlayerInteract.cs" t="Include" />
+            <e p="PlayerInventory.cs" t="Include" />
             <e p="PlayerPlanter.cs" t="Include" />
           </e>
           <e p="UI" t="Include">
             <e p="InGameMenu.cs" t="Include" />
+            <e p="Inventory" t="Include">
+              <e p="PlayerInventoryGrid.cs" t="Include" />
+              <e p="PlayerInventorySlot.cs" t="Include" />
+            </e>
+            <e p="mainMenu.cs" t="Include" />
             <e p="MultiplayerMenu.cs" t="Include" />
+            <e p="SeedSelection" t="Include">
+              <e p="SeedSelectionSlot.cs" t="Include" />
+              <e p="SeedSelectionWheel.cs" t="Include" />
+            </e>
             <e p="UI Kenji" t="Include">
               <e p="CanvasManager.cs" t="Include" />
-              <e p="mainMenu.cs" t="Include" />
               <e p="optionsMenu.cs" t="Include" />
             </e>
+            <e p="WorldSelectionPanel" t="Include">
+              <e p="WorldButton.cs" t="Include" />
+              <e p="WorldListContent.cs" t="Include" />
+              <e p="WorldPlayButton.cs" t="Include" />
+              <e p="WorldSelectionPanel.cs" t="Include" />
+            </e>
           </e>
+          <e p="World" t="Include">
+            <e p="WorldSerialization.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Shader" t="Include">
+          <e p="MossTest.shader" t="Include" />
+          <e p="MossTest2.shader" t="Include" />
+          <e p="MossTest3.shader" t="Include" />
         </e>
         <e p="TextMesh Pro" t="Include">
           <e p="Examples &amp; Extras" t="Include">

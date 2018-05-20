@@ -44,7 +44,7 @@ public class DisplayParameter : MonoBehaviour {
 		indexInPlantEditorManager = index;
 
 
-		parameterNameUI.text = NicifyName(parameterName);
+		parameterNameUI.text = DisplayParameter.NicifyName(parameterName);
 	}
 
 	public void OnValueChange()
@@ -62,7 +62,7 @@ public class DisplayParameter : MonoBehaviour {
 
 	}
 
-	public string NicifyName(string variableName)
+	public static string NicifyName(string variableName)
 	{
 		if (variableName.Length > 0) {
 			string result = variableName [0].ToString ();
