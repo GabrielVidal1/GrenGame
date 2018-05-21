@@ -17,6 +17,23 @@ public class PlantPartSelector : MonoBehaviour {
 		get { return selection; }
 	}
 
+	public void ForceSelect(PlantPart part)
+	{
+		selection = part;
+		switch(part)
+		{
+		case PlantPart.Trunk:
+			SelectTrunk ();
+			return;
+		case PlantPart.Branch:
+			SelectBranch();
+			return;
+		case PlantPart.SubBranch:
+			SelectSubBranch();
+			return;
+		}
+	}
+
 	public void Initialize()
 	{
 		lastSelected = trunkButton;

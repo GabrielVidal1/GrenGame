@@ -37,9 +37,9 @@ public class FloatSlot : DisplayParameter {
 		return floatValue;
 	}
 
-	public override void Initialize (ParameterListManager parameterListManager, int index)
+	public override void Initialize(ParameterListManager parameterListManager)
 	{
-		base.Initialize (parameterListManager, index);
+		base.Initialize (parameterListManager);
 
 		floatValue = defaultValue;
 		slider.value = floatValue;

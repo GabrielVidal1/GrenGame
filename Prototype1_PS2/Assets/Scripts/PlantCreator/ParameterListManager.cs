@@ -8,10 +8,10 @@ public class ParameterListManager : MonoBehaviour {
 
 
 
-	private DisplayParameter[] parametersSlots;
 	private PlantPartPanelManager plantPartPanelManager;
 
 	[SerializeField] private Transform content;
+	[SerializeField] private ContentHeightAdapter contentParent;
 
 	public void Initialize(PlantPartPanelManager plantPartPanelManager)
 	{
@@ -20,11 +20,9 @@ public class ParameterListManager : MonoBehaviour {
 	}
 
 
-	public void UpdatePlant(int parametersSlotsIndex, PlantPart pp)
+	public void UpdatePlant(string propertyName, object value, PlantPart pp)
 	{
-		string propertyName = parametersSlots [parametersSlotsIndex].parameterName;
-
-		object value = parametersSlots [parametersSlotsIndex].GetValue();
+		//Debug.Log (propertyName);
 
 		switch (pp) {
 		case PlantPart.Trunk:
@@ -58,21 +56,14 @@ public class ParameterListManager : MonoBehaviour {
 
 	public void InitializeParameterList()
 	{
-
-		parametersSlots = new DisplayParameter[content.childCount];
-
-		int index = 0;
 		for (int i = 0; i < content.childCount; i++) {
 			DisplayParameter d = content.GetChild (i).GetComponent<DisplayParameter> ();
 			if (d != null) {
-				parametersSlots [index] = d;
-				index += 1;
+				d.Initialize (this);
+				//Debug.Log ("init : " + d.name);
 			}
 		}
 
-
-		for (int i = 0; i < index; i++) {
-			parametersSlots [i].Initialize(this, i);
-		}
+		contentParent.Init ();
 	}
 }

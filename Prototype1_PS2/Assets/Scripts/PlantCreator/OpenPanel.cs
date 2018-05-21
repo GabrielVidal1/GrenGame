@@ -9,6 +9,7 @@ public class OpenPanel : MonoBehaviour {
 
 	[SerializeField] private Transform plantListParent;
 	[SerializeField] private PlantSerializer plantSerializer;
+	[SerializeField] private FileMenu fileMenu;
 
 	public void Open()
 	{
@@ -31,10 +32,10 @@ public class OpenPanel : MonoBehaviour {
 		}
 	}
 
-	public void LoadPlant(string path)
+	public void LoadPlant(string path, string plantName)
 	{
 		plantSerializer.UnserializePlant (path, plantPartPanelManager);
-
+		fileMenu.SetName (plantName);
 		Close ();
 	}
 

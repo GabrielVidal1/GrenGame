@@ -74,8 +74,9 @@ public class PlantSerializer : MonoBehaviour {
 			JsonUtility.FromJsonOverwrite(test.fruit, PPPM.targetedFruit);
 
 			PPPM.plantCreatorMaterialManager.ChangeTexture (test.trunkMatIndex, PlantPart.Trunk);
-			PPPM.plantCreatorMaterialManager.ChangeTexture (test.branchMatIndex, PlantPart.Branch);
-			PPPM.plantCreatorMaterialManager.ChangeTexture (test.subBranchMatIndex, PlantPart.SubBranch);
+
+			PPPM.plantCreatorMaterialManager.ChangeTexture (test.branchMatIndex, PlantPart.Branch, true);
+			PPPM.plantCreatorMaterialManager.ChangeTexture (test.subBranchMatIndex, PlantPart.SubBranch, true);
 			PPPM.plantCreatorMaterialManager.ChangeTexture (test.leafMatIndex, PlantPart.Leaf);
 			PPPM.plantCreatorMaterialManager.ChangeTexture (test.flowerMatIndex, PlantPart.Flower);
 			PPPM.plantCreatorMaterialManager.ChangeTexture (test.fruitMatIndex, PlantPart.Fruit);

@@ -196,29 +196,61 @@ public class Plant : MonoBehaviour{
 
 	//RECURSIONS
 	public bool hasRecursions;
+	public bool HasRecursions
+	{ get { return hasRecursions; } set { hasRecursions = value;
+			DestroyChilds ();} }
+
 	public Plant branchPrefab;
 
 	public float brancheAngleDelta;
+	public float BrancheAngleDelta
+	{ get { return brancheAngleDelta; } set { brancheAngleDelta = value; } }
 
 	public int nbOfBranches;
+	public int NbOfBranches
+	{ get { return nbOfBranches; } set { nbOfBranches = value; } }
+
 	public AnimationCurve branchesDistribution;
+	public AnimationCurve BranchesDistribution
+	{ get { return branchesDistribution; } set { branchesDistribution = value; } }
 
 	public AnimationCurve branchBirthDateDistribution;
 
 	public AnimationCurve branchesDistributionOverLength;
+	public AnimationCurve BranchesDistributionOverLength
+	{ get { return branchesDistributionOverLength; } set { branchesDistributionOverLength = value; } }
 
 	public Interval branchGrowthDuration;
+	public Interval BranchGrowthDuration
+	{ get { return branchGrowthDuration; } set { branchGrowthDuration = value; } }
+
 
 	public bool brancheIndependentRadius;
+
 	public Interval branchInitialRadiusMultiplier;
+	public Interval BranchInitialRadiusMultiplier
+	{ get { return branchInitialRadiusMultiplier; } set { branchInitialRadiusMultiplier = value; } }
+
 
 
 	public AnimationCurve branchesTangencityOverLength;
+	public AnimationCurve BranchesTangencityOverLength
+	{ get { return branchesTangencityOverLength; } set { branchesTangencityOverLength = value; } }
+
 	public bool branchesOnlyOnSections;
+	public bool BranchesOnlyOnSections
+	{ get { return branchesOnlyOnSections; } set { branchesOnlyOnSections = value; } }
+
 	public AnimationCurve branchLengthOverTrunkLength;
+	public AnimationCurve BranchLengthOverTrunkLength
+	{ get { return branchLengthOverTrunkLength; } set { branchLengthOverTrunkLength = value; } }
+
 
 	public bool brancheIndependentLength;
+
 	public Interval brancheLengthRatio;
+	public Interval BrancheLengthRatio
+	{ get { return brancheLengthRatio; } set { brancheLengthRatio = value; } }
 
 	//FLOWERS
 	public bool hasFlowers;
@@ -243,6 +275,10 @@ public class Plant : MonoBehaviour{
 	public Interval flowerGrowthDuration;
 	public Interval FlowerGrowthDuration
 	{ get { return flowerGrowthDuration; } set { flowerGrowthDuration = value; } }
+
+	public AnimationCurve flowerSizeOverLength;
+	public AnimationCurve FlowerSizeOverLength
+	{ get { return flowerSizeOverLength; } set { flowerSizeOverLength = value; } }
 
 	public Interval flowerSize;
 	public Interval FlowerSize
@@ -299,6 +335,13 @@ public class Plant : MonoBehaviour{
 		}
 	}
 
+
+	void DestroyChilds()
+	{
+		for (int i = 0; i < transform.childCount; i++) {
+			Destroy (transform.GetChild (i).gameObject);
+		}
+	}
 
 
 	#endregion
@@ -893,7 +936,8 @@ public class Plant : MonoBehaviour{
 
 					birthDate = Mathf.Lerp (ValueAt (trunkTimeOverTime, lengthRatio) * maxDuration, maxDuration - growthDuration, flowersBirthdateDistribution.Evaluate (Random.value));
 
-					flower.transform.localScale *= flowerSize.RandomValue ();
+					flower.transform.localScale *= 
+						flowerSize.RandomValue () * flowerSizeOverLength.Evaluate (lengthRatio);
 
 					flower.time = 0f;
 

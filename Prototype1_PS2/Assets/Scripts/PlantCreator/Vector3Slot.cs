@@ -29,9 +29,9 @@ public class Vector3Slot : DisplayParameter {
 		return vector3Value;
 	}
 
-	public override void Initialize (ParameterListManager parameterListManager, int index)
+	public override void Initialize(ParameterListManager parameterListManager)
 	{
-		base.Initialize (parameterListManager, index);
+		base.Initialize (parameterListManager);
 
 		vector3Value = defaultValue;
 

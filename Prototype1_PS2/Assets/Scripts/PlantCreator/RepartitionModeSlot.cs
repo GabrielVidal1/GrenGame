@@ -13,9 +13,9 @@ public class RepartitionModeSlot : DisplayParameter {
 
 	[SerializeField] private DisplayParameter[] densitySlots, numberSlots;
 
-	public override void Initialize (ParameterListManager parameterListManager, int index)
+	public virtual void Initialize(ParameterListManager parameterListManager)
 	{
-		base.Initialize (parameterListManager, index);
+		base.Initialize (parameterListManager);
 
 		repartitionModeValue = defaultValue;
 		TurnOff ();

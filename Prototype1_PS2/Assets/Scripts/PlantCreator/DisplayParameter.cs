@@ -14,8 +14,6 @@ public class DisplayParameter : MonoBehaviour {
 
 	[SerializeField] protected TMP_Text parameterNameUI;
 
-	private int indexInPlantEditorManager;
-
 	private ParameterListManager parameterListManager;
 
 	[SerializeField] private PlantPart concernedPart;
@@ -34,15 +32,13 @@ public class DisplayParameter : MonoBehaviour {
 	*/
 	public virtual object GetValue()
 	{
-
+		Debug.Log ("C'EST IMPOSSIBLE DE FAIRE CA");
 		return null;
 	}
 
-	public virtual void Initialize(ParameterListManager parameterListManager, int index)
+	public virtual void Initialize(ParameterListManager parameterListManager)
 	{
 		this.parameterListManager = parameterListManager;
-		indexInPlantEditorManager = index;
-
 
 		parameterNameUI.text = DisplayParameter.NicifyName(parameterName);
 	}
@@ -50,7 +46,7 @@ public class DisplayParameter : MonoBehaviour {
 	public void OnValueChange()
 	{
 		if (parameterListManager != null) {
-			parameterListManager.UpdatePlant (indexInPlantEditorManager, concernedPart);
+			parameterListManager.UpdatePlant (parameterName, GetValue(), concernedPart);
 
 		}
 	}

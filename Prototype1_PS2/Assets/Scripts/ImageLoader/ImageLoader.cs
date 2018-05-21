@@ -54,9 +54,9 @@ public class ImageLoader : MonoBehaviour {
 			for (int j = 0; j < paths.Length; j++) 
 			{
 
-				Debug.Log ("Loading '" + paths [j] + "'");
+				//Debug.Log ("Loading '" + paths [j] + "'");
 				string textureName = paths [j].Substring (paths [j].LastIndexOf ("_") + 1, paths [j].Length - paths [j].LastIndexOf ("_") - 5);
-				Debug.Log (textureName);
+				//Debug.Log (textureName);
 
 				string normalPath = path + folderNames [i] + "Texture_normal_" + textureName + ".png";
 
@@ -99,7 +99,7 @@ public class ImageLoader : MonoBehaviour {
 					break;
 				}
 
-				Debug.Log ("Loaded Texture " + paths [j]);
+				//Debug.Log ("Loaded Texture " + paths [j]);
 			}
 		}
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class FileMenu : MonoBehaviour {
 
@@ -14,6 +16,10 @@ public class FileMenu : MonoBehaviour {
 	[SerializeField] private OpenPanel openPanel;
 
 	[SerializeField] private PlantSerializer plantSerializer;
+
+	[SerializeField] private TMP_InputField plantNameInputField;
+
+	[SerializeField] private string mainMenuSceneName;
 
 	public bool unsavedChanges;
 
@@ -35,11 +41,15 @@ public class FileMenu : MonoBehaviour {
 		return true;
 	}
 
-
+	public void SetName(string name)
+	{
+		plantNameInputField.text = name;
+	}
 
 	void Start()
 	{
 		Initialize ();
+		plantNameInputField.text = plantPartPanelManager.targetedPlant.name;
 	}
 
 
@@ -75,7 +85,7 @@ public class FileMenu : MonoBehaviour {
 	public void SavePlant()
 	{
 		Debug.Log ("Save Plant");
-		plantSerializer.SerializePlant (plantPartPanelManager, plantPartPanelManager.targetedPlant.name);
+		plantSerializer.SerializePlant (plantPartPanelManager, plantNameInputField.text);
 	}
 
 	public void OpenPlant()
@@ -99,7 +109,7 @@ public class FileMenu : MonoBehaviour {
 	{
 		Debug.Log ("Quit");
 
-
+		SceneManager.LoadScene (mainMenuSceneName);
 
 
 

@@ -23,9 +23,9 @@ public class IntervalSlot : DisplayParameter {
 		return intervalValue;
 	}
 
-	public override void Initialize (ParameterListManager parameterListManager, int index)
+	public override void Initialize(ParameterListManager parameterListManager)
 	{
-		base.Initialize (parameterListManager, index);
+		base.Initialize (parameterListManager);
 
 		intervalValue = defaultValue;
 		OnValueChange ();

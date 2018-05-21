@@ -20,6 +20,6 @@ public class OpenPanelSlot : MonoBehaviour {
 
 	public void LoadPlant()
 	{
-		openPanel.LoadPlant (path);
+		openPanel.LoadPlant (path, plantName.text);
 	}
 }

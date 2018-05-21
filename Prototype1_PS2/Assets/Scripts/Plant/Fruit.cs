@@ -11,21 +11,38 @@ public class Fruit : PlantSeed {
 	public float time = 1f;
 
 	public float radius = 0.1f;
+	public float Radius
+	{ get { return radius; } set { radius = value; } }
+
 	public AnimationCurve radiusOverLength;
+	public AnimationCurve RadiusOverLength
+	{ get { return radiusOverLength; } set { radiusOverLength = value; } }
+
+
 	public AnimationCurve radiusOverTime;
 	public AnimationCurve radiusOverAngle;
 
 
 	public float length = 1f;
+	public float Length
+	{ get { return length; } set { length = value; } }
+
+
 	public AnimationCurve lengthOverTime;
 
 	[Range(3, 20)]
 	public int nbOfSides = 3;
+	public int NbOfSides
+	{ get { return nbOfSides; } set { nbOfSides = value; } }
+
 
 	[Range(2, 20)]
 	public int nbOfSections = 3;
+	public int NbOfSections
+	{ get { return nbOfSections; } set { nbOfSections = value; } }
+
 	public AnimationCurve segmentPointDistribution;
-	public Vector3 initialDirection;
+	public Vector3 initialDirection = Vector3.up;
 
 	[Range(0f, 1f)]
 	public float textureOffset = 1f;

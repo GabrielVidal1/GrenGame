@@ -53,9 +53,9 @@ public class CurveSlot : DisplayParameter {
 	}
 
 
-	public override void Initialize (ParameterListManager parameterListManager, int index)
+	public override void Initialize(ParameterListManager parameterListManager)
 	{
-		base.Initialize (parameterListManager, index);
+		base.Initialize (parameterListManager);
 		rectTransform = GetComponent<RectTransform> ();
 
 		curveBox.SetActive (true);

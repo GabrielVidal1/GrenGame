@@ -22,9 +22,9 @@ public class BoolSlot : DisplayParameter {
 		return boolValue;
 	}
 
-	public override void Initialize (ParameterListManager parameterListManager, int index)
+	public override void Initialize(ParameterListManager parameterListManager)
 	{
-		base.Initialize (parameterListManager, index);
+		base.Initialize (parameterListManager);
 		boolValue = defaultValue;
 
 		toggle.isOn = boolValue;

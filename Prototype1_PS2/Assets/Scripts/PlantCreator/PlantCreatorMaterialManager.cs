@@ -133,8 +133,15 @@ public class PlantCreatorMaterialManager : MonoBehaviour {
 	}
 
 
-	public void ChangeTexture(int index, PlantPart pp)
+	public void ChangeTexture(int index, PlantPart pp, bool forceInit = false)
 	{
+		if (forceInit) {
+			plantPartSelector.ForceSelect (pp);
+			pp = PlantPart.Trunk;
+		}
+
+		//Debug.Log (pp + "   " + plantPartSelector.SelectedPlantPart);
+
 		switch (pp) {
 
 		case PlantPart.Trunk:
