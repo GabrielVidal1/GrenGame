@@ -95,11 +95,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantLength: 0
   pointValue: 3
   plantTypeIndex: 6
-  plantSeed: 0
+  plantSeed: 10
   time: 1
-  maxDuration: 10.746149
+  maxDuration: 11.925377
   trunkGrowthDuration:
     min: 1
     max: 5
@@ -413,17 +414,61 @@ MonoBehaviour:
     m_RotationOrder: 4
   flowersBirthdateDistribution:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   flowerGrowthDuration:
     min: 1
     max: 5
+  flowerSizeOverLength:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   flowerSize:
     min: 0.5
     max: 1.5
   leafChanceOfBeingFlower: 0.39
+  hasFruits: 0
+  fruitPrefab: {fileID: 0}
+  fruitRepartitionMode: 0
+  fruitNumber: 0
+  fruttiFlowersRatio: 0
+  fruitSize:
+    min: 0
+    max: 0
+  fruitGrowthDuration:
+    min: 0
+    max: 0
+  fruitSequence: 0
+  parent: {fileID: 0}
+  placedFruits: 0
   isBranch: 0
   indexInGameData: 0
 --- !u!114 &114622134460659598

@@ -98,7 +98,7 @@ MonoBehaviour:
   growthSpeed: 0.05
   updateRate: 2
   hasMoss: 1
-  mossRadius: 2.24
+  mossRadius: 5
 --- !u!114 &114938343243396726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,8 +110,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantLength: 0
+  pointValue: 0
   plantTypeIndex: 0
-  plantSeed: 0
+  plantSeed: 7
   time: 1
   maxDuration: 22
   trunkGrowthDuration:
@@ -126,6 +128,7 @@ MonoBehaviour:
   initialForceCoef: 0
   nbOfSides: 12
   nbOfSegments: 3
+  initialRadius: 0.46
   initialDirection: {x: 0, y: 1, z: 0}
   initialNormal: {x: 0, y: 0, z: 0}
   sectionsPerUvUnit: 2
@@ -256,7 +259,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   initialSegmentLength: 0.34
-  finalSegmentLength: 0.01
+  finalSegmentLength: 0.1
   lengthOverTime:
     serializedVersion: 2
     m_Curve:
@@ -517,6 +520,24 @@ MonoBehaviour:
   flowerGrowthDuration:
     min: 5
     max: 9
+  flowerSizeOverLength:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   flowerSize:
     min: 0.9
     max: 1.1
