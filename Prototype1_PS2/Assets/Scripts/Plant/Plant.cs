@@ -993,7 +993,7 @@ public class Plant : MonoBehaviour{
 
 						thing.leaf.time = leafGrowthOverTime.Evaluate (localTime);
 					} else {
-						Debug.Log (absolutTime + "    " + thing.birthDate + "      " + thing.growthDuration);
+						//Debug.Log (absolutTime + "    " + thing.birthDate + "      " + thing.growthDuration);
 						localTime = Mathf.Min(1f, flowerGrowthOverTime.Evaluate ((absolutTime - thing.birthDate) / thing.growthDuration));
 						//Debug.Log (localTime);
 						thing.flower.time = flowerGrowthOverTime.Evaluate (localTime);
