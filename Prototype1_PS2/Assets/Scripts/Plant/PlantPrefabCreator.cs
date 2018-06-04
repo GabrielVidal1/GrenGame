@@ -17,25 +17,120 @@ public class PlantPrefabCreator : MonoBehaviour {
 	public Material[] flowerMaterials;
 	public Material[] fruitMaterials;
 
-	public GameObject GameObjectWithRenderer(string name)
+	public Dictionary<string, int>[] materialnNamesToIndexes;
+
+	private PlantManager pm;
+
+
+
+	void Start()
 	{
-		return new GameObject (name, typeof(MeshFilter), typeof(MeshRenderer));
+		Initialize ();
+
 	}
 
 
 
 
-	public Plant CreatePrefabFromFile(string path)
+	public void CreateLookupTable()
+	{
+		Debug.Log ("Creating Lookup table");
+
+		materialnNamesToIndexes = new Dictionary<string, int>[4];
+
+		Material[][] k = { plantMaterials, leafMaterials, flowerMaterials, fruitMaterials };
+
+		for (int i = 0; i < materialnNamesToIndexes.Length; i++) {
+
+			materialnNamesToIndexes [i] = new Dictionary<string, int> ();
+
+			for (int j = 0; j < k[i].Length; j++) 
+			{
+				materialnNamesToIndexes [i] [k [i] [j].name] = j;
+			}
+		}
+	}
+
+
+	public GameObject GameObjectWithRenderer(string name)
+	{
+		return new GameObject (name, typeof(MeshFilter), typeof(MeshRenderer));
+	}
+
+	public void Initialize()
+	{
+		pm = GetComponent<PlantManager> ();
+		
+		StartCoroutine (InitializeLoading ());
+	}
+
+	IEnumerator InitializeLoading()
+	{
+		yield return StartCoroutine(LoadMaterials ());
+		LoadPlants ();
+		pm.Init ();
+	}
+
+
+	public void LoadPlants()
+	{
+		Debug.Log ("Creating Plants");
+
+		string plantFolderPath = Application.persistentDataPath + "/Plants/";
+
+		string[] plantPaths = System.IO.Directory.GetFiles (plantFolderPath);
+
+		for (int i = 0; i < plantPaths.Length; i++) {
+
+			string path = plantPaths [i];
+
+			if (path.Contains (".grenplant")) {
+
+				string plantName = path.Substring (path.LastIndexOf("/") + 1, path.Length - path.LastIndexOf("/") - 11);
+				//string textureName = paths [j].Substring (paths [j].LastIndexOf ("_") + 1, paths [j].Length - paths [j].LastIndexOf ("_") - 5);
+
+				Debug.Log ("plantName = " + plantName);
+
+				Plant p = CreatePrefabFromFile (path, plantName);
+
+				pm.plantsPrefabs.Add(p);
+
+				PlantInformation pinfo = new PlantInformation (p.name);
+				pinfo.plantTexture = p.leafPrefab.GetComponent<MeshRenderer> ().material.mainTexture;
+
+				pm.plantInformations.Add (pinfo);
+
+			}
+		}
+	}
+
+
+
+	public Plant CreatePrefabFromFile(string path, string plantName)
 	{
 		if (File.Exists (path)) {
-			Plant trunk = GameObjectWithRenderer ("Trunk").AddComponent<Plant> ();
+
+			GameObject parent = new GameObject (plantName);
+			parent.transform.SetParent (transform);
+
+			Plant trunk = GameObjectWithRenderer (plantName).AddComponent<Plant> ();
+			trunk.gameObject.AddComponent<TreeGrowth> ();
+
 			Plant branch = GameObjectWithRenderer ("Branch").AddComponent<Plant> ();
 			Plant subBranch = GameObjectWithRenderer ("SubBranch").AddComponent<Plant> ();
 
 			Leaf leaf = GameObjectWithRenderer ("Leaf").AddComponent<Leaf> ();
 			Flower flower = GameObjectWithRenderer ("Flower").AddComponent<Flower> ();
-			Fruit fruit = GameObjectWithRenderer ("Fruit").AddComponent<Fruit> ();
-			fruit.gameObject.AddComponent<SphereCollider> ();
+			GameObject fruitg = GameObjectWithRenderer ("Fruit").AddComponent<SphereCollider> ().gameObject;
+			Fruit fruit = fruitg.AddComponent<Fruit> ();
+
+
+			trunk.transform.SetParent (parent.transform);
+			branch.transform.SetParent (parent.transform);
+			subBranch.transform.SetParent (parent.transform);
+			leaf.transform.SetParent (parent.transform);
+			flower.transform.SetParent (parent.transform);
+			fruit.transform.SetParent (parent.transform);
 
 
 			string file = System.IO.File.ReadAllText (path);
@@ -50,12 +145,12 @@ public class PlantPrefabCreator : MonoBehaviour {
 			JsonUtility.FromJsonOverwrite(test.flower, flower);
 			JsonUtility.FromJsonOverwrite(test.fruit, fruit);
 
-			trunk.GetComponent<MeshRenderer> ().material = GetMaterial (test.trunkMatIndex, PlantPart.Trunk);
-			branch.GetComponent<MeshRenderer> ().material = GetMaterial (test.branchMatIndex, PlantPart.Branch);
-			subBranch.GetComponent<MeshRenderer> ().material = GetMaterial (test.subBranchMatIndex, PlantPart.SubBranch);
-			leaf.GetComponent<MeshRenderer> ().material = GetMaterial (test.leafMatIndex, PlantPart.Leaf);
-			flower.GetComponent<MeshRenderer> ().material = GetMaterial (test.flowerMatIndex, PlantPart.Flower);
-			fruit.GetComponent<MeshRenderer> ().material = GetMaterial (test.fruitMatIndex, PlantPart.Fruit);
+			trunk.GetComponent<MeshRenderer> ().material = GetMaterial (test.trunkMatName, PlantPart.Trunk);
+			branch.GetComponent<MeshRenderer> ().material = GetMaterial (test.branchMatName, PlantPart.Branch);
+			subBranch.GetComponent<MeshRenderer> ().material = GetMaterial (test.subBranchMatName, PlantPart.SubBranch);
+			leaf.GetComponent<MeshRenderer> ().material = GetMaterial (test.leafMatName, PlantPart.Leaf);
+			flower.GetComponent<MeshRenderer> ().material = GetMaterial (test.flowerMatName, PlantPart.Flower);
+			fruit.GetComponent<MeshRenderer> ().material = GetMaterial (test.fruitMatName, PlantPart.Fruit);
 
 
 			//LINKS
@@ -73,10 +168,12 @@ public class PlantPrefabCreator : MonoBehaviour {
 			subBranch.flowerPrefab = flower;
 			subBranch.fruitPrefab = fruit;
 
+			return trunk;
+
+
 		} else {
 			throw new FileNotFoundException ();
 		}
-		return null;
 	}
 
 
@@ -87,22 +184,25 @@ public class PlantPrefabCreator : MonoBehaviour {
 		mat.SetTexture ("_BumpMap", ppm.albedo);
 	}
 
-	Material GetMaterial(int index, PlantPart plantPart)
+	Material GetMaterial(string textureName, PlantPart plantPart)
 	{
-		if (index == -1)
+		Debug.Log ("Get Mat with '" + textureName + "'");
+
+
+		if (textureName == null || textureName == "")
 			return defaultMaterial;
 
 		if (plantPart == PlantPart.Trunk ||
 		    plantPart == PlantPart.Branch ||
 		    plantPart == PlantPart.SubBranch) {
-			return plantMaterials [index];
+			return plantMaterials [materialnNamesToIndexes [0] [textureName]];
 		} else if (plantPart == PlantPart.Leaf) {
-			return leafMaterials [index];
+			return leafMaterials [materialnNamesToIndexes [1] [textureName]];
 
 		} else if (plantPart == PlantPart.Flower) {
-			return flowerMaterials [index];
+			return flowerMaterials [materialnNamesToIndexes [2] [textureName]];
 		} else {
-			return fruitMaterials [index];
+			return fruitMaterials [materialnNamesToIndexes [3] [textureName]];
 		}
 	}
 
@@ -171,6 +271,7 @@ public class PlantPrefabCreator : MonoBehaviour {
 				w.LoadImageIntoTexture (texture);
 
 				Material m = new Material (defaultMaterial);
+				m.name = textureName;
 				m.mainTexture = texture;
 				m.SetTexture ("_BumMap", normal);
 
@@ -197,6 +298,7 @@ public class PlantPrefabCreator : MonoBehaviour {
 		}
 
 		Debug.Log ("Done Loading Textures");
+		CreateLookupTable ();
 	}
 
 }

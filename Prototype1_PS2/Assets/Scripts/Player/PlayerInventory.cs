@@ -72,7 +72,7 @@ public class PlayerInventory : NetworkBehaviour {
 	{
 		Debug.Log ("cheat");
 		inventory.Clear ();
-		for (int i = 0; i < GameManager.gm.pm.plantsPrefabs.Length; i++) {
+		for (int i = 0; i < GameManager.gm.pm.plantsPrefabs.Count; i++) {
 			inventory.Add(new PlantSeedInventory (i, 100));
 		}
 		if (isLocalPlayer)

@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114985015230095624}
   - component: {fileID: 114998714151286392}
   - component: {fileID: 114488286668793958}
+  - component: {fileID: 114472954845932174}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -86,6 +87,26 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114472954845932174
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1889220587018338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce7ae7d863887344596e9af7d685d2e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plantsTextureSize: {x: 512, y: 512}
+  leavesTextureSize: {x: 512, y: 512}
+  flowersTextureSize: {x: 512, y: 1024}
+  fruitsTextureSize: {x: 512, y: 512}
+  defaultMaterial: {fileID: 2100000, guid: d7cea38bb2b258b4f8bd8d47e259b6d2, type: 2}
+  plantMaterials: []
+  leafMaterials: []
+  flowerMaterials: []
+  fruitMaterials: []
 --- !u!114 &114488286668793958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -245,59 +266,49 @@ MonoBehaviour:
   - {fileID: 114685551962566146, guid: 718bad2f2ac236a41a6b22dc6fda7e77, type: 2}
   plantInformations:
   - plantName: Fern
-    plantLatinName: Calochlaena
-    plantDescription: Calochlaena is a genus of ferns within the Dicksoniaceae family.
-      Although these ground ferns resemble bracken, they are only distantly related.
-      Five species are known from Melanesia, Polynesia and eastern Australia. Calochlaena
-      dubia, is a common fern of the east coast of Australia. The name is derived
-      from the Ancient Greek kalos "beautiful" and chlaina "cloak", and refers to
-      the soft hairs on the species.The genus was originally described by William
-      Ralph Maxon as a subgenus of the fern genus Culcita, but the differences were
-      such that its members were raised to genus level, and are now considered to
-      be in separate families. Culcita was restricted to two species, one from Mediterranean
-      Europe and one from North America.
-  - plantName: 
-    plantLatinName: 
+    plantLatinName: Fernus
     plantDescription: 
-  - plantName: 
-    plantLatinName: 
+    plantTexture: {fileID: 2800000, guid: 1e6a3e9f8469ac84c9f7a4ef916eb968, type: 3}
+  - plantName: Tree
+    plantLatinName: Treeus
     plantDescription: 
-  - plantName: 
-    plantLatinName: 
+    plantTexture: {fileID: 2800000, guid: ea7bda6051478eb4383f299f781c1db8, type: 3}
+  - plantName: Ivy
+    plantLatinName: Ivyus
     plantDescription: 
-  - plantName: 
-    plantLatinName: 
+    plantTexture: {fileID: 2800000, guid: c64aa22edb89a1941aaf36e2fc624c12, type: 3}
+  - plantName: Bramble
+    plantLatinName: Brambleus
     plantDescription: 
-  - plantName: 
-    plantLatinName: 
+    plantTexture: {fileID: 2800000, guid: 3c4ae791146af8541a3c1264133861c7, type: 3}
+  - plantName: Bamboo
+    plantLatinName: Bamboous
     plantDescription: 
-  - plantName: 
-    plantLatinName: 
+    plantTexture: {fileID: 2800000, guid: 733fa435dca6be14ebbc9dbfc0253929, type: 3}
+  - plantName: Mushroom Trail
+    plantLatinName: Mushroom Trailus
     plantDescription: 
-  - plantName: 
-    plantLatinName: 
+    plantTexture: {fileID: 2800000, guid: 9a6bb17c6a50d11449eea5b6bcacf810, type: 3}
+  - plantName: Rosier
+    plantLatinName: Rosierus
     plantDescription: 
-  - plantName: 
-    plantLatinName: 
+    plantTexture: {fileID: 2800000, guid: 56096e1994c26fb4a8977550a7096bb8, type: 3}
+  - plantName: RoseTrail
+    plantLatinName: RoseTrailus
     plantDescription: 
-  - plantName: 
-    plantLatinName: 
+    plantTexture: {fileID: 2800000, guid: 56096e1994c26fb4a8977550a7096bb8, type: 3}
+  - plantName: Cherry Tree
+    plantLatinName: Cherry Treeus
     plantDescription: 
-  - plantName: 
-    plantLatinName: 
+    plantTexture: {fileID: 2800000, guid: 46344b5821ac6ea47bcd99023b6c7ec1, type: 3}
+  - plantName: WitchCircle
+    plantLatinName: WitchCircleus
     plantDescription: 
-  seedsPrefab:
-  - {fileID: 114090067058809932, guid: 34d8eae75d27fdf4b824afdabf901e9a, type: 2}
-  - {fileID: 114808792705863548, guid: 83625e75a091882449a31fccdeee2e3f, type: 2}
-  - {fileID: 114655151406520926, guid: 6a8509a3a81927e43a344ada5d44dbf3, type: 2}
-  - {fileID: 114100204185448604, guid: 5e7f2d37ec355b74c8c3ae93f2554e3b, type: 2}
-  - {fileID: 114512436202559392, guid: 160c85f30e80f804487d910c30699a0a, type: 2}
-  - {fileID: 114468586396913158, guid: 42269370a94f7ee40aa2574c4f553ff3, type: 2}
-  - {fileID: 114264086105866968, guid: a501762d4581b1249b353b456488e308, type: 2}
-  - {fileID: 114361178983775266, guid: b7b23491f03fc3b42ba7481be5092142, type: 2}
-  - {fileID: 114320665190776330, guid: 90574f7ea5dcdba47b7ef3bd39a44efc, type: 2}
-  - {fileID: 114468586396913158, guid: 9944262bc06d75e45ad090fbd2c3d44b, type: 2}
-  - {fileID: 114606354120518912, guid: 036d127bf846aca4ab091fa652168115, type: 2}
+    plantTexture: {fileID: 2800000, guid: 9a6bb17c6a50d11449eea5b6bcacf810, type: 3}
+  - plantName: test
+    plantLatinName: testus
+    plantDescription: 
+    plantTexture: {fileID: 0}
   plants: []
   plantSeeds: []
 --- !u!114 &114998714151286392

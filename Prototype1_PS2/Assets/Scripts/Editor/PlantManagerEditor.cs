@@ -12,9 +12,8 @@ public class PlantManagerEditor : Editor {
 		PlantManager myObject = (PlantManager)target;
 
 		DrawDefaultInspector ();
-
 		if (GUILayout.Button ("Attribute Plant Indexes")) {
-			myObject.AttributePlantIndexes ();
+			myObject.InitializePlantInfoTab ();
 		}
 	}
 

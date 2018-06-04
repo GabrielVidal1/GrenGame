@@ -25,7 +25,6 @@ public class OpenPanel : MonoBehaviour {
 			string path = paths [i];
 
 			string plantName = path.Substring (path.LastIndexOf ("/") + 1, path.Length - path.LastIndexOf ("/") - 11);
-			print (plantName);
 
 			OpenPanelSlot s = (OpenPanelSlot)Instantiate (openPanelSlotPrefab, plantListParent);
 			s.Initialize (this, path, plantName);
@@ -34,6 +33,7 @@ public class OpenPanel : MonoBehaviour {
 
 	public void LoadPlant(string path, string plantName)
 	{
+		print (plantName);
 		plantSerializer.UnserializePlant (path, plantPartPanelManager);
 		fileMenu.SetName (plantName);
 		Close ();

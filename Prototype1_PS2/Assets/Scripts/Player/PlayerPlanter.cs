@@ -48,6 +48,8 @@ public class PlayerPlanter : NetworkBehaviour {
 			
 				plant.time = 0f;
 				plant.InitializePlant ();
+
+				plant.GetComponent<TreeGrowth> ().Lauch ();
 			
 				playerInventory.UseSeed ();
 

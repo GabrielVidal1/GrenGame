@@ -22,8 +22,12 @@ public class TreeGrowth : MonoBehaviour {
 
 	private Moss moss;
 
-	void Start()
+
+	private bool go = false;
+
+	public void Lauch()
 	{
+		go = true;
 		//canGrow = true;
 		pg = GetComponent<Plant> ();
 
@@ -44,28 +48,29 @@ public class TreeGrowth : MonoBehaviour {
 
 	void Update () 
 	{
-		//if (canGrow) {
-		if (pg.time < 1f) {
+		if (go) {
+			if (pg.time < 1f) {
 
 
 
-			pg.time += Time.deltaTime * growthSpeed;
+				pg.time += Time.deltaTime * growthSpeed;
 
-			if (updateRate * Time.deltaTime + lastUpdate <= Time.time) {
+				if (updateRate * Time.deltaTime + lastUpdate <= Time.time) {
 
-				if (hasMoss) {
-					moss.time = pg.time;
-					moss.UpdateMoss ();
+					if (hasMoss) {
+						moss.time = pg.time;
+						moss.UpdateMoss ();
+					}
+
+					//GameManager.SavePlantTime (pg.indexInGameData, pg.time);
+
+					pg.UpdatePlant ();
+					lastUpdate = Time.time;
 				}
-
-				//GameManager.SavePlantTime (pg.indexInGameData, pg.time);
-
-				pg.UpdatePlant ();
-				lastUpdate = Time.time;
+			} else {
+				pg.time = 1f;
+				go = false;
 			}
-		} else {
-			pg.time = 1f;
-
 		}
 	}
 }

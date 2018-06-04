@@ -13,8 +13,12 @@ public class TextureSlot : MonoBehaviour {
 	private PlantPart plantPart;
 	private PlantCreatorMaterialManager plantCreatorMaterialManager;
 	private int index;
+	private string name;
+
+
 	public void Initialize (string textureName, Texture texture, PlantPart plantPart, PlantCreatorMaterialManager PCMM, int index)
 	{
+		this.name = textureName;
 		this.index = index;
 		this.plantPart = plantPart;
 		rawImage.texture = texture;
@@ -34,7 +38,7 @@ public class TextureSlot : MonoBehaviour {
 
 	public void OnClick()
 	{
-		plantCreatorMaterialManager.ChangeTexture (index, plantPart);
+		plantCreatorMaterialManager.ChangeTexture (name, plantPart);
 	}
 
 

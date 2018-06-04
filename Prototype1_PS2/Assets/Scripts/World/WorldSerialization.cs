@@ -188,6 +188,7 @@ public class WorldSerialization : MonoBehaviour{
 			plant.fruitSequence = serializedPlant.fruitSequence;
 			//plant.indexInGameData = serializedPlant.indexInGameData;
 			plant.InitializePlant ();
+			plant.GetComponent<TreeGrowth> ().Lauch ();
 
 
 			GameManager.gm.pm.plants.Add (plant);

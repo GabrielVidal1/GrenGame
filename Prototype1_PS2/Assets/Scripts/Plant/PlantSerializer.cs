@@ -13,12 +13,12 @@ public class PlantSerializer : MonoBehaviour {
 	{
 		PlantData pd = new PlantData (PPPM.targetedPlant, PPPM.targetedBranch, PPPM.targetedSubBranch, PPPM.targetedLeaf, PPPM.targetedFlower, PPPM.targetedFruit);
 
-		pd.trunkMatIndex = PPPM.plantCreatorMaterialManager.trunkMatIndex;
-		pd.branchMatIndex = PPPM.plantCreatorMaterialManager.branchMatIndex;
-		pd.subBranchMatIndex = PPPM.plantCreatorMaterialManager.subBranchMatIndex;
-		pd.leafMatIndex = PPPM.plantCreatorMaterialManager.leafMatIndex;
-		pd.flowerMatIndex = PPPM.plantCreatorMaterialManager.flowerMatIndex;
-		pd.fruitMatIndex = PPPM.plantCreatorMaterialManager.fruitMatIndex;
+		pd.trunkMatName = PPPM.plantCreatorMaterialManager.trunkMatName;
+		pd.branchMatName = PPPM.plantCreatorMaterialManager.branchMatName;
+		pd.subBranchMatName = PPPM.plantCreatorMaterialManager.subBranchMatName;
+		pd.leafMatName = PPPM.plantCreatorMaterialManager.leafMatName;
+		pd.flowerMatName = PPPM.plantCreatorMaterialManager.flowerMatName;
+		pd.fruitMatName = PPPM.plantCreatorMaterialManager.fruitMatName;
 
 		string s = JsonUtility.ToJson (pd);
 
@@ -73,13 +73,15 @@ public class PlantSerializer : MonoBehaviour {
 			JsonUtility.FromJsonOverwrite(test.flower, PPPM.targetedFlower);
 			JsonUtility.FromJsonOverwrite(test.fruit, PPPM.targetedFruit);
 
-			PPPM.plantCreatorMaterialManager.ChangeTexture (test.trunkMatIndex, PlantPart.Trunk);
 
-			PPPM.plantCreatorMaterialManager.ChangeTexture (test.branchMatIndex, PlantPart.Branch, true);
-			PPPM.plantCreatorMaterialManager.ChangeTexture (test.subBranchMatIndex, PlantPart.SubBranch, true);
-			PPPM.plantCreatorMaterialManager.ChangeTexture (test.leafMatIndex, PlantPart.Leaf);
-			PPPM.plantCreatorMaterialManager.ChangeTexture (test.flowerMatIndex, PlantPart.Flower);
-			PPPM.plantCreatorMaterialManager.ChangeTexture (test.fruitMatIndex, PlantPart.Fruit);
+			PPPM.plantCreatorMaterialManager.LinkMats ();
+
+			PPPM.plantCreatorMaterialManager.ChangeTexture (test.trunkMatName, PlantPart.Trunk);
+			PPPM.plantCreatorMaterialManager.ChangeTexture (test.branchMatName, PlantPart.Branch, true);
+			PPPM.plantCreatorMaterialManager.ChangeTexture (test.subBranchMatName, PlantPart.SubBranch, true);
+			PPPM.plantCreatorMaterialManager.ChangeTexture (test.leafMatName, PlantPart.Leaf);
+			PPPM.plantCreatorMaterialManager.ChangeTexture (test.flowerMatName, PlantPart.Flower);
+			PPPM.plantCreatorMaterialManager.ChangeTexture (test.fruitMatName, PlantPart.Fruit);
 
 			PPPM.RemakeLinks ();
 			PPPM.targetedPlant.InitializePlant ();
@@ -141,12 +143,18 @@ public class PlantData
 	public string flower;
 	public string fruit;
 
-	public int trunkMatIndex;
-	public int branchMatIndex;
-	public int subBranchMatIndex;
-	public int leafMatIndex;
-	public int flowerMatIndex;
-	public int fruitMatIndex;
+	public string trunkMatName;
+	public string branchMatName;
+	public string subBranchMatName;
+	public string leafMatName;
+	public string flowerMatName;
+	public string fruitMatName;
+	/*
+	public bool hasMoss;
+	public float mossRadius;
+	public float growthSpeed;
+	*/
+
 
 	public PlantData(Plant trunk, Plant branch, Plant subBranch, Leaf leaf, Flower flower, Fruit fruit)
 	{

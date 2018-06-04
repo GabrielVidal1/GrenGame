@@ -28,7 +28,7 @@ public class PlantSeedEditor : Editor {
 
 
 		serializedObject.FindProperty("indexInPlantManager").intValue = EditorGUILayout.IntSlider ("Index in Plant Array", serializedObject.FindProperty("indexInPlantManager").intValue,
-			0, pm.plantsPrefabs.Length - 1);
+			0, pm.plantsPrefabs.Count - 1);
 
 
 		serializedObject.ApplyModifiedProperties ();

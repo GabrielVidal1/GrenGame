@@ -999,7 +999,7 @@ public class Plant : MonoBehaviour{
 						thing.flower.time = flowerGrowthOverTime.Evaluate (localTime);
 					}
 
-					Debug.Log ("growth duration : " + thing.growthDuration);
+					//Debug.Log ("growth duration : " + thing.growthDuration);
 
 					//INTIAL DIRECTION
 					Vector3 initialDirection = (mf.sharedMesh.vertices [thing.pointIndex1] - mf.sharedMesh.vertices [thing.pointIndex2]).normalized;

@@ -32,7 +32,7 @@ public class PlayerInventorySlot : MonoBehaviour {
 
 		plantNumber.text = number > 1 ? number.ToString () : "";
 
-		plantTexture.texture = GameManager.gm.pm.seedsPrefab [plantIndex].seedTexture;
+		plantTexture.texture = GameManager.gm.pm.plantInformations [plantIndex].plantTexture;
 	}
 
 	public void SetInventoryGrid(PlayerInventoryGrid playerInventoryGrid)

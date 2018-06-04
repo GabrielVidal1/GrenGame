@@ -11,25 +11,27 @@ public class PlantManager : MonoBehaviour {
 
 	public Moss mossPrefab;
 
-	public Plant[] plantsPrefabs;
+	public List<Plant> plantsPrefabs;
 
-	public PlantInformation[] plantInformations;
+	public List<PlantInformation> plantInformations;
 
-	public PlantSeed[] seedsPrefab;
+	//public PlantSeed[] seedsPrefab;
 
 	public List<Plant> plants;
 	public List<PlantSeed> plantSeeds;
 
 	private bool[] plantDiscovered;
 
-	public void AttributePlantIndexes()
+
+	public void InitializePlantInfoTab()
 	{
-		for (int i = 0; i < plantsPrefabs.Length; i++) {
-			plantsPrefabs [i].plantTypeIndex = i;
-			seedsPrefab [i].indexInPlantManager = i;
+		for (int i = 0; i < plantsPrefabs.Count; i++) {
+			if (plantInformations.Count - 1 < i) {
+				plantInformations.Add( new PlantInformation ());
+			}
+			plantInformations [i] = new PlantInformation (plantsPrefabs [i].name);
 		}
 	}
-
 
 	public void DestroyPlants()
 	{
@@ -53,9 +55,9 @@ public class PlantManager : MonoBehaviour {
 	}
 
 
-	void Start()
+	public void Init()
 	{
-		plantDiscovered = new bool[plantsPrefabs.Length];
+		plantDiscovered = new bool[plantsPrefabs.Count];
 		for (int i = 0; i < plantDiscovered.Length; i++) {
 			plantDiscovered [i] = true;
 			plantsPrefabs [i].plantTypeIndex = i;

@@ -7,8 +7,6 @@ public class PlantSeed : Pickup {
 	[HideInInspector]
 	public int indexInPlantManager;
 
-	public Texture seedTexture;
-
 	public bool inPlantCreator;
 
 	protected override void Init ()
