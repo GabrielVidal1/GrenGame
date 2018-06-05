@@ -19,15 +19,22 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 	[Header("Info Panel")]
 
+	[SerializeField] private GameObject infoPanel;
+
 	[SerializeField] private TMP_Text plantName;
 	[SerializeField] private TMP_Text plantLatinName;
 	[SerializeField] private TMP_Text plantDescription;
 
 
+	[Header("Genetic Crossing Panel")]
 
+	[SerializeField] private GameObject geneticCrossingPanel;
 
 
 	private bool isInfoPanelOpened;
+	private bool isCrossingPanelOpened;
+
+	private bool isPanelOpened;
 
 
 	private PlayerInventorySlot selectedSlot;
@@ -56,6 +63,7 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 		inventoryParent.alpha = 1f;
 		inventoryParent.interactable = true;
+		inventoryParent.blocksRaycasts = true;
 
 		opened = true;
 
@@ -119,6 +127,8 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 		inventoryParent.alpha = 0f;
 		inventoryParent.interactable = false;
+		inventoryParent.blocksRaycasts = false;
+
 
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
@@ -128,23 +138,45 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 	public void ToggleInfoPanel()
 	{
-		if (isInfoPanelOpened)
-			CloseInfoPanel ();
-		else
-			OpenInfoPanel ();
+		isCrossingPanelOpened = false;
+		if (isInfoPanelOpened) {
+			ClosePanel ();
+			isInfoPanelOpened = false;
+		} else {
+			if (!isPanelOpened)
+				OpenPanel ();
+			isInfoPanelOpened = true;
+			infoPanel.SetActive (true);
+			geneticCrossingPanel.SetActive (false);
+		}
 	}
 
+	public void ToggleGeneticCrossingPanel()
+	{
+		isInfoPanelOpened = false;
+		if (isInfoPanelOpened) {
+			ClosePanel ();
+			isCrossingPanelOpened = false;
+		} else {
+			if (!isPanelOpened)
+				OpenPanel ();
+			isCrossingPanelOpened = true;
+			geneticCrossingPanel.SetActive (true);
+			infoPanel.SetActive (false);
+		}
+	}
 
-	public void OpenInfoPanel()
+	public void OpenPanel()
 	{
 		inventoryAnimator.SetBool ("InfoPanelOpened", true);
-		isInfoPanelOpened = true;
+		isPanelOpened = true;
 	}
 
-	public void CloseInfoPanel()
+	public void ClosePanel()
 	{
 		inventoryAnimator.SetBool ("InfoPanelOpened", false);
-		isInfoPanelOpened = false;
+		isPanelOpened = false;
 	}
+
 
 }
