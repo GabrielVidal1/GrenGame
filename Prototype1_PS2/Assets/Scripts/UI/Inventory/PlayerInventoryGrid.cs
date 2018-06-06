@@ -222,7 +222,10 @@ public class PlayerInventoryGrid : MonoBehaviour {
 	public void Cross()
 	{
 		UpdateCrossingPodsIcons ();
+		crossingPodsIcons [playerInventory.nbOfCrossingPods-1].texture = emptyCrossingPodsIcon;
 		playerInventory.UseCrossingPod ();
+
+
 	}
 
 
