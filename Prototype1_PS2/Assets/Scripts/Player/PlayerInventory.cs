@@ -7,6 +7,11 @@ public class PlayerInventory : NetworkBehaviour {
 
 	public List<PlantSeedInventory> inventory;
 
+	public int nbOfCrossingPods;
+	public bool CanCrossPlants
+	{ get { return nbOfCrossingPods > 0; }}
+	public int maxCrossingPods = 6;
+
 	public int NbOfSeeds
 	{
 		get { return inventory.Count; }
@@ -61,6 +66,8 @@ public class PlayerInventory : NetworkBehaviour {
 	// Update is called once per frame
 
 
+
+
 	[Command]
 	void CmdCheatSeeds()
 	{
@@ -78,6 +85,45 @@ public class PlayerInventory : NetworkBehaviour {
 		if (isLocalPlayer)
 			CanvasManager.cm.seedSelectionWheel.AddSeed (0);
 	}
+
+	#region UseCrossingPod()
+	public void UseCrossingPod()
+	{
+		CmdUseCrossingPod();
+	}
+
+	[Command]
+	void CmdUseCrossingPod()
+	{
+		RpcUseCrossingPod ();
+	}
+	[ClientRpc]
+	void RpcUseCrossingPod()
+	{
+		nbOfCrossingPods--;
+	}
+	#endregion
+
+	#region GetCrossingPod()
+	public void GetCrossingPod()
+	{
+		CmdGetCrossingPod();
+	}
+
+	[Command]
+	void CmdGetCrossingPod()
+	{
+		RpcGetCrossingPod ();
+	}
+	[ClientRpc]
+	void RpcGetCrossingPod()
+	{
+		nbOfCrossingPods++;
+	}
+	#endregion
+
+
+
 
 	void Update () 
 	{

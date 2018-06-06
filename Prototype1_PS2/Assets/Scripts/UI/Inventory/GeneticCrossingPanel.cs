@@ -20,7 +20,12 @@ public class GeneticCrossingPanel : MonoBehaviour {
 	private RectTransform firstSlotTransform;
 	private RectTransform secondSlotTransform;
 
-	void Start () {
+	private PlayerInventoryGrid playerInventoryGrid;
+
+	public void SetPlayerInventoryGrid(PlayerInventoryGrid pig)
+	{
+		playerInventoryGrid = pig;
+
 		animator = GetComponent<Animator> ();
 		firstSlotTransform = firstSlot.GetComponent<RectTransform> ();
 		secondSlotTransform = secondSlot.GetComponent<RectTransform> ();
@@ -31,7 +36,7 @@ public class GeneticCrossingPanel : MonoBehaviour {
 
 		//animator.speed = 1f / crossingDuration;
 	}
-	
+
 	public void DropPlant(GameObject texturePreview, int plantIndex, int inInventoryIndex)
 	{
 		Vector3 pos;
@@ -39,8 +44,14 @@ public class GeneticCrossingPanel : MonoBehaviour {
 		bool inSlot1 = RectTransformUtility.RectangleContainsScreenPoint (firstSlotTransform, Input.mousePosition, null);
 		bool inSlot2 = RectTransformUtility.RectangleContainsScreenPoint (secondSlotTransform, Input.mousePosition, null);
 
-		Debug.Log ("IN SLOT 1 = " + inSlot1);
 		if (inSlot1) {
+			if (secondPlantIndex == plantIndex) {
+				Debug.Log (secondPlantIndex + "  " + plantIndex);
+				animator.SetTrigger ("Refuse");
+				Destroy (texturePreview);
+			}
+
+
 			firstPlantIndex = plantIndex;
 			inInventoryIndex1 = inInventoryIndex;
 			if (firstSlot.transform.childCount > 0)
@@ -50,6 +61,13 @@ public class GeneticCrossingPanel : MonoBehaviour {
 			texturePreview.transform.localPosition = Vector3.zero;
 
 		} else if (inSlot2) {
+
+			if (firstPlantIndex == plantIndex) {
+				Debug.Log (firstPlantIndex + "  " + plantIndex);
+
+				animator.SetTrigger ("Refuse");
+				Destroy (texturePreview);
+			}
 
 			secondPlantIndex = plantIndex;
 			inInventoryIndex2 = inInventoryIndex;
@@ -69,16 +87,19 @@ public class GeneticCrossingPanel : MonoBehaviour {
 
 	public void Cross()
 	{
-		Debug.Log ("Click");
+		Debug.Log ("Called Cross()");
 
+		if (!playerInventoryGrid.CanCross) {
+			animator.SetTrigger ("NotEnough");
+			return;
+		}
 
 		if (firstPlantIndex >= 0 && secondPlantIndex >= 0) {
-
 			Debug.Log ("GOOOOOO CROSSING");
-
 			animator.SetBool ("HoldClick", true);
 
 		} else {
+			animator.SetTrigger ("Refuse");
 
 
 		}
@@ -104,7 +125,14 @@ public class GeneticCrossingPanel : MonoBehaviour {
 		inInventoryIndex1 = -1;
 		inInventoryIndex2 = -1;
 
+		firstPlantIndex = -1;
+		secondPlantIndex = -1;
 
+		playerInventoryGrid.Cross ();
+
+
+		//CALL CROSSING WITH GENETIC CROSSING SCRIP
+		//CREATE NEW PREFAB
 
 
 	}

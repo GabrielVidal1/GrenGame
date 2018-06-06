@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
@@ -19,7 +20,7 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 	[Header("Info Panel")]
 
-	[SerializeField] private GameObject infoPanel;
+	[SerializeField] private CanvasGroup infoPanel;
 
 	[SerializeField] private TMP_Text plantName;
 	[SerializeField] private TMP_Text plantLatinName;
@@ -28,9 +29,13 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 	[Header("Genetic Crossing Panel")]
 
-	[SerializeField] public GameObject geneticCrossingPanel;
-	private GeneticCrossingPanel geneticCrossingPanelComponent;
+	[SerializeField] public CanvasGroup geneticCrossingPanel;
+	[SerializeField] private RawImage[] crossingPodsIcons;
+	[SerializeField] private Texture fullCrossingPodsIcon;
+	[SerializeField] private Texture emptyCrossingPodsIcon;
 
+
+	private GeneticCrossingPanel geneticCrossingPanelComponent;
 	private bool isInfoPanelOpened;
 	private bool isCrossingPanelOpened;
 
@@ -43,6 +48,9 @@ public class PlayerInventoryGrid : MonoBehaviour {
 	{
 		get { return isCrossingPanelOpened; }
 	}
+
+	public bool CanCross
+	{ get { return playerInventory.CanCrossPlants; } }
 
 	private bool opened;
 	public bool Opened
@@ -60,6 +68,7 @@ public class PlayerInventoryGrid : MonoBehaviour {
 		ready = true;
 		this.playerInventory = playerInventory;
 		geneticCrossingPanelComponent = geneticCrossingPanel.GetComponent<GeneticCrossingPanel> ();
+		geneticCrossingPanelComponent.SetPlayerInventoryGrid (this);
 	}
 
 	public void OpenInventory()
@@ -74,6 +83,8 @@ public class PlayerInventoryGrid : MonoBehaviour {
 		opened = true;
 
 		//Debug.Log (playerInventory.SelectedIndexInInventory);
+
+		UpdateCrossingPodsIcons ();
 
 		for (int i = 0; i < playerInventory.inventory.Count; i++) {
 
@@ -142,6 +153,12 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 	}
 
+	void ToggleCanvasGroup(CanvasGroup cg, bool toggle)
+	{
+		cg.alpha = toggle ? 1f : 0f;
+		cg.blocksRaycasts = toggle;
+	}
+
 	public void ToggleInfoPanel()
 	{
 		isCrossingPanelOpened = false;
@@ -152,8 +169,21 @@ public class PlayerInventoryGrid : MonoBehaviour {
 			if (!isPanelOpened)
 				OpenPanel ();
 			isInfoPanelOpened = true;
-			infoPanel.SetActive (true);
-			geneticCrossingPanel.SetActive (false);
+			ToggleCanvasGroup(infoPanel, true);
+			ToggleCanvasGroup(geneticCrossingPanel, false);
+		}
+	}
+
+	public void UpdateCrossingPodsIcons()
+	{
+		int n = playerInventory.nbOfCrossingPods;
+		Debug.Log ("Update Pods + " + n);
+		for (int i = 0; i < crossingPodsIcons.Length; i++) {
+			if (n > i) {
+				crossingPodsIcons [i].texture = fullCrossingPodsIcon;
+			} else {
+				crossingPodsIcons [i].texture = emptyCrossingPodsIcon;
+			}
 		}
 	}
 
@@ -166,9 +196,14 @@ public class PlayerInventoryGrid : MonoBehaviour {
 		} else {
 			if (!isPanelOpened)
 				OpenPanel ();
+			
+
+			//UpdateCrossingPodsIcons ();
+
 			isCrossingPanelOpened = true;
-			geneticCrossingPanel.SetActive (true);
-			infoPanel.SetActive (false);
+			ToggleCanvasGroup(geneticCrossingPanel, true);
+			ToggleCanvasGroup(infoPanel, false);
+
 		}
 	}
 
@@ -182,6 +217,12 @@ public class PlayerInventoryGrid : MonoBehaviour {
 	{
 		inventoryAnimator.SetBool ("InfoPanelOpened", false);
 		isPanelOpened = false;
+	}
+
+	public void Cross()
+	{
+		UpdateCrossingPodsIcons ();
+		playerInventory.UseCrossingPod ();
 	}
 
 
