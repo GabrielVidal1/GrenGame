@@ -28,8 +28,8 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 	[Header("Genetic Crossing Panel")]
 
-	[SerializeField] private GameObject geneticCrossingPanel;
-
+	[SerializeField] public GameObject geneticCrossingPanel;
+	private GeneticCrossingPanel geneticCrossingPanelComponent;
 
 	private bool isInfoPanelOpened;
 	private bool isCrossingPanelOpened;
@@ -38,6 +38,11 @@ public class PlayerInventoryGrid : MonoBehaviour {
 
 
 	private PlayerInventorySlot selectedSlot;
+
+	public bool GeneticTabOpened
+	{
+		get { return isCrossingPanelOpened; }
+	}
 
 	private bool opened;
 	public bool Opened
@@ -54,6 +59,7 @@ public class PlayerInventoryGrid : MonoBehaviour {
 	{
 		ready = true;
 		this.playerInventory = playerInventory;
+		geneticCrossingPanelComponent = geneticCrossingPanel.GetComponent<GeneticCrossingPanel> ();
 	}
 
 	public void OpenInventory()
@@ -154,7 +160,7 @@ public class PlayerInventoryGrid : MonoBehaviour {
 	public void ToggleGeneticCrossingPanel()
 	{
 		isInfoPanelOpened = false;
-		if (isInfoPanelOpened) {
+		if (isCrossingPanelOpened) {
 			ClosePanel ();
 			isCrossingPanelOpened = false;
 		} else {

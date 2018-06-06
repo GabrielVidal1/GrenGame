@@ -30432,7 +30432,7 @@ GameObject:
   - component: {fileID: 639984713}
   - component: {fileID: 639984712}
   m_Layer: 5
-  m_Name: Slot1 (1)
+  m_Name: Slot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35982,6 +35982,7 @@ GameObject:
   - component: {fileID: 752018584}
   - component: {fileID: 752018586}
   - component: {fileID: 752018585}
+  - component: {fileID: 752018587}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -36042,6 +36043,64 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 752018583}
+--- !u!114 &752018587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 752018583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52716dcb801dc804dbb646ee927d02b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdingDuration: 0
+  startClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1239643480}
+        m_MethodName: Cross
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: ClickEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  midClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1239643480}
+        m_MethodName: StopProgress
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: ClickEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  endClickEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1239643480}
+        m_MethodName: ActualCross
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: ClickEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  progress: 0
 --- !u!43 &753068796
 Mesh:
   m_ObjectHideFlags: 0
@@ -36200,12 +36259,12 @@ RectTransform:
   m_Children:
   - {fileID: 818088020}
   m_Father: {fileID: 1537139089}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 237.5, y: 0}
-  m_SizeDelta: {x: -475, y: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -142.5, y: 0}
+  m_SizeDelta: {x: 285, y: 390}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &761551693
 CanvasRenderer:
@@ -54700,7 +54759,7 @@ RectTransform:
   - {fileID: 1273282306}
   - {fileID: 853366226}
   m_Father: {fileID: 1537139089}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -56377,6 +56436,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c883d1401e6904291e2a4faaa4c203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstSlot: {fileID: 1257358501}
+  secondSlot: {fileID: 639984710}
+  crossingDuration: 1
+  button: {fileID: 752018587}
 --- !u!95 &1239643481
 Animator:
   serializedVersion: 3
@@ -64811,8 +64874,9 @@ GameObject:
   - component: {fileID: 1537139089}
   - component: {fileID: 1537139092}
   - component: {fileID: 1537139091}
-  - component: {fileID: 1537139090}
   - component: {fileID: 1537139093}
+  - component: {fileID: 1537139090}
+  - component: {fileID: 1537139094}
   m_Layer: 5
   m_Name: PlayerInventory CanvasGroup
   m_TagString: Untagged
@@ -64830,8 +64894,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1130541234}
   - {fileID: 761551692}
+  - {fileID: 1130541234}
   m_Father: {fileID: 553463494}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -64901,6 +64965,17 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1537139094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1537139088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -146154839, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1546856489
 Mesh:
   m_ObjectHideFlags: 0
@@ -71933,7 +72008,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1849724422}
-  - component: {fileID: 1849724423}
   m_Layer: 5
   m_Name: ViewPort
   m_TagString: Untagged
@@ -71961,17 +72035,6 @@ RectTransform:
   m_AnchoredPosition: {x: -32.37, y: 0}
   m_SizeDelta: {x: -84.74, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1849724423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1849724421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -146154839, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1859956666
 GameObject:
   m_ObjectHideFlags: 0
@@ -80376,7 +80439,7 @@ GameObject:
   - component: {fileID: 2073853936}
   - component: {fileID: 2073853942}
   m_Layer: 5
-  m_Name: MainMenu
+  m_Name: MAIN MENU
   m_TagString: PauseMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
