@@ -140,8 +140,11 @@ public class WorldSerialization : MonoBehaviour{
 				PlayerInventory playerInventory = player.GetComponent<PlayerInventory> ();
 				SerializedPlayerInventory serializedPlayerInventory = worldData.playerInventories [i];
 
+
 				playerInventory.inventory.Clear ();
 				playerInventory.inventory = new List<PlantSeedInventory> (serializedPlayerInventory.indexesInPlantManager.Length);
+
+				playerInventory.nbOfCrossingPods = worldData.playerInventories [i].nbOfCrossingPods;
 
 				for (int j = 0; j < serializedPlayerInventory.indexesInPlantManager.Length; j++) {
 					playerInventory.inventory.Add(new PlantSeedInventory (serializedPlayerInventory.indexesInPlantManager [j], serializedPlayerInventory.numberOfSeeds [j]));
@@ -300,12 +303,14 @@ public struct SerializedPlayerInventory
 {
 	public int[] indexesInPlantManager;
 	public int[] numberOfSeeds;
+	public int nbOfCrossingPods;
 
 	public SerializedPlayerInventory (PlayerInventory playerInventory)
 	{
 		indexesInPlantManager = new int[playerInventory.NbOfSeeds];
 		numberOfSeeds = new int[playerInventory.NbOfSeeds];
-		
+		nbOfCrossingPods = playerInventory.nbOfCrossingPods;
+
 		for (int i = 0; i < indexesInPlantManager.Length; i++) {
 			
 			indexesInPlantManager [i] = playerInventory.inventory [i].plantSeedIndexInPlantManager;
