@@ -25,6 +25,7 @@ public class GameManager : NetworkBehaviour {
 	public PlantManager pm;
 	public WorldSerialization wd;
 	public ZoneAndDoorManager zd;
+	public GeneticCrossing gc;
 
 	public bool isHost;
 
@@ -55,6 +56,7 @@ public class GameManager : NetworkBehaviour {
 		pm = GetComponent<PlantManager> ();
 		wd = GetComponent<WorldSerialization> ();
 		zd = GetComponent<ZoneAndDoorManager> ();
+		gc = GetComponent<GeneticCrossing> ();
 
 	}
 
@@ -199,7 +201,7 @@ public class GameManager : NetworkBehaviour {
 	public void StopGame()
 	{
 		//localPlayer.DisablePlayer ();
-
+		pm.ResetLists();
 		if (isHost) {
 			Debug.Log ("Stop Host");
 			nm.StopHost ();

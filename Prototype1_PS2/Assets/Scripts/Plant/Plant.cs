@@ -36,6 +36,15 @@ public class Plant : MonoBehaviour{
 
 	#region PUBLIC VARIABLES
 
+	public string crossingFamily;
+
+
+	public bool isCrossing = false;
+	public int parentIndex1; //IN GameManager.gm.pm.plantPrefabs
+	public int parentIndex2;
+
+	public int plantTextureIndex = -1;
+
 	public int pointValue;
 	public int PointValue { get; set; }
 

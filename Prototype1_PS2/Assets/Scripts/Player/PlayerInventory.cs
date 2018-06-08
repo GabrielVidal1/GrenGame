@@ -204,10 +204,7 @@ public class PlayerInventory : NetworkBehaviour {
 		}
 
 	}
-
-
-	public void AddSeedToInventory(PlantSeed seed)
-	{
+	public void AddSeedToInventoryFromIndex(int plantIndex){
 
 		if (NbOfSeeds == 0)
 			selectedIndexInInventory = 0;
@@ -215,8 +212,8 @@ public class PlayerInventory : NetworkBehaviour {
 		int index = -1;
 
 		for (int i = 0; i < inventory.Count; i++) {
-			if (inventory [i].plantSeedIndexInPlantManager == seed.indexInPlantManager) {
-				
+			if (inventory [i].plantSeedIndexInPlantManager == plantIndex) {
+
 				index = i;
 				inventory [i] = new PlantSeedInventory (inventory [i].plantSeedIndexInPlantManager, inventory [i].number + 1);
 				print (inventory [i].number);
@@ -225,12 +222,17 @@ public class PlayerInventory : NetworkBehaviour {
 		}
 		if (index == -1) {
 			//print ("new slot");
-			inventory.Add (new PlantSeedInventory(seed.indexInPlantManager, 1));
+			inventory.Add (new PlantSeedInventory(plantIndex, 1));
 		}
 
 
 		if (isLocalPlayer)
 			CanvasManager.cm.seedSelectionWheel.AddSeed (index);
+	}
+
+	public void AddSeedToInventory(PlantSeed seed)
+	{
+		AddSeedToInventoryFromIndex (seed.indexInPlantManager);
 	}
 
 

@@ -579,11 +579,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -10828,11 +10828,6 @@ Prefab:
     - target: {fileID: 4304017779016852, guid: 275ee452ff3924048990c26c1b10a9d5, type: 2}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114747525681041472, guid: 275ee452ff3924048990c26c1b10a9d5,
-        type: 2}
-      propertyPath: plantEditorSceneName
-      value: PlantEditor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 275ee452ff3924048990c26c1b10a9d5, type: 2}

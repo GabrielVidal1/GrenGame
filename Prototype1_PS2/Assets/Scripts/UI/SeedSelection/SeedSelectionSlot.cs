@@ -19,6 +19,8 @@ public class SeedSelectionSlot : MonoBehaviour {
 	{
 		seedTexture.texture = GameManager.gm.pm.plantInformations[plantSeed.plantSeedIndexInPlantManager].plantTexture;
 
+		Debug.Log ("COUNT PLANTS : " + GameManager.gm.pm.plantsPrefabs.Count);
+
 		string pName = GameManager.gm.pm.plantsPrefabs[plantSeed.plantSeedIndexInPlantManager].name;
 
 		plantName.text = pName;

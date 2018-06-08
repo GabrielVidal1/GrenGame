@@ -9,7 +9,9 @@ public class NewPlantPanel : MonoBehaviour {
 	public TMP_InputField newPlantName;
 	public RawImage plantIcon1, plantIcon2;
 
-	public Texture newPlantTexture;
+	[SerializeField] private GeneticCrossingPanel geneticCrossingPanel;
+
+	private bool tfp1;
 
 	public void Init()
 	{
@@ -20,25 +22,25 @@ public class NewPlantPanel : MonoBehaviour {
 
 	public void ChoseIcon1()
 	{
-		newPlantTexture = plantIcon1.texture;
+		tfp1 = true;
 		plantIcon1.transform.parent.GetComponent<RawImage> ().enabled = true;
 		plantIcon2.transform.parent.GetComponent<RawImage> ().enabled = false;
 	}
 
 	public void ChoseIcon2()
 	{
-		newPlantTexture = plantIcon2.texture;
+		tfp1 = false;
 		plantIcon2.transform.parent.GetComponent<RawImage> ().enabled = true;
 		plantIcon1.transform.parent.GetComponent<RawImage> ().enabled = false;
 	}
 
 	public void Create()
 	{
+		string plantName = newPlantName.text;
 
+		geneticCrossingPanel.CreateCrossedPlant (tfp1, plantName);
 
-
-
-
+		gameObject.SetActive (false);
 
 	}
 }

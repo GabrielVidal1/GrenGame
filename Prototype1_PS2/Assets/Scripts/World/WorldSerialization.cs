@@ -177,8 +177,20 @@ public class WorldSerialization : MonoBehaviour{
 		GameManager.gm.pm.plants.Clear ();
 		GameManager.gm.pm.plants = new List<Plant> ();
 
+
+		foreach (SerializedCrossedPlant serializedCrossedPlant in worldData.crossedPlants) {
+
+			GameManager.gm.gc.AddPlantToPlantManagerFromParents (
+				GameManager.gm.pm.plantsPrefabs.Count,
+				serializedCrossedPlant.parentIndex1,
+				serializedCrossedPlant.parentIndex2,
+				serializedCrossedPlant.plantTextureIndex,
+				serializedCrossedPlant.plantName);
+		}
+
+
 		foreach (SerializedPlant serializedPlant in worldData.plants) {
-			
+
 			Plant plant = Instantiate (GameManager.gm.pm.plantsPrefabs [serializedPlant.plantTypeIndex], 
 				serializedPlant.initialPosition.Deserialize(), 
 				Quaternion.identity).GetComponent<Plant> ();
@@ -236,7 +248,7 @@ public class WorldData
 
 
 	public SerializedPlant[] plants;//OK
-
+	public SerializedCrossedPlant[] crossedPlants;
 
 	public SerializedPlantSeed[] seeds;//OK
 
@@ -251,6 +263,7 @@ public class WorldData
 	public WorldData()
 	{
 		plants = new SerializedPlant[0];
+		crossedPlants = new SerializedCrossedPlant[0];
 		seeds = new SerializedPlantSeed[0];;
 
 		playersName = new string[0];
@@ -320,8 +333,28 @@ public struct SerializedPlayerInventory
 }
 
 [System.Serializable]
+public struct SerializedCrossedPlant
+{
+	public int parentIndex1;
+	public int parentIndex2;
+
+	public string plantName;
+
+	public int plantTextureIndex;
+
+	public SerializedCrossedPlant(int parentIndex1, int parentIndex2, string plantName, int plantTextureIndex)
+	{
+		this.parentIndex1 = parentIndex1;
+		this.parentIndex2 = parentIndex2;
+		this.plantName = plantName;
+		this.plantTextureIndex = plantTextureIndex;
+	}
+
+}
+[System.Serializable]
 public struct SerializedPlant
 {
+	public string plantName;
 	public int plantTypeIndex;
 	public float plantTime;
 	public SerializedVector3 initialPosition;
@@ -333,8 +366,9 @@ public struct SerializedPlant
 
 	public int indexInGameData;
 
-	public SerializedPlant(int plantTypeIndex, float plantTime, Vector3 initialPosition, Vector3 initialDirection, int fruitSequence, int seed, int indexInGameData)
+	public SerializedPlant(string plantName, int plantTypeIndex, float plantTime, Vector3 initialPosition, Vector3 initialDirection, int fruitSequence, int seed, int indexInGameData)
 	{
+		this.plantName = plantName;
 		this.plantTypeIndex = plantTypeIndex;
 		this.plantTime = plantTime;
 		this.initialPosition = new SerializedVector3(initialPosition);

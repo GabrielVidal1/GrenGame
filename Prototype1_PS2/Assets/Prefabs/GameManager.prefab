@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114998714151286392}
   - component: {fileID: 114488286668793958}
   - component: {fileID: 114472954845932174}
+  - component: {fileID: 114671577303198386}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -120,6 +121,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zones: []
   doors: []
+--- !u!114 &114671577303198386
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1889220587018338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9921176c9a170d146ba644d1a84b0f05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trunkGenesGroups: []
 --- !u!114 &114700385992021808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,12 +228,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainSceneName: Main
   mainMenuSceneName: MainMenu
+  plantEditorSceneName: PlantEditor
   localPlayer: {fileID: 0}
   localPlayerName: Player1
   nm: {fileID: 0}
   pm: {fileID: 0}
   wd: {fileID: 0}
   zd: {fileID: 0}
+  gc: {fileID: 0}
   isHost: 0
   ipAddressToJoin: 
   worldName: 
@@ -263,7 +278,7 @@ MonoBehaviour:
   - {fileID: 114048030750317720, guid: c837f0f89c86fbf43b3fe31d5e542b44, type: 2}
   - {fileID: 114370906160678954, guid: 9abcd32f5ea875543ab30de5cc1119a6, type: 2}
   - {fileID: 114587679126244500, guid: ab18b56ec93849f448d994718f20d003, type: 2}
-  - {fileID: 114685551962566146, guid: 718bad2f2ac236a41a6b22dc6fda7e77, type: 2}
+  crossedPlants: []
   plantInformations:
   - plantName: Fern
     plantLatinName: Fernus
@@ -305,10 +320,6 @@ MonoBehaviour:
     plantLatinName: WitchCircleus
     plantDescription: 
     plantTexture: {fileID: 2800000, guid: 9a6bb17c6a50d11449eea5b6bcacf810, type: 3}
-  - plantName: test
-    plantLatinName: testus
-    plantDescription: 
-    plantTexture: {fileID: 0}
   plants: []
   plantSeeds: []
 --- !u!114 &114998714151286392
@@ -324,6 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldData:
     plants: []
+    crossedPlants: []
     seeds: []
     playersName: []
     playerPositions: []

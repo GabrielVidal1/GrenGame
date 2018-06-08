@@ -15,8 +15,7 @@ public class GeneticCrossingPanel : MonoBehaviour {
 
 	[SerializeField] private NewPlantPanel newPlantPanel;
 
-	private int firstPlantIndex;
-	private int secondPlantIndex;
+	private int firstPlantIndex, secondPlantIndex;
 
 	private int inInventoryIndex1, inInventoryIndex2;
 
@@ -98,9 +97,17 @@ public class GeneticCrossingPanel : MonoBehaviour {
 		}
 
 		if (firstPlantIndex >= 0 && secondPlantIndex >= 0) {
-			Debug.Log ("GOOOOOO CROSSING");
-			animator.SetBool ("HoldClick", true);
 
+			if (!GameManager.gm.pm.plantsPrefabs [firstPlantIndex].isCrossing &&
+			    !GameManager.gm.pm.plantsPrefabs [secondPlantIndex].isCrossing) {
+
+				if (GameManager.gm.pm.plantsPrefabs [firstPlantIndex].crossingFamily == 
+					GameManager.gm.pm.plantsPrefabs [secondPlantIndex].crossingFamily) {
+
+					Debug.Log ("GOOOOOO CROSSING");
+					animator.SetBool ("HoldClick", true);
+				}
+			}
 		} else {
 			animator.SetTrigger ("Refuse");
 
@@ -116,29 +123,47 @@ public class GeneticCrossingPanel : MonoBehaviour {
 
 	}
 
+	public void CreateCrossedPlant(bool textureFromParent1, string name)
+	{
+		int index = GameManager.gm.pm.plantsPrefabs.Count;
+
+		GameManager.gm.gc.AddPlantToPlantManagerFromParents (
+			index,
+			firstPlantIndex, secondPlantIndex,
+			textureFromParent1 ? firstPlantIndex : secondPlantIndex,
+			name);
+
+		Debug.Log ("index == " + (textureFromParent1 ? firstPlantIndex : secondPlantIndex));
+
+		firstPlantIndex = -1;
+		secondPlantIndex = -1;
+
+		GameManager.gm.localPlayer.GetComponent<PlayerInventory> ().AddSeedToInventoryFromIndex (index);
+
+	}
+
 
 	public void ActualCross()
 	{
-		if (secondSlot.transform.childCount > 0)
-			Destroy (secondSlot.transform.GetChild (0).gameObject);
-		if (firstSlot.transform.childCount > 0)
-			Destroy (firstSlot.transform.GetChild (0).gameObject);
 		animator.SetBool ("HoldClick", false);
 
 		inInventoryIndex1 = -1;
 		inInventoryIndex2 = -1;
 
-		firstPlantIndex = -1;
-		secondPlantIndex = -1;
+
 
 		playerInventoryGrid.Cross ();
 
 		newPlantPanel.gameObject.SetActive (true);
-		newPlantPanel.plantIcon1.texture = firstSlot.GetComponent<RawImage> ().texture;
-		newPlantPanel.plantIcon2.texture = secondSlot.GetComponent<RawImage> ().texture;
+		newPlantPanel.plantIcon1.texture = firstSlot.transform.GetChild(0).GetComponent<RawImage> ().texture;
+		newPlantPanel.plantIcon2.texture = secondSlot.transform.GetChild(0).GetComponent<RawImage> ().texture;
 
 		newPlantPanel.Init ();
 
+		if (secondSlot.transform.childCount > 0)
+			Destroy (secondSlot.transform.GetChild (0).gameObject);
+		if (firstSlot.transform.childCount > 0)
+			Destroy (firstSlot.transform.GetChild (0).gameObject);
 		//CALL CROSSING WITH GENETIC CROSSING SCRIP
 		//CREATE NEW PREFAB
 
