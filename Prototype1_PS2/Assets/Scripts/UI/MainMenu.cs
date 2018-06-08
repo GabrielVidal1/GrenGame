@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour {
@@ -11,6 +12,11 @@ public class MainMenu : MonoBehaviour {
 	[SerializeField] private GameObject optionPanel;
 
 	[SerializeField] private MainMainMenu mainMainMenu;
+
+	[SerializeField] private GameObject loadingScreen;
+	[SerializeField] private Slider loadingBar;
+
+	//[SerializeField] private MultiplayerMenu multiplayerMenu;
 
 	void Start () {
 
@@ -49,6 +55,29 @@ public class MainMenu : MonoBehaviour {
 	void VoidOption()
 	{
 		optionPanel.SetActive (true);
+		gameObject.SetActive (false);
+	}
+
+
+
+	public void OpenPlantEditor()
+	{
+		loadingScreen.SetActive (true);
+		gameObject.SetActive (false);
+		GameManager.gm.LoadScene (loadingBar, GameManager.gm.plantEditorSceneName);
+	}
+
+	public void LaunchHost()
+	{
+		mainMainMenu.transition = VoidLaunchHost;
+		mainMainMenu.Transit ();
+	}
+
+	public void VoidLaunchHost()
+	{
+		GameManager.gm.PrepareLaunching (true);
+		worldSelectionPanel.gameObject.SetActive (true);
+		//worldSelectionPanel.ResetVerticalScrollBar ();
 		gameObject.SetActive (false);
 	}
 }

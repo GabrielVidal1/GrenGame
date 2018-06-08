@@ -15,7 +15,7 @@ public class GameManager : NetworkBehaviour {
 
 	public string mainSceneName;
 	public string mainMenuSceneName;
-
+	public string plantEditorSceneName;
 
 	public Player localPlayer;
 	public string localPlayerName;
@@ -113,8 +113,6 @@ public class GameManager : NetworkBehaviour {
 			//DO THING
 
 	}
-		
-
 
 	public void PrepareLaunching(bool isHost)
 	{

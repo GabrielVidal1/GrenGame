@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class GeneticCrossingPanel : MonoBehaviour {
@@ -11,6 +12,8 @@ public class GeneticCrossingPanel : MonoBehaviour {
 
 	public float crossingDuration;
 	public ClickAndHoldButton button;
+
+	[SerializeField] private NewPlantPanel newPlantPanel;
 
 	private int firstPlantIndex;
 	private int secondPlantIndex;
@@ -130,6 +133,11 @@ public class GeneticCrossingPanel : MonoBehaviour {
 
 		playerInventoryGrid.Cross ();
 
+		newPlantPanel.gameObject.SetActive (true);
+		newPlantPanel.plantIcon1.texture = firstSlot.GetComponent<RawImage> ().texture;
+		newPlantPanel.plantIcon2.texture = secondSlot.GetComponent<RawImage> ().texture;
+
+		newPlantPanel.Init ();
 
 		//CALL CROSSING WITH GENETIC CROSSING SCRIP
 		//CREATE NEW PREFAB
