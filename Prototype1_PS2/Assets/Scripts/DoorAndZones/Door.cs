@@ -17,6 +17,8 @@ public class Door : MonoBehaviour {
 
 	[SerializeField] private Slider slider;
 
+	[SerializeField] private bool withoutSlider;
+
 	[SerializeField]
 	private bool opened;
 	public bool IsOpen
@@ -29,6 +31,8 @@ public class Door : MonoBehaviour {
 		foreach (Zone zone in associatedZones) {
 			zone.AddToDoorArray (this);
 		}
+		if (withoutSlider)
+			slider.gameObject.SetActive (false);
 	}
 
 	public void InitOpen()
@@ -63,7 +67,7 @@ public class Door : MonoBehaviour {
 
 	public bool CanOpen()
 	{
-		return TotalPoint() >= neededPointsToOpen;
+		return TotalPoint() >= neededPointsToOpen || neededPointsToOpen == 0;
 	}
 
 	public void UpdateSlider()

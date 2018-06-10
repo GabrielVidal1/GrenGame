@@ -94,6 +94,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantLength: 0
+  crossingFamily: 
+  isCrossing: 0
+  parentIndex1: 0
+  parentIndex2: 0
+  plantTextureIndex: -1
   pointValue: 0
   plantTypeIndex: 0
   plantSeed: 241
@@ -278,7 +284,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  hasCollisions: 0
+  hasCollisions: 1
   hasLeaves: 1
   leafPrefab: {fileID: 114705378526173178, guid: 37f90e4be9c5d6c469400c074765e47f,
     type: 2}
@@ -287,8 +293,8 @@ MonoBehaviour:
     max: 1.5
   leavesOnlyOnSections: 0
   leavesDensity: 6.09
-  leavesNumber: 0
-  leavesRepartitionMode: 0
+  leavesNumber: 10
+  leavesRepartitionMode: 1
   leavesDistribution:
     serializedVersion: 2
     m_Curve:
@@ -411,28 +417,74 @@ MonoBehaviour:
   brancheLengthRatio:
     min: 0
     max: 0
-  hasFlowers: 0
+  hasFlowers: 1
   uniqueEndFlower: 0
-  flowerPrefab: {fileID: 0}
+  flowerPrefab: {fileID: 114278157520660444, guid: 9ccdc6dad603cc348b31f93042ef3993,
+    type: 2}
   hasFixedDirection: 0
   flowerGrowthOverTime:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   flowersBirthdateDistribution:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   flowerGrowthDuration:
-    min: 0
-    max: 0
+    min: 1
+    max: 3
+  flowerSizeOverLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   flowerSize:
+    min: 1
+    max: 1
+  leafChanceOfBeingFlower: 0.2
+  hasFruits: 1
+  fruitPrefab: {fileID: 114072865263945108, guid: 61b629ff97de5ca4ab9bff0ed6004423,
+    type: 2}
+  fruitRepartitionMode: 0
+  fruitNumber: 0
+  fruttiFlowersRatio: 0
+  fruitSize:
     min: 0
     max: 0
-  leafChanceOfBeingFlower: 0
+  fruitGrowthDuration:
+    min: 0
+    max: 0
+  fruitSequence: 0
+  parent: {fileID: 0}
+  placedFruits: 0
   isBranch: 1
   indexInGameData: 0
