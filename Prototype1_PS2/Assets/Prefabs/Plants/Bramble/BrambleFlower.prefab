@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1650029804677194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 228.0953, y: 39.223072, z: -656.9174}
+  m_LocalPosition: {x: -110.05, y: 62.878853, z: -71.542}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 1
-  radius: 1
+  radius: 0.18
   radiusOverTime:
     serializedVersion: 2
     m_Curve:
@@ -172,7 +172,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  sideShapeCoef: -0.42
+  sideShapeCoef: 0.13
   sideShapeOverTime:
     serializedVersion: 2
     m_Curve:

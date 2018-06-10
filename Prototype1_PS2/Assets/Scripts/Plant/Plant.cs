@@ -1028,9 +1028,12 @@ public class Plant : MonoBehaviour{
 						thing.leaf.upDirection = up.normalized;
 						thing.leaf.UpdateMesh ();
 					} else {
-						if (!thing.isEndFlower && !hasFixedDirection)
+						if (!thing.isEndFlower && !hasFixedDirection) {
 							thing.flower.initialDirection = initialDirection.normalized;
-
+							if (thing.flower.hasAFruit) {
+								thing.flower.fruit.initialDirection = thing.flower.initialDirection;
+							}
+						}
 						thing.flower.transform.localPosition = localPosition;
 						//thing.flower.upDirection = up.normalized;
 						thing.flower.UpdateMesh ();

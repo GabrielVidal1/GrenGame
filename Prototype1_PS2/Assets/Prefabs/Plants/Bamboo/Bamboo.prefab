@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1412216465052466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.307445, y: 0.5, z: -8.071831}
+  m_LocalPosition: {x: -110.967316, y: 62.91202, z: -70.0292}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -95,10 +95,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantLength: 0
+  crossingFamily: 
+  isCrossing: 0
+  parentIndex1: 0
+  parentIndex2: 0
+  plantTextureIndex: -1
+  pointValue: 0
   plantTypeIndex: 4
-  plantSeed: 1
+  plantSeed: 2
   time: 1
-  maxDuration: 6.43656
+  maxDuration: 6.6606994
   trunkGrowthDuration:
     min: 4
     max: 5
@@ -111,6 +118,7 @@ MonoBehaviour:
   initialForceCoef: 1
   nbOfSides: 6
   nbOfSegments: 10
+  initialRadius: 0.07
   initialDirection: {x: 0, y: 1, z: 0}
   initialNormal: {x: 0, y: 0, z: 0}
   sectionsPerUvUnit: 2
@@ -225,7 +233,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   hasGravity: 1
-  gravityForce: -5
+  gravityForce: 1.54
   gravityOverLength:
     serializedVersion: 2
     m_Curve:
@@ -244,7 +252,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hasNoise: 1
+  hasNoise: 0
   noiseForce: 0.58
   noiseSize: 1
   noiseOverLength:
@@ -266,7 +274,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   hasCollisions: 0
-  hasLeaves: 1
+  hasLeaves: 0
   leafPrefab: {fileID: 114732101538469400, guid: 85197a4e5c50a83418d5d28fe2e6b3a7,
     type: 2}
   leafSize:
@@ -446,7 +454,7 @@ MonoBehaviour:
   brancheLengthRatio:
     min: 1
     max: 3
-  hasFlowers: 0
+  hasFlowers: 1
   uniqueEndFlower: 0
   flowerPrefab: {fileID: 0}
   hasFixedDirection: 0
@@ -465,6 +473,12 @@ MonoBehaviour:
   flowerGrowthDuration:
     min: 0
     max: 0
+  flowerSizeOverLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   flowerSize:
     min: 0
     max: 0
@@ -483,7 +497,7 @@ MonoBehaviour:
   fruitSequence: 0
   parent: {fileID: 0}
   placedFruits: 0
-  isBranch: 0
+  isBranch: 1
   indexInGameData: 0
 --- !u!114 &114445768473214298
 MonoBehaviour:
