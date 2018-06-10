@@ -40,6 +40,14 @@ public class Vector3Slot : DisplayParameter {
 		inputFieldZ.text = vector3Value.z.ToString ();
 	}
 
+	public override void SetValue (object value)
+	{
+		vector3Value = (Vector3)value;
+
+		inputFieldX.text = vector3Value.x.ToString ();
+		inputFieldY.text = vector3Value.y.ToString ();
+		inputFieldZ.text = vector3Value.z.ToString ();
+	}
 
 	public void UpdateValueFields()
 	{

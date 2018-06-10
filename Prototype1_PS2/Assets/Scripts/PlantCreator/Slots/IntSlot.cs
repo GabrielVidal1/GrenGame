@@ -37,6 +37,13 @@ public class IntSlot : DisplayParameter {
 		return intValue;
 	}
 
+	public override void SetValue (object value)
+	{
+		intValue = (int)value;
+		inputField.text = intValue.ToString ();
+		slider.value = intValue;
+	}
+
 	public override void Initialize(ParameterListManager parameterListManager)
 	{
 		base.Initialize (parameterListManager);

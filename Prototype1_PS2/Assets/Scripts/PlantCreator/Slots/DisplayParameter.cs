@@ -51,6 +51,11 @@ public class DisplayParameter : MonoBehaviour {
 		}
 	}
 
+	public virtual void SetValue(object value)
+	{
+
+	}
+
 
 	protected void UpdateParameterList()
 	{

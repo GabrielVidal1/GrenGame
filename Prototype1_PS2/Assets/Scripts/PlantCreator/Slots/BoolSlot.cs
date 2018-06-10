@@ -35,6 +35,16 @@ public class BoolSlot : DisplayParameter {
 
 		UpdateValue ();
 	}
+	public override void SetValue (object value)
+	{
+		boolValue = (bool)value;
+
+		toggle.isOn = boolValue;
+
+		for (int i = 0; i < dependentSlots.Length; i++) {
+			dependentSlots [i].gameObject.SetActive (boolValue);
+		}
+	}
 
 	public void UpdateValue()
 	{

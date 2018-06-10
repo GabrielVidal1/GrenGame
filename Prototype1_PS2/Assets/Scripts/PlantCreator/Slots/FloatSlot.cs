@@ -52,6 +52,12 @@ public class FloatSlot : DisplayParameter {
 		if (!hasSlider)
 			slider.gameObject.SetActive (false);
 	}
+	public override void SetValue (object value)
+	{
+		floatValue = (float)value;
+		slider.value = floatValue;
+		inputField.text = floatValue.ToString ();
+	}
 
 	public void UpdateValueInputField()
 	{

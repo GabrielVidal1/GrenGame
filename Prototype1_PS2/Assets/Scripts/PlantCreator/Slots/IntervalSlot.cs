@@ -34,6 +34,14 @@ public class IntervalSlot : DisplayParameter {
 		inputFieldmax.text = intervalValue.max.ToString ();;
 	}
 
+	public override void SetValue (object value)
+	{
+		intervalValue = (Interval)value;
+
+		inputFieldmin.text = intervalValue.min.ToString ();
+		inputFieldmax.text = intervalValue.max.ToString ();;
+	}
+
 	public void UpdateValue()
 	{
 		intervalValue.min =  float.Parse (inputFieldmin.text);

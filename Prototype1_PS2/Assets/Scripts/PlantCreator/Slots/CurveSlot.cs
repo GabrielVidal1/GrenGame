@@ -24,6 +24,11 @@ public class CurveSlot : DisplayParameter {
 		curveValue = value;
 	}
 
+	public override void SetValue (object value)
+	{
+		curveValue = (AnimationCurve)value;
+		curveZone.SetCurve (curveValue);
+	}
 
 	public void Open()
 	{
