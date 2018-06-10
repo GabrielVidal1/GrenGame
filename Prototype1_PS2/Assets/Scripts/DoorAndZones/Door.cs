@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class Door : MonoBehaviour {
 
+    public AudioClip open_sound;
+    public AudioClip close_sound;
+    public AudioClip locked_sound;
 
+    public AudioSource audioSource;
 
     private bool soundHasBeenPlayed = false;
 
@@ -47,23 +51,21 @@ public class Door : MonoBehaviour {
 	private void Open()
 	{
         doorAnimator.SetBool("Opened", true);
-        FindObjectOfType<AudioManager>().Play("ouverture_porte");
+        audioSource.clip = open_sound;
+        audioSource.Play();
         opened = true;
 	}
 
 	private void Close()
 	{
 		doorAnimator.SetBool ("Opened", false);
-        FindObjectOfType<AudioManager>().Play("fermeture_porte");
+        audioSource.clip = close_sound;
+        audioSource.Play();
         opened = false;
 	}
 
 	public void Interact()
 	{
-        if (!CanOpen())
-        {
-            FindObjectOfType<AudioManager>().Play("porte_verrouillee");
-        }
         if (CanOpen() && !opened) {
 			Open ();
 		} else {
@@ -86,7 +88,8 @@ public class Door : MonoBehaviour {
         {
             if (!soundHasBeenPlayed)
             {
-                FindObjectOfType<AudioManager>().Play("ding");
+                audioSource.clip = locked_sound;
+                audioSource.Play();
                 soundHasBeenPlayed = true;
             }
             slider.value = 1f;

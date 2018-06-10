@@ -62,11 +62,6 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
-  - name: fermeture_porte
-    clip: {fileID: 8300000, guid: 66633ba6bdddf7c4791444351c3f1184, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
   - name: foret_ambiance
     clip: {fileID: 8300000, guid: 61155cfc78b3b164f83c2df6517f430f, type: 3}
     volume: 1
@@ -89,16 +84,6 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: insectes-finish
     clip: {fileID: 8300000, guid: 03ff89a6ba78780469ec9c228d039a5d, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-  - name: ouverture_porte
-    clip: {fileID: 8300000, guid: fd934f6c372f7d44eb0cd9bb162897b2, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-  - name: porte_verrouilleee
-    clip: {fileID: 8300000, guid: 2d76bdcd740723044bd2ac02925621aa, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
