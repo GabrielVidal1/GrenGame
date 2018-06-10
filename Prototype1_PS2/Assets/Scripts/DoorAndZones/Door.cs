@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class Door : MonoBehaviour {
 
+    public AudioClip open_sound;
+    public AudioClip close_sound;
+    public AudioClip locked_sound;
 
+    public AudioSource audioSource;
 
-
+    private bool soundHasBeenPlayed = false;
 
 	public Zone[] associatedZones;
 
@@ -46,19 +50,23 @@ public class Door : MonoBehaviour {
 
 	private void Open()
 	{
-		doorAnimator.SetBool ("Opened", true);
-		opened = true;
+        doorAnimator.SetBool("Opened", true);
+        audioSource.clip = open_sound;
+        audioSource.Play();
+        opened = true;
 	}
 
 	private void Close()
 	{
 		doorAnimator.SetBool ("Opened", false);
-		opened = false;
+        audioSource.clip = close_sound;
+        audioSource.Play();
+        opened = false;
 	}
 
 	public void Interact()
 	{
-		if (CanOpen () && !opened) {
+        if (CanOpen() && !opened) {
 			Open ();
 		} else {
 			Close ();
@@ -74,12 +82,20 @@ public class Door : MonoBehaviour {
 	{
 		int tot = TotalPoint ();
 
-		//Debug.Log (tot);
+        //Debug.Log (tot);
 
-		if (tot > neededPointsToOpen)
-			slider.value = 1f;
-		else
-			slider.value = (float)tot / neededPointsToOpen;
+        if (tot > neededPointsToOpen)
+        {
+            if (!soundHasBeenPlayed)
+            {
+                audioSource.clip = locked_sound;
+                audioSource.Play();
+                soundHasBeenPlayed = true;
+            }
+            slider.value = 1f;
+        }
+        else
+            slider.value = (float)tot / neededPointsToOpen;
 	}
 
 	private int TotalPoint()
