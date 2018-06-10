@@ -46,19 +46,25 @@ public class Door : MonoBehaviour {
 
 	private void Open()
 	{
-		doorAnimator.SetBool ("Opened", true);
-		opened = true;
+        doorAnimator.SetBool("Opened", true);
+        FindObjectOfType<AudioManager>().Play("ouverture_porte");
+        opened = true;
 	}
 
 	private void Close()
 	{
 		doorAnimator.SetBool ("Opened", false);
-		opened = false;
+        FindObjectOfType<AudioManager>().Play("fermeture_porte");
+        opened = false;
 	}
 
 	public void Interact()
 	{
-		if (CanOpen () && !opened) {
+        if (!CanOpen())
+        {
+            FindObjectOfType<AudioManager>().Play("porte_verrouillee");
+        }
+        if (CanOpen() && !opened) {
 			Open ();
 		} else {
 			Close ();
