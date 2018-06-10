@@ -9,52 +9,87 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1477788624657974}
+  m_RootGameObject: {fileID: 1674943593991568}
   m_IsPrefabParent: 1
---- !u!1 &1477788624657974
+--- !u!1 &1674943593991568
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4446572884330028}
-  - component: {fileID: 33617412869700842}
-  - component: {fileID: 114626937825601152}
-  - component: {fileID: 114082522475479698}
+  - component: {fileID: 4471249083004600}
+  - component: {fileID: 33827138285218518}
+  - component: {fileID: 23155540036233796}
+  - component: {fileID: 114938343243396726}
+  - component: {fileID: 114285166289130380}
   m_Layer: 0
-  m_Name: Mushroom Trail
+  m_Name: Fern2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4446572884330028
+--- !u!4 &4471249083004600
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1477788624657974}
+  m_GameObject: {fileID: 1674943593991568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -111.15316, y: 62.91202, z: -69.19902}
+  m_LocalPosition: {x: -111.61077, y: 62.91202, z: -69.5483}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &33617412869700842
+--- !u!23 &23155540036233796
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1674943593991568}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: acbc702ef1f05554fb0531485ac56c74, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33827138285218518
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1477788624657974}
+  m_GameObject: {fileID: 1674943593991568}
   m_Mesh: {fileID: 0}
---- !u!114 &114082522475479698
+--- !u!114 &114285166289130380
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1477788624657974}
+  m_GameObject: {fileID: 1674943593991568}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c1fdb76b9d39ae418a84f2b3a22800f, type: 3}
@@ -62,14 +97,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthSpeed: 0.05
   updateRate: 2
-  hasMoss: 0
-  mossRadius: 0
---- !u!114 &114626937825601152
+  hasMoss: 1
+  mossRadius: 5
+--- !u!114 &114938343243396726
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1477788624657974}
+  m_GameObject: {fileID: 1674943593991568}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
@@ -81,41 +116,41 @@ MonoBehaviour:
   parentIndex1: 0
   parentIndex2: 0
   plantTextureIndex: -1
-  pointValue: 30
-  plantTypeIndex: 5
-  plantSeed: 183
+  pointValue: 0
+  plantTypeIndex: 0
+  plantSeed: 58
   time: 1
-  maxDuration: 19.081013
+  maxDuration: 22
   trunkGrowthDuration:
-    min: 6
-    max: 8
+    min: 1
+    max: 1
   offsetTangents: 0
-  smooth: 0
+  smooth: 1
   smoothCoef: 0.498
   noise: 1
-  noiseCoef: 0
+  noiseCoef: 0.339
   initialForce: 0
   initialForceCoef: 0
-  nbOfSides: 6
-  nbOfSegments: 50
-  initialRadius: 0.05
+  nbOfSides: 12
+  nbOfSegments: 3
+  initialRadius: 0.46
   initialDirection: {x: 0, y: 1, z: 0}
   initialNormal: {x: 0, y: 0, z: 0}
-  sectionsPerUvUnit: 3
+  sectionsPerUvUnit: 2
   initialShapeOverLength:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0.98750305
-      inSlope: -0.18751165
-      outSlope: -0.18751165
+      value: 0.3375061
+      inSlope: -0.31641194
+      outSlope: -0.31641194
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 0
-      inSlope: -2.9999993
-      outSlope: -2.9999993
+      inSlope: -0.3521739
+      outSlope: -0.3521739
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -126,14 +161,14 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 0
       value: 0.98750305
-      inSlope: -0.00001166417
-      outSlope: -0.00001166417
+      inSlope: -2.8571606
+      outSlope: -2.8571606
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 0
-      inSlope: -3.2727273
-      outSlope: -3.2727273
+      inSlope: -1.5535711
+      outSlope: -1.5535711
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -166,6 +201,60 @@ MonoBehaviour:
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
+      time: 0.08847181
+      value: 0.5875023
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.1994181
+      value: 1
+      inSlope: 1.4476478
+      outSlope: 1.4476478
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.30753586
+      value: 0.53125376
+      inSlope: -0.31232834
+      outSlope: -0.31232834
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.40833336
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.5291667
+      value: 0.56249994
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.6125
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.7208333
+      value: 0.56249994
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.7916697
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.8625
+      value: 0.5749999
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
       time: 1
       value: 1
       inSlope: 0
@@ -174,8 +263,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  initialSegmentLength: 0.5
-  finalSegmentLength: 0.5
+  initialSegmentLength: 0.34
+  finalSegmentLength: 0.1
   lengthOverTime:
     serializedVersion: 2
     m_Curve:
@@ -212,8 +301,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hasGravity: 1
-  gravityForce: 0.68
+  hasGravity: 0
+  gravityForce: -2.45
   gravityOverLength:
     serializedVersion: 2
     m_Curve:
@@ -232,9 +321,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hasNoise: 1
-  noiseForce: 3.81
-  noiseSize: 1
+  hasNoise: 0
+  noiseForce: 3.34
+  noiseSize: 1.31
   noiseOverLength:
     serializedVersion: 2
     m_Curve:
@@ -247,43 +336,37 @@ MonoBehaviour:
     - serializedVersion: 2
       time: 1
       value: 0
-      inSlope: -0.847826
-      outSlope: -0.847826
+      inSlope: -3.7894742
+      outSlope: -3.7894742
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hasCollisions: 1
-  hasLeaves: 0
-  leafPrefab: {fileID: 114297230689991988, guid: 6bbbad84c81a8fe4caf7ff58737aaea9,
+  hasCollisions: 0
+  hasLeaves: 1
+  leafPrefab: {fileID: 114357159313502244, guid: 6dd5bd0369d7b4d439bef5958b196b3e,
     type: 2}
   leafSize:
-    min: 1
+    min: 0.5
     max: 1
   leavesOnlyOnSections: 0
-  leavesDensity: 0
-  leavesNumber: 0
-  leavesRepartitionMode: 0
+  leavesDensity: 10
+  leavesNumber: 14
+  leavesRepartitionMode: 1
   leavesDistribution:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
-      inSlope: 4.1249995
-      outSlope: 4.1249995
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
-      time: 0.77977103
-      value: 0.9924152
-      inSlope: 0.2795812
-      outSlope: 0.2795812
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 0.9916687
-      value: 0.012500763
-      inSlope: -3.2691844
-      outSlope: -3.2691844
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -307,8 +390,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   leafGrowthDuration:
-    min: 1
-    max: 1
+    min: 3
+    max: 5
   sunOrientationIntensity: 1
   sunOrientationIntensityOverTime:
     serializedVersion: 2
@@ -317,13 +400,19 @@ MonoBehaviour:
       time: 0
       value: 0
       inSlope: 0
-      outSlope: 1
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.09775853
+      value: 0.7956792
+      inSlope: 1.0001659
+      outSlope: 1.0001659
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 1
       inSlope: 1
-      outSlope: 0
+      outSlope: 1
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -346,118 +435,57 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hasRecursions: 1
-  branchPrefab: {fileID: 114626937825601152, guid: 9865e4898a7cc7741bc72c6811660cd4,
-    type: 2}
+  hasRecursions: 0
+  branchPrefab: {fileID: 0}
   brancheAngleDelta: 0
-  nbOfBranches: 60
+  nbOfBranches: 0
   branchesDistribution:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0.38750458
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0.38750458
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   branchBirthDateDistribution:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   branchesDistributionOverLength:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   branchGrowthDuration:
-    min: 5
-    max: 10
+    min: 0
+    max: 0
   brancheIndependentRadius: 0
   branchInitialRadiusMultiplier:
-    min: 1
-    max: 3
+    min: 0
+    max: 0
   branchesTangencityOverLength:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   branchesOnlyOnSections: 0
   branchLengthOverTrunkLength:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0.125
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0.125
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   brancheIndependentLength: 0
   brancheLengthRatio:
-    min: 3
-    max: 6
+    min: 0
+    max: 0
   hasFlowers: 1
   uniqueEndFlower: 1
-  flowerPrefab: {fileID: 114044332201905074, guid: caecb7b4cb5ec004abf44c02e4e4dd33,
+  flowerPrefab: {fileID: 114626975765151236, guid: bb19d1e766efaf2469379e45248d77f9,
     type: 2}
-  hasFixedDirection: 1
+  hasFixedDirection: 0
   flowerGrowthOverTime:
     serializedVersion: 2
     m_Curve:
@@ -495,8 +523,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   flowerGrowthDuration:
-    min: 1
-    max: 1
+    min: 5
+    max: 9
   flowerSizeOverLength:
     serializedVersion: 2
     m_Curve:
@@ -516,21 +544,21 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   flowerSize:
-    min: 1
-    max: 1
-  leafChanceOfBeingFlower: 1
+    min: 0.9
+    max: 1.1
+  leafChanceOfBeingFlower: 0
   hasFruits: 1
-  fruitPrefab: {fileID: 114119190093254200, guid: b44d019ef5ebc5a4eb5ecfca2437b864,
+  fruitPrefab: {fileID: 114419167654870456, guid: 10bb3e9b3c5c0a2459a82f787d096895,
     type: 2}
   fruitRepartitionMode: 0
   fruitNumber: 0
-  fruttiFlowersRatio: 0.842
+  fruttiFlowersRatio: 0.606
   fruitSize:
-    min: 1
-    max: 1
+    min: 0.9
+    max: 1.1
   fruitGrowthDuration:
-    min: 1
-    max: 1
+    min: 5
+    max: 7
   fruitSequence: 0
   parent: {fileID: 0}
   placedFruits: 1

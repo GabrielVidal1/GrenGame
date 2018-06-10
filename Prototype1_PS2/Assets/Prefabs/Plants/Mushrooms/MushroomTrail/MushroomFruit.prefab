@@ -9,46 +9,46 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1609883423821434}
+  m_RootGameObject: {fileID: 1516314520622062}
   m_IsPrefabParent: 1
---- !u!1 &1609883423821434
+--- !u!1 &1516314520622062
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4047021672755742}
-  - component: {fileID: 23662053254269386}
-  - component: {fileID: 33869044062332590}
-  - component: {fileID: 114100066474986594}
-  - component: {fileID: 135464906302576266}
+  - component: {fileID: 4505518584497766}
+  - component: {fileID: 135547076949321434}
+  - component: {fileID: 23226501653056610}
+  - component: {fileID: 33362633201246016}
+  - component: {fileID: 114119190093254200}
   m_Layer: 0
-  m_Name: BambooFruit
+  m_Name: MushroomFruit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4047021672755742
+--- !u!4 &4505518584497766
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
+  m_GameObject: {fileID: 1516314520622062}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -108.401, y: 62.91202, z: -71.437}
+  m_LocalPosition: {x: -108.45871, y: 62.91202, z: -69.24786}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23662053254269386
+--- !u!23 &23226501653056610
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
+  m_GameObject: {fileID: 1516314520622062}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -57,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 6ff9ae42b360a9f49832f3371bc23ac2, type: 2}
+  - {fileID: 2100000, guid: c36dd6a6472f8b44baaa2a8e9da2950e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -77,19 +77,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33869044062332590
+--- !u!33 &33362633201246016
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
+  m_GameObject: {fileID: 1516314520622062}
   m_Mesh: {fileID: 0}
---- !u!114 &114100066474986594
+--- !u!114 &114119190093254200
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
+  m_GameObject: {fileID: 1516314520622062}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d668de47e37a94a9d236263743d469, type: 3}
@@ -99,27 +99,33 @@ MonoBehaviour:
   indexInPlantManager: 0
   inPlantCreator: 0
   time: 1
-  radius: 0.1
+  radius: 0.5
   radiusOverLength:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
-      time: -0.012658503
-      value: 0.65863454
-      inSlope: 1.669041
-      outSlope: 1.669041
+      time: 0
+      value: 0
+      inSlope: 0.08245765
+      outSlope: 0.08245765
       tangentMode: 34
     - serializedVersion: 2
-      time: 0.04931334
-      value: 0.7620681
-      inSlope: 1.19737
-      outSlope: 1.19737
+      time: 0.7422061
+      value: 0.061200567
+      inSlope: 0.14609502
+      outSlope: 0.14609502
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.77065015
+      value: 0.5321501
+      inSlope: -0.8204159
+      outSlope: -0.8204159
       tangentMode: 0
     - serializedVersion: 2
       time: 1
       value: 0
-      inSlope: -0.8015976
-      outSlope: -0.8015976
+      inSlope: -2.3202548
+      outSlope: -2.3202548
       tangentMode: 34
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -160,7 +166,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  length: 0.35
+  length: 1.06
   lengthOverTime:
     serializedVersion: 2
     m_Curve:
@@ -179,8 +185,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  nbOfSides: 6
-  nbOfSections: 4
+  nbOfSides: 10
+  nbOfSections: 19
   segmentPointDistribution:
     serializedVersion: 2
     m_Curve:
@@ -203,15 +209,15 @@ MonoBehaviour:
   textureOffset: 1
   flowerMother: {fileID: 0}
   fruitIndex: 0
---- !u!135 &135464906302576266
+--- !u!135 &135547076949321434
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
+  m_GameObject: {fileID: 1516314520622062}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.175
-  m_Center: {x: 0, y: 0.175, z: 0}
+  m_Radius: 0.53
+  m_Center: {x: 0, y: 0.53, z: 0}

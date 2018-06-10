@@ -228,8 +228,7 @@ public class PlantEditor : Editor {
 		if (myObject.hasGravity) {
 
 			myObject.gravityForce = EditorGUILayout.Slider ("Gravity Intensity", myObject.gravityForce, -5f, 5f);
-
-			myObject.gravityOverLength = EditorGUILayout.CurveField ("Gravity Intensity Over Length", myObject.gravityOverLength, Color.green, new Rect (0, 0, 1, 1));
+			myObject.gravityOverLength = EditorGUILayout.CurveField ("Gravity Intensity Over Length", myObject.gravityOverLength);
 			if (myObject.gravityOverLength == null) {
 				myObject.gravityOverLength = AnimationCurve.Linear (0f, 1f, 1f, 1f);
 			}
@@ -356,6 +355,7 @@ public class PlantEditor : Editor {
 
 				}
 
+				serializedObject.FindProperty("flowerSizeOverLength").animationCurveValue = EditorGUILayout.CurveField ("Flower Size Over Length", serializedObject.FindProperty("flowerSizeOverLength").animationCurveValue, Color.green, new Rect (0, 0, 1, 1));
 
 				//EditorGUI.EndDisabledGroup ();
 

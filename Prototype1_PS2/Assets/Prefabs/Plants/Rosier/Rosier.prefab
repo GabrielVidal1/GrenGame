@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1802702209387490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.145678, y: 0.57, z: -17.74875}
+  m_LocalPosition: {x: -111.38193, y: 62.91202, z: -69.9098}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,11 +96,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantLength: 0
+  crossingFamily: 
+  isCrossing: 0
+  parentIndex1: 0
+  parentIndex2: 0
+  plantTextureIndex: -1
   pointValue: 3
   plantTypeIndex: 6
-  plantSeed: 10
+  plantSeed: 429
   time: 1
-  maxDuration: 11.925377
+  maxDuration: 13.1267185
   trunkGrowthDuration:
     min: 1
     max: 5
@@ -455,20 +460,21 @@ MonoBehaviour:
     min: 0.5
     max: 1.5
   leafChanceOfBeingFlower: 0.39
-  hasFruits: 0
-  fruitPrefab: {fileID: 0}
+  hasFruits: 1
+  fruitPrefab: {fileID: 114464832009361102, guid: f30af510f7b698c4ab89f3f766cf69cf,
+    type: 2}
   fruitRepartitionMode: 0
-  fruitNumber: 0
-  fruttiFlowersRatio: 0
+  fruitNumber: 6
+  fruttiFlowersRatio: 0.1
   fruitSize:
-    min: 0
-    max: 0
+    min: 1
+    max: 1
   fruitGrowthDuration:
-    min: 0
-    max: 0
+    min: 1
+    max: 1
   fruitSequence: 0
   parent: {fileID: 0}
-  placedFruits: 0
+  placedFruits: 17
   isBranch: 0
   indexInGameData: 0
 --- !u!114 &114622134460659598

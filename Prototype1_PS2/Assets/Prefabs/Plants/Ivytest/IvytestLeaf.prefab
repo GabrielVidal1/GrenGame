@@ -9,55 +9,54 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1609883423821434}
+  m_RootGameObject: {fileID: 1582816302078016}
   m_IsPrefabParent: 1
---- !u!1 &1609883423821434
+--- !u!1 &1582816302078016
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4047021672755742}
-  - component: {fileID: 23662053254269386}
-  - component: {fileID: 33869044062332590}
-  - component: {fileID: 114100066474986594}
-  - component: {fileID: 135464906302576266}
+  - component: {fileID: 4365749611622358}
+  - component: {fileID: 23293906454319526}
+  - component: {fileID: 33141126796960254}
+  - component: {fileID: 114297230689991988}
   m_Layer: 0
-  m_Name: BambooFruit
+  m_Name: IvytestLeaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4047021672755742
+--- !u!4 &4365749611622358
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
+  m_GameObject: {fileID: 1582816302078016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -108.401, y: 62.91202, z: -71.437}
+  m_LocalPosition: {x: -112.18203, y: 62.941, z: -70.35229}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23662053254269386
+--- !u!23 &23293906454319526
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
+  m_GameObject: {fileID: 1582816302078016}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 6ff9ae42b360a9f49832f3371bc23ac2, type: 2}
+  - {fileID: 2100000, guid: 7d2ce2d60c9e3c94baedd55f49ce1188, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -77,54 +76,32 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33869044062332590
+--- !u!33 &33141126796960254
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
+  m_GameObject: {fileID: 1582816302078016}
   m_Mesh: {fileID: 0}
---- !u!114 &114100066474986594
+--- !u!114 &114297230689991988
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
+  m_GameObject: {fileID: 1582816302078016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d668de47e37a94a9d236263743d469, type: 3}
+  m_Script: {fileID: 11500000, guid: 775b96919a5952245afdfb79fada1d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupSpeed: 0.15
-  indexInPlantManager: 0
-  inPlantCreator: 0
   time: 1
-  radius: 0.1
-  radiusOverLength:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: -0.012658503
-      value: 0.65863454
-      inSlope: 1.669041
-      outSlope: 1.669041
-      tangentMode: 34
-    - serializedVersion: 2
-      time: 0.04931334
-      value: 0.7620681
-      inSlope: 1.19737
-      outSlope: 1.19737
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: -0.8015976
-      outSlope: -0.8015976
-      tangentMode: 34
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  radiusOverTime:
+  nbOfTangentSegments: 1
+  nbOfNormalSegments: 1
+  initialDirection: {x: 1, y: 0, z: 0}
+  upDirection: {x: 0, y: 1, z: 0}
+  width: 2
+  length: 1
+  widthOverTime:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
@@ -142,46 +119,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  radiusOverAngle:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  length: 0.35
   lengthOverTime:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
-  nbOfSides: 6
-  nbOfSections: 4
-  segmentPointDistribution:
+    m_RotationOrder: 4
+  pointsDistributionOverLength:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 2
@@ -199,19 +143,157 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  initialDirection: {x: 0, y: 1, z: 0}
-  textureOffset: 1
-  flowerMother: {fileID: 0}
-  fruitIndex: 0
---- !u!135 &135464906302576266
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609883423821434}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.175
-  m_Center: {x: 0, y: 0.175, z: 0}
+  pointsDistributionOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  topDownShape:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  coronalVariations: 0
+  coronalCurvatureIntensity: 0.66
+  coronalCurvature:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  coronalCurvatureIntensityOverLength:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: -0.967222
+      outSlope: -0.967222
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1.0041585
+      value: -0.37934473
+      inSlope: -0.025808038
+      outSlope: -0.025808038
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  coronalCurvatureIntensityOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0.41696975
+      outSlope: 0.41696975
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 0.7932692
+      value: 0.33076927
+      inSlope: 0.8281941
+      outSlope: 0.8281941
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 3.2372088
+      outSlope: 3.2372088
+      tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  sagittalVariations: 0
+  sagittalCurvatureIntensity: 0.35
+  sagittalCurvature:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  sagittalCurvatureIntensityOverLength:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  sagittalCurvatureIntensityOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
