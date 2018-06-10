@@ -7,7 +7,7 @@ public class Door : MonoBehaviour {
 
 
 
-
+    private bool soundHasBeenPlayed = false;
 
 	public Zone[] associatedZones;
 
@@ -80,12 +80,19 @@ public class Door : MonoBehaviour {
 	{
 		int tot = TotalPoint ();
 
-		//Debug.Log (tot);
+        //Debug.Log (tot);
 
-		if (tot > neededPointsToOpen)
-			slider.value = 1f;
-		else
-			slider.value = (float)tot / neededPointsToOpen;
+        if (tot > neededPointsToOpen)
+        {
+            if (!soundHasBeenPlayed)
+            {
+                FindObjectOfType<AudioManager>().Play("ding");
+                soundHasBeenPlayed = true;
+            }
+            slider.value = 1f;
+        }
+        else
+            slider.value = (float)tot / neededPointsToOpen;
 	}
 
 	private int TotalPoint()
