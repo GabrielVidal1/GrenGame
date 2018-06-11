@@ -46,6 +46,12 @@ public class GeneticCrossingPanel : MonoBehaviour {
 		bool inSlot1 = RectTransformUtility.RectangleContainsScreenPoint (firstSlotTransform, Input.mousePosition, null);
 		bool inSlot2 = RectTransformUtility.RectangleContainsScreenPoint (secondSlotTransform, Input.mousePosition, null);
 
+		if (GameManager.gm.pm.plantsPrefabs [plantIndex].crossingFamily == "NONE") {
+			Destroy (texturePreview);
+			animator.SetTrigger ("Refuse");
+			return;
+		}
+
 		if (inSlot1) {
 			if (secondPlantIndex == plantIndex) {
 				Debug.Log (secondPlantIndex + "  " + plantIndex);

@@ -71,9 +71,13 @@ public class GeneticCrossing : MonoBehaviour {
 				//object value = null;
 
 				if (RandomBool ()) {
-					typeof(Plant).GetProperty (propertyName).
-					SetValue (trunk, typeof(Plant).GetProperty (propertyName).GetValue (p2, null), null);
-				
+					typeof(Plant).GetProperty (propertyName).SetValue (trunk, typeof(Plant).GetProperty (propertyName).GetValue (p2, null), null);
+					if (trunk.hasRecursions) {
+						typeof(Plant).GetProperty (propertyName).SetValue (trunk.branchPrefab, typeof(Plant).GetProperty (propertyName).GetValue (p2, null), null);
+						if (trunk.branchPrefab.hasRecursions) {
+							typeof(Plant).GetProperty (propertyName).SetValue (trunk.branchPrefab.branchPrefab, typeof(Plant).GetProperty (propertyName).GetValue (p2, null), null);
+						}
+					}
 				}
 			}
 		}

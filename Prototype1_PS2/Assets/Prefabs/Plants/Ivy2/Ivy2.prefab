@@ -96,13 +96,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantLength: 0
-  crossingFamily: 
+  crossingFamily: p1
   isCrossing: 0
   parentIndex1: 0
   parentIndex2: 0
   plantTextureIndex: -1
   pointValue: 9
-  plantTypeIndex: 2
+  plantTypeIndex: 14
   plantSeed: 131
   time: 1
   maxDuration: 10.347855
