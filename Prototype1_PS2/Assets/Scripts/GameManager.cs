@@ -89,7 +89,7 @@ public class GameManager : NetworkBehaviour {
 	{
 		AsyncOperation loading = SceneManager.LoadSceneAsync(sceneName);
 
-		Debug.Log ("loading started !");
+		Debug.Log ("loadi ng started !");
 
 		while (!loading.isDone) {
 			yield return null;
@@ -98,6 +98,11 @@ public class GameManager : NetworkBehaviour {
 		Debug.Log ("loading END !");
 
 		if (sceneName == mainSceneName) {
+
+			zd.Init ();
+			pm.GetCollectibles ();
+
+
 			if (isHost) {
 				Launch ();
 
@@ -131,6 +136,13 @@ public class GameManager : NetworkBehaviour {
 			//CanvasManager.cm.genericCamera.SetActive (false);
 			Debug.Log ("Start Host");
 			wd.DeserializeWorld (wd.worldData);
+
+			if (wd.worldData.firstLaunch) {
+				wd.worldData.firstLaunch = false;
+			}
+
+
+
 
 			nm.StartHost ();
 

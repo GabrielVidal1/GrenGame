@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSceneName: Main
+  seedsAndPodsSceneName: SeedsAndPods
   mainMenuSceneName: MainMenu
   plantEditorSceneName: PlantEditor
   localPlayer: {fileID: 0}
@@ -320,6 +321,7 @@ MonoBehaviour:
     plantLatinName: WitchCircleus
     plantDescription: 
     plantTexture: {fileID: 2800000, guid: 9a6bb17c6a50d11449eea5b6bcacf810, type: 3}
+  collectibles: []
   plants: []
   plantSeeds: []
 --- !u!114 &114998714151286392
@@ -336,9 +338,10 @@ MonoBehaviour:
   worldData:
     plants: []
     crossedPlants: []
-    seeds: []
+    collectibles: []
     playersName: []
     playerPositions: []
     playerInventories: []
     zones: []
     doors: []
+    firstLaunch: 1

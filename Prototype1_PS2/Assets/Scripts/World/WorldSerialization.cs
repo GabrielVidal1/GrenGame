@@ -111,11 +111,7 @@ public class WorldSerialization : MonoBehaviour{
 		GameManager.gm.pm.SerializePlants (worldData);
 		//Debug.Log(worldData.plants.Length);
 
-
-		GameManager.gm.pm.SerializeSeeds (worldData);
-		//Debug.Log(worldData.seeds.Length);
-
-		GameManager.gm.zd.Init ();
+		//GameManager.gm.zd.Init ();
 		GameManager.gm.zd.SerializeZones(worldData);
 		GameManager.gm.zd.SerializeDoors(worldData);
 
@@ -210,6 +206,11 @@ public class WorldSerialization : MonoBehaviour{
 		}
 
 
+		for (int i = 0; i < worldData.collectibles.Length; i++) {
+			GameManager.gm.pm.collectibles [i].gameObject.SetActive (
+				worldData.collectibles [i].pickedUp);
+
+		}
 
 		//SEEDS
 		GameManager.gm.pm.plantSeeds.Clear ();
@@ -250,7 +251,7 @@ public class WorldData
 	public SerializedPlant[] plants;//OK
 	public SerializedCrossedPlant[] crossedPlants;
 
-	public SerializedPlantSeed[] seeds;//OK
+	public SerializedPickups[] collectibles;//OK
 
 	public string[] playersName;//OK
 	public SerializedVector3[] playerPositions;//OK
@@ -259,12 +260,14 @@ public class WorldData
 	public SerializedZone[] zones;
 	public SerializedDoor[] doors;
 
+	public bool firstLaunch;
 
 	public WorldData()
 	{
+		firstLaunch = true;
 		plants = new SerializedPlant[0];
 		crossedPlants = new SerializedCrossedPlant[0];
-		seeds = new SerializedPlantSeed[0];;
+		collectibles = new SerializedPickups[0];;
 
 		playersName = new string[0];
 		playerPositions = new SerializedVector3[0];
@@ -276,14 +279,13 @@ public class WorldData
 	public WorldData(WorldData clone)
 	{
 		plants = (SerializedPlant[])clone.plants.Clone ();
-		seeds = (SerializedPlantSeed[])clone.seeds.Clone ();
+		collectibles = (SerializedPickups[])clone.collectibles.Clone ();
 
 		playersName = (string[])clone.playersName.Clone ();
 		playerPositions = (SerializedVector3[])clone.playerPositions.Clone ();
 		playerInventories = (SerializedPlayerInventory[])clone.playerInventories.Clone ();
 		zones = (SerializedZone[])clone.zones.Clone ();
 		doors = (SerializedDoor[])clone.doors.Clone ();
-
 	}
 
 }
@@ -380,18 +382,13 @@ public struct SerializedPlant
 }
 
 [System.Serializable]
-public struct SerializedPlantSeed
+public struct SerializedPickups
 {
-	public int plantTypeIndex;
-	public SerializedVector3 position;
+	public bool pickedUp;
 
-	public bool active;
-
-	public SerializedPlantSeed(int plantTypeIndex, Vector3 position, bool active)
+	public SerializedPickups(bool pickedUp)
 	{
-		this.plantTypeIndex = plantTypeIndex;
-		this.position = new SerializedVector3(position);
-		this.active = active;
+		this.pickedUp = pickedUp;
 	}
 }
 

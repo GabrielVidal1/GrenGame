@@ -15,6 +15,9 @@ public class Pickup : MonoBehaviour {
 	protected virtual void Init()
 	{
 		col = GetComponent<Collider> ();
+
+
+		//GameManager.gm.pm.collectibles.Add (this);
 	}
 
 

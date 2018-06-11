@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 using System;
@@ -16,7 +17,7 @@ public class PlantManager : MonoBehaviour {
 
 	public List<PlantInformation> plantInformations;
 
-	//public PlantSeed[] seedsPrefab;
+	public List<Pickup> collectibles;
 
 	public List<Plant> plants;
 	public List<PlantSeed> plantSeeds;
@@ -70,6 +71,17 @@ public class PlantManager : MonoBehaviour {
 
 	}
 
+	public void GetCollectibles()
+	{
+		Pickup[] objects = GameObject.FindObjectsOfType<Pickup> ();
+		collectibles = new List<Pickup> ();
+		for (int i = 0; i < objects.Length; i++) {
+			if (objects [i].GetComponent<Fruit> () == null) {
+				collectibles.Add(objects [i]);
+			}
+		}
+	}
+
 	public void ResetLists()
 	{
 		crossedPlants.Clear ();
@@ -78,6 +90,13 @@ public class PlantManager : MonoBehaviour {
 
 	public void SerializePlants(WorldData wd)
 	{
+
+		wd.collectibles = new SerializedPickups[collectibles.Count];
+		for (int i = 0; i < wd.collectibles.Length; i++) {
+			wd.collectibles [i].pickedUp = collectibles [i].gameObject.activeSelf;
+		}
+
+
 		wd.crossedPlants = new SerializedCrossedPlant[crossedPlants.Count];
 		for (int i = 0; i < crossedPlants.Count; i++) {
 
@@ -103,25 +122,6 @@ public class PlantManager : MonoBehaviour {
 					plants[i].plantSeed, 
 					i);
 			wd.plants [i] = sPlant;
-		}
-	}
-
-	public void SerializeSeeds(WorldData wd)
-	{
-		wd.seeds = new SerializedPlantSeed[plantSeeds.Count];
-
-
-
-		for (int i = 0; i < plantSeeds.Count; i++) {
-
-
-
-			SerializedPlantSeed seed = 
-				new SerializedPlantSeed (plantSeeds [i].indexInPlantManager, 
-					plantSeeds [i].transform.position,
-					plantSeeds[i].gameObject.activeSelf);
-			wd.seeds [i] = seed;
-
 		}
 	}
 
