@@ -32,7 +32,6 @@ public class Daynight : MonoBehaviour {
 
         SetTimeToString();
         //This need to be applied to both sun and moon with opposite position
-
     }
 
     void SetToRealTime() {

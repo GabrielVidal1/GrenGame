@@ -96,6 +96,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growthSpeed: 0.2
+  updateRate: 1
+  hasMoss: 1
+  mossRadius: 1
 --- !u!114 &114736140560701576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,15 +110,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantLength: 0
+  crossingFamily: 
+  isCrossing: 0
+  parentIndex1: 0
+  parentIndex2: 0
+  plantTextureIndex: -1
+  pointValue: 0
+  plantTypeIndex: 0
+  plantSeed: 0
   time: 1
+  maxDuration: 0
+  trunkGrowthDuration:
+    min: 0
+    max: 0
+  offsetTangents: 0
   smooth: 1
   smoothCoef: 0.166
   noise: 0
   noiseCoef: 0.007
+  initialForce: 0
+  initialForceCoef: 0
   nbOfSides: 7
   nbOfSegments: 22
   initialRadius: 0.07
-  initalDirection: {x: 0, y: 1, z: 0}
+  initialDirection: {x: 0, y: 1, z: 0}
+  initialNormal: {x: 0, y: 0, z: 0}
   sectionsPerUvUnit: 1
   initialShapeOverLength:
     serializedVersion: 2
@@ -174,6 +194,12 @@ MonoBehaviour:
       inSlope: 15.160716
       outSlope: 15.160716
       tangentMode: 34
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  radiusOverAngle:
+    serializedVersion: 2
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
@@ -256,13 +282,17 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  hasCollisions: 0
   hasLeaves: 0
   leafPrefab: {fileID: 114843207845513600, guid: d0d9f83c23647d44693e37759df28067,
     type: 2}
-  leafWidth: 1.08
-  leafLength: 1
+  leafSize:
+    min: 0
+    max: 0
   leavesOnlyOnSections: 0
-  leavesPerSegment: 0
+  leavesDensity: 0
+  leavesNumber: 0
+  leavesRepartitionMode: 0
   leavesDistribution:
     serializedVersion: 2
     m_Curve:
@@ -281,7 +311,15 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  leafGrowthDurationRatio: 0
+  leavesBirthdateDistribution:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  leafGrowthDuration:
+    min: 0
+    max: 0
   sunOrientationIntensity: 0
   sunOrientationIntensityOverTime:
     serializedVersion: 2
@@ -308,3 +346,93 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   hasRecursions: 0
+  branchPrefab: {fileID: 0}
+  brancheAngleDelta: 0
+  nbOfBranches: 0
+  branchesDistribution:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  branchBirthDateDistribution:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  branchesDistributionOverLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  branchGrowthDuration:
+    min: 0
+    max: 0
+  brancheIndependentRadius: 0
+  branchInitialRadiusMultiplier:
+    min: 0
+    max: 0
+  branchesTangencityOverLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  branchesOnlyOnSections: 0
+  branchLengthOverTrunkLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  brancheIndependentLength: 0
+  brancheLengthRatio:
+    min: 0
+    max: 0
+  hasFlowers: 0
+  uniqueEndFlower: 0
+  flowerPrefab: {fileID: 0}
+  hasFixedDirection: 0
+  flowerGrowthOverTime:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flowersBirthdateDistribution:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flowerGrowthDuration:
+    min: 0
+    max: 0
+  flowerSizeOverLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flowerSize:
+    min: 0
+    max: 0
+  leafChanceOfBeingFlower: 0
+  hasFruits: 0
+  fruitPrefab: {fileID: 0}
+  fruitRepartitionMode: 0
+  fruitNumber: 0
+  fruttiFlowersRatio: 0
+  fruitSize:
+    min: 0
+    max: 0
+  fruitGrowthDuration:
+    min: 0
+    max: 0
+  fruitSequence: 0
+  parent: {fileID: 0}
+  placedFruits: 0
+  isBranch: 0
+  indexInGameData: 0

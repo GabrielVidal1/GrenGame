@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class Door : MonoBehaviour {
 
+    #region sounds
     public AudioClip open_sound;
     public AudioClip close_sound;
     public AudioClip locked_sound;
 
-    public AudioSource audioSource;
+    public AudioSource doorsoundSource;
+    public AudioSource insectsoundSource;
+    private bool dingHasBeenPlayed = false;
+    #endregion
 
-    private bool soundHasBeenPlayed = false;
-
-	public Zone[] associatedZones;
+    public Zone[] associatedZones;
 
 	[SerializeField] private int neededPointsToOpen;
 
@@ -30,7 +32,12 @@ public class Door : MonoBehaviour {
 		get {return opened;}
 	}
 
-	void Start () 
+    void Awake()
+    {
+        insectsoundSource.volume = 0f;
+    }
+
+    void Start () 
 	{
 		foreach (Zone zone in associatedZones) {
 			zone.AddToDoorArray (this);
@@ -51,16 +58,16 @@ public class Door : MonoBehaviour {
 	private void Open()
 	{
         doorAnimator.SetBool("Opened", true);
-        audioSource.clip = open_sound;
-        audioSource.Play();
+        doorsoundSource.clip = open_sound;
+        doorsoundSource.Play();
         opened = true;
 	}
 
 	private void Close()
 	{
 		doorAnimator.SetBool ("Opened", false);
-        audioSource.clip = close_sound;
-        audioSource.Play();
+        doorsoundSource.clip = close_sound;
+        doorsoundSource.Play(22000);
         opened = false;
 	}
 
@@ -86,16 +93,21 @@ public class Door : MonoBehaviour {
 
         if (tot > neededPointsToOpen)
         {
-            if (!soundHasBeenPlayed)
+            if (!dingHasBeenPlayed)
             {
-                audioSource.clip = locked_sound;
-                audioSource.Play();
-                soundHasBeenPlayed = true;
+                doorsoundSource.clip = locked_sound;
+                doorsoundSource.Play();
+                dingHasBeenPlayed = true;
             }
             slider.value = 1f;
         }
         else
-            slider.value = (float)tot / neededPointsToOpen;
+            insectsoundSource.volume = slider.value = (float)tot / neededPointsToOpen;
+
+        if (tot >= neededPointsToOpen / 2)
+        {
+            FindObjectOfType<AudioManager>().playForest = true;
+        }
 	}
 
 	private int TotalPoint()
