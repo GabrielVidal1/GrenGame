@@ -1722,7 +1722,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 466946122}
-        m_MethodName: LaunchHost
+        m_MethodName: PlaySolo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3842,6 +3842,7 @@ MonoBehaviour:
     type: 2}
   worldListContent: {fileID: 1258682596}
   worldNameInputField: {fileID: 245832692}
+  mainMenu: {fileID: 466946121}
   worldListPanel: {fileID: 1543758}
   newWorldPanel: {fileID: 1593279099}
   multiplayerMenu: {fileID: 1183285066}
@@ -3856,6 +3857,7 @@ MonoBehaviour:
   renameWorldPanelText: {fileID: 1564398986}
   renameWorldPanelTextTemplate: Rename '
   newWorldNameInputField: {fileID: 50365868}
+  solomode: 0
 --- !u!224 &759509797
 RectTransform:
   m_ObjectHideFlags: 0

@@ -35,6 +35,11 @@ public class PlayerInventory : NetworkBehaviour {
 	}
 
 
+
+
+
+
+
 	#region Private Variables
 	private Player player;
 	private GameObject camera;
@@ -82,9 +87,30 @@ public class PlayerInventory : NetworkBehaviour {
 		for (int i = 0; i < GameManager.gm.pm.plantsPrefabs.Count; i++) {
 			inventory.Add(new PlantSeedInventory (i, 100));
 		}
+		nbOfCrossingPods = maxCrossingPods;
+
 		if (isLocalPlayer)
 			CanvasManager.cm.seedSelectionWheel.AddSeed (0);
 	}
+
+	#region test
+
+	[Command]
+	public void CmdAddPlantToPlantManagerFromParents(int newPlantIndex, int parentIndex1, int parentIndex2, int plantTextureIndex, string plantName)
+	{
+		RpcAddPlantToPlantManagerFromParents (newPlantIndex, parentIndex1, parentIndex2, plantTextureIndex, plantName);
+	}
+	[ClientRpc]
+	public void RpcAddPlantToPlantManagerFromParents(int newPlantIndex, int parentIndex1, int parentIndex2, int plantTextureIndex, string plantName)
+	{
+		GameManager.gm.gc.AddPlantToPlantManagerFromParents (newPlantIndex, parentIndex1, parentIndex2, plantTextureIndex, plantName);
+	}
+
+
+
+
+	#endregion
+
 
 	#region UseCrossingPod()
 	public void UseCrossingPod()

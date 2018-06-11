@@ -35,6 +35,7 @@ public class MainMenu : MonoBehaviour {
 
 	public void PlayGame()
 	{
+		worldSelectionPanel.GetComponent<WorldSelectionPanel> ().solomode = false;
 		mainMainMenu.transition = VoidPlayGame;
 		mainMainMenu.Transit ();
 	}
@@ -65,6 +66,12 @@ public class MainMenu : MonoBehaviour {
 		loadingScreen.SetActive (true);
 		gameObject.SetActive (false);
 		GameManager.gm.LoadScene (loadingBar, GameManager.gm.plantEditorSceneName);
+	}
+
+	public void PlaySolo()
+	{
+		worldSelectionPanel.GetComponent<WorldSelectionPanel> ().solomode = true;
+		LaunchHost ();
 	}
 
 	public void LaunchHost()

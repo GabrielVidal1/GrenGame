@@ -22,6 +22,9 @@ public class MultiplayerMenu : MonoBehaviour {
 
 	private bool tryToConnectToServer = false;
 	private bool hasLaunched = false;
+
+
+
 	void Update()
 	{
 		if (!hasLaunched) {

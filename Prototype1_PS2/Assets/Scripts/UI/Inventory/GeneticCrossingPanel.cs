@@ -127,7 +127,9 @@ public class GeneticCrossingPanel : MonoBehaviour {
 	{
 		int index = GameManager.gm.pm.plantsPrefabs.Count;
 
-		GameManager.gm.gc.AddPlantToPlantManagerFromParents (
+		PlayerInventory pi = GameManager.gm.localPlayer.GetComponent<PlayerInventory> ();
+
+		pi.CmdAddPlantToPlantManagerFromParents (
 			index,
 			firstPlantIndex, secondPlantIndex,
 			textureFromParent1 ? firstPlantIndex : secondPlantIndex,
@@ -138,7 +140,7 @@ public class GeneticCrossingPanel : MonoBehaviour {
 		firstPlantIndex = -1;
 		secondPlantIndex = -1;
 
-		GameManager.gm.localPlayer.GetComponent<PlayerInventory> ().AddSeedToInventoryFromIndex (index);
+		pi.AddSeedToInventoryFromIndex (index);
 
 	}
 

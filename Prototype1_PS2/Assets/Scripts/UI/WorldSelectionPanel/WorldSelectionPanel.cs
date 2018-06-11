@@ -15,6 +15,7 @@ public class WorldSelectionPanel : MonoBehaviour {
 
 	[SerializeField] private TMP_InputField worldNameInputField;
 
+	[SerializeField] private GameObject mainMenu;
 
 	[SerializeField] private GameObject worldListPanel;
 	[SerializeField] private GameObject newWorldPanel;
@@ -36,6 +37,9 @@ public class WorldSelectionPanel : MonoBehaviour {
 	[SerializeField] private TMP_Text renameWorldPanelText;
 	[SerializeField] private string renameWorldPanelTextTemplate;
 	[SerializeField] private TMP_InputField newWorldNameInputField;
+
+	public bool solomode;
+
 
 	string worldAboutToBeLoaded;
 
@@ -208,7 +212,11 @@ public class WorldSelectionPanel : MonoBehaviour {
 
 	void VoidBackToMultiplayerMenu()
 	{
-		multiplayerMenu.SetActive (true);
+		if (solomode)
+			mainMenu.SetActive (true);
+		else 
+			multiplayerMenu.SetActive (true);
+		
 		gameObject.SetActive (false);
 		ResetLastSelectedWorldSettings ();
 	}
