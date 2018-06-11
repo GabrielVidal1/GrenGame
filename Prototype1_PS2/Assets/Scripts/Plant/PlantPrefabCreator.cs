@@ -100,7 +100,8 @@ public class PlantPrefabCreator : MonoBehaviour {
 
 				PlantInformation pinfo = new PlantInformation (p.name);
 				pinfo.plantTexture = p.leafPrefab.GetComponent<MeshRenderer> ().material.mainTexture;
-
+				pinfo.plantDescription = "This plant has been created by a player!";
+					
 				pm.plantInformations.Add (pinfo);
 
 			}
