@@ -81,7 +81,7 @@ MonoBehaviour:
   parentIndex1: 0
   parentIndex2: 0
   plantTextureIndex: -1
-  pointValue: 30
+  pointValue: 12
   plantTypeIndex: 5
   plantSeed: 183
   time: 1

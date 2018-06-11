@@ -95,7 +95,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d8b6691b2781c4a99b0c15150ea207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 50
+  plantLength: 0
+  crossingFamily: 
+  isCrossing: 0
+  parentIndex1: 0
+  parentIndex2: 0
+  plantTextureIndex: -1
+  pointValue: 15
   plantTypeIndex: 7
   plantSeed: 0
   time: 1
@@ -431,10 +437,30 @@ MonoBehaviour:
   flowerGrowthDuration:
     min: 0
     max: 0
+  flowerSizeOverLength:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   flowerSize:
     min: 0
     max: 0
   leafChanceOfBeingFlower: 0
+  hasFruits: 0
+  fruitPrefab: {fileID: 0}
+  fruitRepartitionMode: 0
+  fruitNumber: 0
+  fruttiFlowersRatio: 0
+  fruitSize:
+    min: 0
+    max: 0
+  fruitGrowthDuration:
+    min: 0
+    max: 0
+  fruitSequence: 0
+  parent: {fileID: 0}
+  placedFruits: 0
   isBranch: 0
   indexInGameData: 0
 --- !u!114 &114437055998481708
