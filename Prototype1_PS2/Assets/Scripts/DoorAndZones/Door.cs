@@ -73,6 +73,11 @@ public class Door : MonoBehaviour {
 
 	public void Interact()
 	{
+        if (!CanOpen())
+        {
+            doorsoundSource.clip = locked_sound;
+            doorsoundSource.Play();
+        }
         if (CanOpen() && !opened) {
 			Open ();
 		} else {
