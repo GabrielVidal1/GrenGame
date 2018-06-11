@@ -32,7 +32,7 @@ public class PlayerInventorySlot : MonoBehaviour,  IDragHandler, IPointerUpHandl
 		this.inInventoryIndex = inInventoryIndex;
 		this.plantIndex = plantIndex;
 
-		plantName.text = GameManager.gm.pm.plantsPrefabs [plantIndex].name;
+		plantName.text = GameManager.gm.pm.plantInformations [plantIndex].plantName;
 
 		plantNumber.text = number > 1 ? number.ToString () : "";
 

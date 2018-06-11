@@ -21,7 +21,7 @@ public class SeedSelectionSlot : MonoBehaviour {
 
 		Debug.Log ("COUNT PLANTS : " + GameManager.gm.pm.plantsPrefabs.Count);
 
-		string pName = GameManager.gm.pm.plantsPrefabs[plantSeed.plantSeedIndexInPlantManager].name;
+		string pName = GameManager.gm.pm.plantInformations[plantSeed.plantSeedIndexInPlantManager].plantName;
 
 		plantName.text = pName;
 

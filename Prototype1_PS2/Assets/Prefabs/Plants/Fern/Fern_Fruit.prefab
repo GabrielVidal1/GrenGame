@@ -97,7 +97,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupSpeed: 0.15
   indexInPlantManager: 0
-  seedTexture: {fileID: 2800000, guid: 1e6a3e9f8469ac84c9f7a4ef916eb968, type: 3}
   inPlantCreator: 0
   time: 1
   radius: 0.43

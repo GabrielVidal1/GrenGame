@@ -290,44 +290,193 @@ MonoBehaviour:
   crossedPlants: []
   plantInformations:
   - plantName: Fern
-    plantLatinName: Fernus
-    plantDescription: 
+    plantLatinName: Pteridium aquilinum
+    plantDescription: Pteridium aquilinum (bracken, brake or common bracken), also
+      known as eagle fern, and Eastern brakenfern, is a species of fern occurring
+      in temperate and subtropical regions in both hemispheres. The extreme lightness
+      of its spores has led to its global distribution.  Common bracken was first
+      described as Pteris aquilina by Carl Linnaeus, in Volume 2 of his Species Plantarum
+      in 1753. The origin of the specific epithet derived from the Latin aquila "eagle".
+      In the reprint of the Flora Suecica in 1755, Linnaeus explains that the name
+      refers to the image of an eagle seen in the transverse section of the root.
+      In spite of this, the opinion has been forwarded that the name pertains to the
+      shape of the mature fronds appearing akin to an eagle's wing. However, medieval
+      scholars, including Erasmus, thought the pattern of the fibres seen in a transverse
+      section of the stipe resembled a double-headed eagle or oak tree. It was placed
+      in the genus Pteridium by Friedrich Adalbert Maximilian Kuhn in 1879.
     plantTexture: {fileID: 2800000, guid: 1e6a3e9f8469ac84c9f7a4ef916eb968, type: 3}
-  - plantName: Tree
-    plantLatinName: Treeus
-    plantDescription: 
+  - plantName: Common Lime
+    plantLatinName: Tilia x europaea
+    plantDescription: "Tilia \xD7 europaea, generally known as the common lime (British
+      Isles) or common linden (North America), is a naturally occurring hybrid between
+      Tilia cordata (small-leaved lime) and Tilia platyphyllos (large-leaved lime).
+      It occurs in the wild in Europe at scattered localities wherever the two parent
+      species are both native. It is not closely related to the lime fruit tree, a
+      species of citrus."
     plantTexture: {fileID: 2800000, guid: ea7bda6051478eb4383f299f781c1db8, type: 3}
   - plantName: Ivy
-    plantLatinName: Ivyus
-    plantDescription: 
+    plantLatinName: Hedera canariensis
+    plantDescription: "It is an evergreen perennial climbing or trailing woody plant
+      shrub or bush, growing to 20\u201330 m high where suitable surfaces (trees,
+      cliffs, walls) are available, and also growing as ground cover where there are
+      no vertical surfaces. It climbs by means of aerial rootlets which cling to the
+      substrate. In warm climates, it grows more rapidly and becomes established faster
+      than the related H. hibernica, and H. helix. It is endemic to the Canary islands
+      where it is quite common especially in Laurel forest of Barbusano."
     plantTexture: {fileID: 2800000, guid: c64aa22edb89a1941aaf36e2fc624c12, type: 3}
   - plantName: Bramble
-    plantLatinName: Brambleus
-    plantDescription: 
+    plantLatinName: Rubus armeniacus
+    plantDescription: "Rubus armeniacus, the Himalayan blackberry or Armenian blackberry,
+      is a species of Rubus in the blackberry group Rubus subgenus Rubus series Discolores
+      (P.J. M\xFCll.) Focke. It is native to Armenia and Northern Iran, and widely
+      naturalised elsewhere. Both its scientific name and origin have been the subject
+      of much confusion, with much of the literature referring to it as either Rubus
+      procerus or Rubus discolor, and often mistakenly citing its origin as western
+      European. Flora of North America, published in 2014, considers the taxonomy
+      unsettled, and tentatively uses the older name Rubus bifrons."
     plantTexture: {fileID: 2800000, guid: 3c4ae791146af8541a3c1264133861c7, type: 3}
   - plantName: Bamboo
-    plantLatinName: Bamboous
-    plantDescription: 
+    plantLatinName: 'Acidosasa venusta '
+    plantDescription: The bamboos are evergreen perennial flowering plants in the
+      subfamily Bambusoideae of the grass family Poaceae. In bamboo, as in other grasses,
+      the internodal regions of the stem are usually hollow and the vascular bundles
+      in the cross section are scattered throughout the stem instead of in a cylindrical
+      arrangement. The dicotyledonous woody xylem is also absent. The absence of secondary
+      growth wood causes the stems of monocots, including the palms and large bamboos,
+      to be columnar rather than tapering.
     plantTexture: {fileID: 2800000, guid: 733fa435dca6be14ebbc9dbfc0253929, type: 3}
   - plantName: Mushroom Trail
-    plantLatinName: Mushroom Trailus
-    plantDescription: 
+    plantLatinName: Agaricaceae Allopsalliota
+    plantDescription: Allopsalliota is a fungal genus in the family Agaricaceae. A
+      monotypic genus, it consists of the single species Allopsalliota geesterani,
+      found in the Netherlands. The specific epithet honors Dutch mycologist Rudolph
+      Arnold Maas Geesteranus. Allopsalliota was circumscribed in 1998 to contain
+      what was then known as Agaricus geesterani, a species first described in 1986
+      by Cornelis Bas and Paul Heinemann.
     plantTexture: {fileID: 2800000, guid: 9a6bb17c6a50d11449eea5b6bcacf810, type: 3}
-  - plantName: Rosier
-    plantLatinName: Rosierus
-    plantDescription: 
-    plantTexture: {fileID: 2800000, guid: 56096e1994c26fb4a8977550a7096bb8, type: 3}
-  - plantName: RoseTrail
-    plantLatinName: RoseTrailus
-    plantDescription: 
-    plantTexture: {fileID: 2800000, guid: 56096e1994c26fb4a8977550a7096bb8, type: 3}
+  - plantName: Rose
+    plantLatinName: Rosa rugosa
+    plantDescription: Rosa rugosa (rugosa rose, beach rose, Japanese rose, or Ramanas
+      rose) is a species of rose native to eastern Asia, in northeastern China, Japan,
+      Korea and southeastern Siberia, where it grows on the coast, often on sand dunes.
+      It should not be confused with Rosa multiflora, which is also known as "Japanese
+      rose". The Latin word "rugosa" means "wrinkled."
+    plantTexture: {fileID: 2800000, guid: 4e51c397365d3ce4ebc9393bb0ee6588, type: 3}
+  - plantName: Red daisy
+    plantLatinName: Ismelia carinata
+    plantDescription: Ismelia carinata, the tricolour chrysanthemum, tricolor daisy,
+      or annual chrysanthemum, is an ornamental plant native to north Africa that
+      is cultivated as a garden plant and grows as a weed in California. It is the
+      sole species in the genus Ismelia.
+    plantTexture: {fileID: 2800000, guid: 80c97ba01d9b7c14ab23f2715edad477, type: 3}
   - plantName: Cherry Tree
-    plantLatinName: Cherry Treeus
-    plantDescription: 
+    plantLatinName: Prunus serrulata
+    plantDescription: "Prunus serrulata is a small deciduous tree with a short single
+      trunk, with a dense crown reaching a height of 26\u201339 feet (7.9\u201311.9
+      m). The smooth bark is chestnut-brown, with prominent horizontal lenticels.
+      The leaves are arranged alternately, simple, ovate-lanceolate, 5\u201313 cm
+      long and 2.5\u20136.5 cm broad, with a short petiole and a serrate or doubly
+      serrate margin. At the end of autumn, the green leaves turn yellow, red or crimson."
     plantTexture: {fileID: 2800000, guid: 46344b5821ac6ea47bcd99023b6c7ec1, type: 3}
-  - plantName: WitchCircle
-    plantLatinName: WitchCircleus
-    plantDescription: 
+  - plantName: Fairy Ring
+    plantLatinName: 
+    plantDescription: A fairy ring, also known as fairy circle, elf circle, elf ring
+      or pixie ring, is a naturally occurring ring or arc of mushrooms. The rings
+      may grow to over 10 metres (33 ft) in diameter, and they become stable over
+      time as the fungus grows and seeks food underground. They are found mainly in
+      forested areas, but also appear in grasslands or rangelands. Fairy rings are
+      detectable by sporocarps in rings or arcs, as well as by a necrotic zone (dead
+      grass), or a ring of dark green grass. Fungus mycelium is present in the ring
+      or arc underneath.
+    plantTexture: {fileID: 2800000, guid: 9a6bb17c6a50d11449eea5b6bcacf810, type: 3}
+  - plantName: Black Chokeberry
+    plantLatinName: Aronia melanocarpa
+    plantDescription: Aronia melanocarpa, called the black chokeberry, is a species
+      of shrubs in the rose family native to eastern North America, ranging from Canada
+      to the central United States, from Newfoundland west to Ontario and Minnesota,
+      south as far as Arkansas, Alabama, and Georgia. This plant has been introduced
+      and is cultivated in Europe.  It is a branching shrub with glossy dark green
+      leaves that take on a red color in the autumn; it grows well in the sun and
+      part-shade, forming clumps by means of stems rising from the roots, its flowers
+      are white or pink, they appear at the end of spring and produce black fruits
+      in September. Many people consider the fruits to be foul-tasting. Some birds
+      eat the berries.
+    plantTexture: {fileID: 2800000, guid: 6284ce3c9fedfe549b243dc25d597d63, type: 3}
+  - plantName: Glycine
+    plantLatinName: Glycine lactovirens
+    plantDescription: Glycine latrobeana (clover glycine or Australian anchor plant)
+      is a species of perennial herb endemic to south-eastern Australia. Its leaves
+      are similar in appearance to the common pasture clover. It is native to Tasmania,
+      Victoria, New South Wales and South Australia.
+    plantTexture: {fileID: 2800000, guid: 61980665b7d086e4ab42d46d13f1c6a4, type: 3}
+  - plantName: Kingcup
+    plantLatinName: Caltha palustris
+    plantDescription: Caltha palustris, known as marsh-marigold and kingcup, is a
+      small to medium size perennial herbaceous plant of the family Ranunculaceae,
+      native to marshes, fens, ditches and wet woodland in temperate regions of the
+      Northern Hemisphere. It flowers between April and August, dependent on altitude
+      and latitude, but occasional flowers may occur at other times.
+    plantTexture: {fileID: 2800000, guid: 6ee19f34649587d4184bc4c5d4133e9b, type: 3}
+  - plantName: Tree Fern
+    plantLatinName: Dicksonia antarctica
+    plantDescription: Dicksonia antarctica (soft tree fern, man fern) is a species
+      of evergreen tree fern native to eastern Australia, ranging from south-east
+      Queensland, coastal New South Wales and Victoria to Tasmania.
+    plantTexture: {fileID: 2800000, guid: 910f704c3d33833428fbac3c091fd03e, type: 3}
+  - plantName: Himalayan Ivy
+    plantLatinName: Hedera nepalensis
+    plantDescription: "Hedera nepalensis (Himalayan ivy, chang chun teng) is a species
+      of perennial Ivy (genus Hedera) native to Nepal and Bhutan, as well as Afghanistan,
+      India, China, Laos, Myanmar, Thailand, and Vietnam, at altitudes of about 1000\u20133000
+      m. Plants grow up to 30 m in height, with simple leaves ranging from 2\u201315
+      cm long, and yellow flowers."
+    plantTexture: {fileID: 2800000, guid: 2353741d416d42b4ebce263fee727152, type: 3}
+  - plantName: Papyrus
+    plantLatinName: Cyperus papyrus
+    plantDescription: "Cyperus papyrus (papyrus, papyrus sedge, paper reed, Indian
+      matting plant, Nile grass) is a species of aquatic flowering plant belonging
+      to the sedge family Cyperaceae. It is a tender herbaceous perennial, native
+      to Africa, and forms tall stands of reed-like swamp vegetation in shallow water.
+      \ Papyrus sedge (and its close relatives) has a very long history of use by
+      humans, notably by the Ancient Egyptians\u2014it is the source of papyrus paper,
+      one of the first types of paper ever made. Parts of the plant can be eaten,
+      and the highly buoyant stems can be made into boats. It is now often cultivated
+      as an ornamental plant.  In nature, it grows in full sun, in flooded swamps,
+      and on lake margins throughout Africa, Madagascar, and the Mediterranean countries."
+    plantTexture: {fileID: 2800000, guid: 4d9d7eebefe4d0c48a7342213169a98b, type: 3}
+  - plantName: Red Toyon
+    plantLatinName: "Photinia \xD7 fraseri"
+    plantDescription: Photinia x fraseri, commonly known as toyon, is a common perennial
+      shrub native to extreme southwest Oregon, California, Baja California, and British
+      Columbia. It is the sole species in the genus Heteromeles.  Toyon is a prominent
+      component of the coastal sage scrub plant community, and is a part of drought-adapted
+      chaparral and mixed oak woodland habitats. It is also known by the common names
+      Christmas berry and California holly. Accordingly, "the abundance of this species
+      in the hills above Los Angeles gave rise to the name Hollywood."
+    plantTexture: {fileID: 2800000, guid: 86badc92611e54b4296d150a8214fa1d, type: 3}
+  - plantName: White Grape
+    plantLatinName: Vitis rupestris
+    plantDescription: Vitis rupestris is a species of grape native to the United States
+      that is known by many common names including July, Coon, sand, sugar, beach,
+      bush, currant, ingar, rock, and mountain grape. It is used for breeding several
+      French-American hybrids as well as many root stocks. The cultivar known as Rupestris
+      St. George has been widely used in breeding and as a root stock; it is perhaps
+      the best known.
+    plantTexture: {fileID: 2800000, guid: 2a4654a89bd7fba48aa173a8fe02c56a, type: 3}
+  - plantName: Boletus
+    plantLatinName: Boletus edulis
+    plantDescription: Boletus is a genus of mushroom-producing fungi, comprising over
+      100 species. The genus Boletus was originally broadly defined and described
+      by Carl Linnaeus in 1753, essentially containing all fungi with pores. Since
+      then, other genera have been defined gradually, such as Tylopilus by Petter
+      Adolf Karsten in 1881, and old names such as Leccinum have been resurrected
+      or redefined. Some mushrooms listed in older books as members of the genus have
+      now been placed in separate genera. These include such as Boletus scaber, now
+      Leccinum scabrum, Tylopilus felleus, Chalciporus piperatus and Suillus luteus.
+      More recently, Boletus has been found to be massively polyphyletic, with only
+      a small percentage of the over 300 species that have been assigned to Boletus
+      actually belonging there and necessitating the description and resurrection
+      of many more genera.
     plantTexture: {fileID: 2800000, guid: 9a6bb17c6a50d11449eea5b6bcacf810, type: 3}
   collectibles: []
   plants: []

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114938343243396726}
   - component: {fileID: 114285166289130380}
   m_Layer: 0
-  m_Name: Fern
+  m_Name: FernBITCH
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,6 +111,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantLength: 0
+  crossingFamily: 
+  isCrossing: 0
+  parentIndex1: 0
+  parentIndex2: 0
+  plantTextureIndex: -1
   pointValue: 0
   plantTypeIndex: 0
   plantSeed: 7
