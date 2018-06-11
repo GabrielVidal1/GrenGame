@@ -13,9 +13,10 @@ public class InGameMenu : MonoBehaviour {
 	[SerializeField] private GameObject optionMenu;
 
 	[SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject controlsMenu;
 
 
-	[SerializeField] private MainMainMenu mainMainMenu;
+    [SerializeField] private MainMainMenu mainMainMenu;
 
 
 	[SerializeField] private RawImage darkBack;
@@ -48,7 +49,20 @@ public class InGameMenu : MonoBehaviour {
 		inOptionMenu = true;
 	}
 
-	public void FromOptionMenuToPauseMenu()
+    public void GoToControls()
+    {
+        mainMainMenu.transition = VoidGoToControls;
+        mainMainMenu.Transit();
+    }
+
+    void VoidGoToControls()
+    {
+        controlsMenu.SetActive(true);
+        optionMenu.SetActive(false);
+        inOptionMenu = true;
+    }
+
+    public void FromOptionMenuToPauseMenu()
 	{
 		inOptionMenu = false;
 	}
