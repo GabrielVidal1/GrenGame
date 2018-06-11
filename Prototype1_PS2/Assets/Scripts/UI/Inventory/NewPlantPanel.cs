@@ -38,6 +38,10 @@ public class NewPlantPanel : MonoBehaviour {
 	{
 		string plantName = newPlantName.text;
 
+		if (plantName == "") {
+			return;
+		}
+
 		geneticCrossingPanel.CreateCrossedPlant (tfp1, plantName);
 
 		gameObject.SetActive (false);
