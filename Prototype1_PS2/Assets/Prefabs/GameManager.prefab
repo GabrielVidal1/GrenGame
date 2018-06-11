@@ -132,7 +132,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9921176c9a170d146ba644d1a84b0f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trunkGenesGroups: []
+  trunkGenesGroups:
+  - parameters:
+    - HasLeaves
+    - LeafPrefab
+    - LeafSize
+    - LeavesDensity
+    - LeavesNumber
+    - LeavesRepartitionMode
+    - LeavesDistribution
+    - LeafGrowthDuration
+    - SunOrientationIntensity
 --- !u!114 &114700385992021808
 MonoBehaviour:
   m_ObjectHideFlags: 1

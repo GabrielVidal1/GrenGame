@@ -162,6 +162,8 @@ public class Plant : MonoBehaviour{
 	{ get { return hasLeaves; } set { hasLeaves = value; } }
 
 	public Leaf leafPrefab;
+	public Leaf LeafPrefab
+	{ get { return leafPrefab; } set { leafPrefab = value; } }
 
 	public Interval leafSize;
 	public Interval LeafSize
