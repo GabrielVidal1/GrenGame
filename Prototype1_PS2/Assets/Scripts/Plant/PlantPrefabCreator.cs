@@ -78,6 +78,9 @@ public class PlantPrefabCreator : MonoBehaviour {
 
 		string plantFolderPath = Application.persistentDataPath + "/Plants/";
 
+		if (!Directory.Exists (plantFolderPath))
+			Directory.CreateDirectory (plantFolderPath);
+
 		string[] plantPaths = System.IO.Directory.GetFiles (plantFolderPath);
 
 		for (int i = 0; i < plantPaths.Length; i++) {
@@ -219,6 +222,9 @@ public class PlantPrefabCreator : MonoBehaviour {
 		for (int i = 0; i < folderNames.Length; i++) {
 
 			string path = mainPath + folderNames [i] + "/";
+
+			if (!Directory.Exists (path))
+				Directory.CreateDirectory (path);
 
 			string[] paths = System.IO.Directory.GetFiles (path, path + folderNames [i] + "Texture_albedo_*.png");
 
