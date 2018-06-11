@@ -11,7 +11,7 @@ public class controlsMenu : MonoBehaviour {
     public GameObject menu;
     public GameObject parent;
 
-    private Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
+    [HideInInspector] public Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
 
     public TextMeshProUGUI fwd, lft, bwd, rgt, jmp, sprt, invtry, inter;
 
@@ -23,8 +23,8 @@ public class controlsMenu : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        keys.Add("Fwd", KeyCode.W);
-        keys.Add("Lft", KeyCode.A);
+        keys.Add("Fwd", KeyCode.Z);
+        keys.Add("Lft", KeyCode.Q);
         keys.Add("Bwd", KeyCode.S);
         keys.Add("Rgt", KeyCode.D);
         keys.Add("Jmp", KeyCode.Space);
