@@ -6,15 +6,11 @@ using UnityEngine.UI;
 
 public class optionsMenu : MonoBehaviour {
 
-    public static bool musicON = true;
-
     public static float musicVolume = 0.5F;
 
 	public bool noTransition;
 
     public Slider volumeSlider;
-    public GameObject textMusicON;
-    public GameObject textMusicOFF;
 
     public GameObject menu;
     public GameObject parent;
@@ -35,23 +31,17 @@ public class optionsMenu : MonoBehaviour {
         }
     }*/
 
-    public void ToggleMusic()
+    public void ToggleMusic(bool on)
     {
-        if (musicON)
+        if (on)
         {
             Debug.Log("Music OFF");
-            musicON = false;
             AudioListener.volume = 0;
-            textMusicOFF.SetActive(true);
-            textMusicON.SetActive(false);
         }
         else
         {
             Debug.Log("Music ON");
-            musicON = true;
             AudioListener.volume = musicVolume;
-            textMusicOFF.SetActive(false);
-            textMusicON.SetActive(true);
         }
     }
 
