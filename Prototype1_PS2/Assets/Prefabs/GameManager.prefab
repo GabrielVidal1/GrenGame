@@ -361,7 +361,7 @@ MonoBehaviour:
       Korea and southeastern Siberia, where it grows on the coast, often on sand dunes.
       It should not be confused with Rosa multiflora, which is also known as "Japanese
       rose". The Latin word "rugosa" means "wrinkled."
-    plantTexture: {fileID: 2800000, guid: 4e51c397365d3ce4ebc9393bb0ee6588, type: 3}
+    plantTexture: {fileID: 2800000, guid: 65e30b5cef9386f4982cb0adbddfc2ce, type: 3}
   - plantName: Red daisy
     plantLatinName: Ismelia carinata
     plantDescription: Ismelia carinata, the tricolour chrysanthemum, tricolor daisy,
