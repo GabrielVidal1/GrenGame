@@ -161,15 +161,15 @@ public class PlayerInventory : NetworkBehaviour {
 		if (Input.GetKeyDown (KeyCode.Keypad0)) {
 			CmdCheatSeeds ();
 		}
-		// -----------------------------------------------------
+        // -----------------------------------------------------
 
 
 
 
 
-		if (!CanvasManager.cm.inGameMenu.isPaused) {
+        if (!CanvasManager.cm.inGameMenu.isPaused) {
 
-			if (Input.GetKeyDown (KeyCode.E)) {
+            if (Input.GetKeyDown(controlsMenu.keys["Inter"])) {
 				Ray ray = new Ray (camera.transform.position, camera.transform.forward);
 				RaycastHit hit;
 
@@ -181,7 +181,7 @@ public class PlayerInventory : NetworkBehaviour {
 				}
 			}
 
-			if (Input.GetKeyDown (KeyCode.Tab)) {
+			if (Input.GetKeyDown(controlsMenu.keys["Invtry"])) {
 
 				if (CanvasManager.cm.playerInventoryGrid.IsReady) {
 

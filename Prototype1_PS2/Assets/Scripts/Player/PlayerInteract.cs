@@ -53,7 +53,7 @@ public class PlayerInteract : NetworkBehaviour {
 		if (!CanvasManager.cm.inGameMenu.isPaused) {
 
 			//PLANT SEED
-			if (Input.GetKeyDown(KeyCode.E)) {
+			if (Input.GetKeyDown(controlsMenu.keys["Inter"])) {
 
 				Vector3 origin = camera.transform.position;
 				Vector3 direction = camera.transform.forward;

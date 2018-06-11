@@ -98,7 +98,7 @@ public class PlayerCC : MonoBehaviour
             //moved = false;
             //}
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(controlsMenu.keys["Sprt"]))
                 horizontalSpeed = sprint;
             else
                 horizontalSpeed = 6f;
@@ -115,7 +115,7 @@ public class PlayerCC : MonoBehaviour
 		}
 
 
-		if (Input.GetButton ("Jump")) {
+		if (Input.GetKey(controlsMenu.keys["Jmp"])) {
 			height = jumpHeigth;
 		} else  {
 			height = hooverHeigth;
