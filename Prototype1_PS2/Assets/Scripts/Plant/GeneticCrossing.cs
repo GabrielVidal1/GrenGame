@@ -39,6 +39,9 @@ public class GeneticCrossing : MonoBehaviour {
 		PlantInformation pinfo = new PlantInformation (plantName);
 		pinfo.plantTexture = GameManager.gm.pm.plantInformations[plantTextureIndex].plantTexture;
 
+		pinfo.plantLatinName = GameManager.gm.pm.plantInformations [parentIndex1].plantLatinName
+			+ " " + GameManager.gm.pm.plantInformations [parentIndex2].plantLatinName;
+
 		pinfo.plantDescription = "This plant is worth " + p.pointValue + " points. " +
 		"This plant is coss-breeding between " + GameManager.gm.pm.plantInformations [parentIndex1].plantName
 		+ " and " + GameManager.gm.pm.plantInformations [parentIndex2].plantName;

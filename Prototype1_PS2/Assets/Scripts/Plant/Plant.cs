@@ -629,7 +629,6 @@ public class Plant : MonoBehaviour{
 
 				//????????????????
 				//TANGEANT DIRECTION
-				//Debug.DrawRay (position, tangentDirection, Color.red, 10f);
 
 
 				//ORIENTATION TOWARD THE SUN ?????????????????
@@ -743,7 +742,6 @@ public class Plant : MonoBehaviour{
 									   finalShapeOverLength.Evaluate (branch.lengthRatio),
 						               shapeOverTime.Evaluate (time));
 
-					//Debug.DrawRay (branch.finalPosition, -positionsAndNormals.nor [branch.normalIndex] * radius, Color.red, 10f);
 
 					branch.branch.transform.position = branch.finalPosition - positionsAndNormals.nor [branch.normalIndex] * radius;
 					branch.grownOnce = true;
@@ -839,7 +837,6 @@ public class Plant : MonoBehaviour{
 				if (uniqueEndFlower && iteration == 0) {
 					int last = positionsAndNormals.pos.Length - 1;
 					direction = positionsAndNormals.pos[last] - positionsAndNormals.pos[last - 1];
-					Debug.DrawRay (position, direction.normalized, Color.red, 10f);
 				}
 
 				direction.Normalize ();
@@ -1230,7 +1227,6 @@ public class Plant : MonoBehaviour{
 
 				Vector2 p = new Vector2 (ratioX, ratioY);
 
-				//Debug.DrawRay (transform.position + 3f * new Vector3 (p.x, 0f, p.y), Vector3.up, Color.red, 10f);
 
 				int index = i * nbOfSides + j;
 				uvsArrayRef[index] = p;
@@ -1319,7 +1315,6 @@ public class Plant : MonoBehaviour{
 
 			noiseMultiplier = 1f;
 
-			//Debug.DrawRay (currentPosition, currentDirection, Color.green, 10f);
 
 			positionsNormals.pos [i] = currentPosition;
 			positionsNormals.nor [i] = pd.normal;

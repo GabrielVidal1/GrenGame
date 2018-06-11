@@ -227,7 +227,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSceneName: Main
-  seedsAndPodsSceneName: SeedsAndPods
   mainMenuSceneName: MainMenu
   plantEditorSceneName: PlantEditor
   localPlayer: {fileID: 0}
@@ -279,6 +278,15 @@ MonoBehaviour:
   - {fileID: 114048030750317720, guid: c837f0f89c86fbf43b3fe31d5e542b44, type: 2}
   - {fileID: 114370906160678954, guid: 9abcd32f5ea875543ab30de5cc1119a6, type: 2}
   - {fileID: 114587679126244500, guid: ab18b56ec93849f448d994718f20d003, type: 2}
+  - {fileID: 114189666501486812, guid: ee75cd2c1582dc8449737e8a3f973f2b, type: 2}
+  - {fileID: 114189666501486812, guid: 8feea7ad09d82da46b5861f214153ebd, type: 2}
+  - {fileID: 114189666501486812, guid: ad3f9654c3267c2419769b3b628e5eaf, type: 2}
+  - {fileID: 114938343243396726, guid: 0a4a626a30b1350499e71a0cde680448, type: 2}
+  - {fileID: 114473160277983610, guid: a73621b149c76a14db106ffc617d653a, type: 2}
+  - {fileID: 114189666501486812, guid: ce9db5f00208d094cbca07eaa9a3ab1f, type: 2}
+  - {fileID: 114189666501486812, guid: 669ab280253772941a39a6af34d94a14, type: 2}
+  - {fileID: 114473160277983610, guid: ecdc67ac86f686c44871b8e228885982, type: 2}
+  - {fileID: 114626937825601152, guid: 61de6da788d085b47963eea347cf39e2, type: 2}
   crossedPlants: []
   plantInformations:
   - plantName: Fern
