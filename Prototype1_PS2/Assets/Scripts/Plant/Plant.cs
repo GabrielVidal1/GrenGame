@@ -273,6 +273,8 @@ public class Plant : MonoBehaviour{
 	{ get { return uniqueEndFlower; } set { uniqueEndFlower = value; } }
 
 	public Flower flowerPrefab;
+	public Flower FlowerPrefab
+	{ get { return flowerPrefab; } set { flowerPrefab = value; } }
 
 	public bool hasFixedDirection;
 	public bool HasFixedDirection

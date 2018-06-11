@@ -143,6 +143,15 @@ MonoBehaviour:
     - LeavesDistribution
     - LeafGrowthDuration
     - SunOrientationIntensity
+  - parameters:
+    - HasFlowers
+    - UniqueEndFlower
+    - HasFixedDirection
+    - FlowerGrowthDuration
+    - FlowerSizeOverLength
+    - FlowerSize
+    - LeafChanceOfBeingFlower
+    - FlowerPrefab
 --- !u!114 &114700385992021808
 MonoBehaviour:
   m_ObjectHideFlags: 1
