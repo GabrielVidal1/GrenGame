@@ -11,7 +11,7 @@ public class controlsMenu : MonoBehaviour {
     public GameObject menu;
     public GameObject parent;
 
-    [HideInInspector] public Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
+    [HideInInspector] public static Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
 
     public TextMeshProUGUI fwd, lft, bwd, rgt, jmp, sprt, invtry, inter;
 
