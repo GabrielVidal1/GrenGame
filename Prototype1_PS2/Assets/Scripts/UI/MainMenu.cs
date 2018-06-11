@@ -10,8 +10,10 @@ public class MainMenu : MonoBehaviour {
 	[SerializeField] private GameObject worldSelectionPanel;
 	[SerializeField] private GameObject multiplayerPanel;
 	[SerializeField] private GameObject optionPanel;
+    [SerializeField] private GameObject controlsPanel;
 
-	[SerializeField] private MainMainMenu mainMainMenu;
+
+    [SerializeField] private MainMainMenu mainMainMenu;
 
 	[SerializeField] private GameObject loadingScreen;
 	[SerializeField] private Slider loadingBar;
@@ -59,9 +61,21 @@ public class MainMenu : MonoBehaviour {
 		gameObject.SetActive (false);
 	}
 
+    public void Controls()
+    {
+        mainMainMenu.transition = VoidControls;
+        mainMainMenu.Transit();
+    }
+
+    void VoidControls()
+    {
+        controlsPanel.SetActive(true);
+        optionPanel.SetActive(false);
+    }
 
 
-	public void OpenPlantEditor()
+
+    public void OpenPlantEditor()
 	{
 		loadingScreen.SetActive (true);
 		gameObject.SetActive (false);
