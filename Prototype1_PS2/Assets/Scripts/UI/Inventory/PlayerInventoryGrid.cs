@@ -127,7 +127,8 @@ public class PlayerInventoryGrid : MonoBehaviour {
 	{
 		plantName.text = GameManager.gm.pm.plantInformations [index].plantName;
 		plantLatinName.text = GameManager.gm.pm.plantInformations [index].plantLatinName;
-		plantDescription.text = GameManager.gm.pm.plantInformations [index].plantDescription;
+		plantDescription.text = "This plant is worth " + GameManager.gm.pm.plantsPrefabs [index].pointValue + " points.\n"
+		+ GameManager.gm.pm.plantInformations [index].plantDescription;
 	}
 
 
