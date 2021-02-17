@@ -1,6 +1,5 @@
-# PROJET-S2
+# Grën Game
 
-Problème réglé.
+A game about robots and plants, or how to restore a dead world with fast growing plants.
 
-Merci de pull la dernière version du projet avant de faire des commit qui cassent tout
-
+![title](docs/img/title.png)
